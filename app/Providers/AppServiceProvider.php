@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\Shop\CategoryService;
+use App\Services\Shop\ICategoryService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +15,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(ICategoryService::class, CategoryService::class);
     }
 
     /**
@@ -23,6 +25,5 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
     }
 }
