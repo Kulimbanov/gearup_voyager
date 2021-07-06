@@ -7,8 +7,6 @@
 
 @section('css')
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta name="api_token"
-          content="{{ (\Illuminate\Support\Facades\Auth::user()) ? \Illuminate\Support\Facades\Auth::user()->api_token : '' }}">
 @stop
 
 @section('page_title', __('voyager::generic.'.($edit ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular'))
@@ -80,16 +78,6 @@
                                     @if (isset($row->details->view))
                                         @include($row->details->view, ['row' => $row, 'dataType' => $dataType, 'dataTypeContent' => $dataTypeContent, 'content' => $dataTypeContent->{$row->field}, 'action' => ($edit ? 'edit' : 'add'), 'view' => ($edit ? 'edit' : 'add'), 'options' => $row->details])
                                     @elseif ($row->type == 'relationship')
-                                        @if ($row->field == 'property_value')
-                                            <input type="number"
-                                                   class="form-control"
-                                                   name="{{ $row->field }}"
-                                                   data-name="{{ $row->display_name }}"
-                                                   @if($row->required == 1) required @endif
-                                                   step="any"
-                                                   placeholder="{{ isset($options->placeholder)? old($row->field, $options->placeholder): $row->display_name }}"
-                                                   value="@if(isset($dataTypeContent->{$row->field})){{ old($row->field, $dataTypeContent->{$row->field}) }}@else{{old($row->field)}}@endif">
-                                        @endif
                                         @include('voyager::formfields.relationship', ['options' => $row->details])
                                     @else
 
@@ -184,29 +172,38 @@
             };
         }
 
+        function populatePropertyValues(data) {
+            $.post("{{ route('category.properties') }}", data, function (response) {
+                if (response) {
+                    $(".property-value").remove();
+                    response.forEach(function (item) {
+                        $("#property_values_id").append('<div class="property-value form-group  col-md-12 ">' +
+                            '<label class="control-label" for="' + item.name + '">' + item.name + '</label>' +
+                            '<input type="' + item.type + '" class="form-control" name="category_property[' + item.id + ']" placeholder="' + item.name + '" value="' + item.value + '">' +
+                            '</div>');
+                    });
+                } else {
+                    toastr.error("Error fetching properties.");
+                }
+            });
+
+        }
+
         $('document').ready(function () {
-            // $.ajaxSetup({
-            //     headers: {
-            //         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            //         'Authorization': 'Bearer ' + $('meta[name="api_token"]').attr('content'),
-            //     }
-            // });
+            @if($edit)
+            populatePropertyValues({
+                category_id: $("select[name='category_id']").children("option:selected").val(),
+                product_id: '{{ $dataTypeContent->getKey() }}'
+            });
+
+            @endif
+
             $("select[name='category_id']").on('change', function (e) {
-                var optionSelected = $("option:selected", this);
-                var valueSelected = this.value;
-
-                $.get('{{ route('category.properties') }}', {
-                    '_token': $('meta[name=csrf-token]').attr('content'),
-                    // userID: _userID,
+                let data = {
                     category_id: this.value,
-                    // userName: _userName
-                })
-                    .error(e)
-                    .success(function (m) {
-                        console.log(m)
-                    })
-
-
+                    product_id: '{{ $dataTypeContent->getKey() }}',
+                };
+                populatePropertyValues(data);
             });
 
             $('.toggleswitch').bootstrapToggle();

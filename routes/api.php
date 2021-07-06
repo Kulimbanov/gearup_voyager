@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\CategoryController;
+use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,5 +21,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::
 //middleware('auth:api')->
-get('/category/properties/', [CategoryController::class, 'getProperties'])
+post('/category/properties/', [ProductController::class, 'getProperties'])
      ->name('category.properties');

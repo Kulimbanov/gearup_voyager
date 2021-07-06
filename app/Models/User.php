@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Hash;
 
@@ -42,11 +40,4 @@ class User extends \TCG\Voyager\Models\User
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public static function boot() {
-        parent::boot();
-        self::creating(function($users) {
-            $users->api_token = Hash::make(\Carbon\Carbon::now()->toRfc2822String());
-        });
-    }
 }
