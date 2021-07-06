@@ -19,7 +19,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::
-//middleware('auth:api')->
-post('/category/properties/', [ProductController::class, 'getProperties'])
+Route::post('/category/properties/', [ProductController::class, 'getProperties'])
      ->name('category.properties');
