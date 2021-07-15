@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\PageController;
+use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,4 +19,7 @@ Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
 
-Route::get('/{slug?}', [PageController::class, 'index'])->where('slug', '[\/\w\.-]*');;
+Route::get(RouteServiceProvider::SHOP . '/{categorySlug?}', [PageController::class, 'shop'])
+     ->where('categorySlug', '[\/\w\.-]*');
+
+Route::get('/{slug?}', [PageController::class, 'index'])->where('slug', '[\/\w\.-]*');

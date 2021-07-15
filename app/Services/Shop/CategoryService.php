@@ -2,19 +2,30 @@
 
 namespace App\Services\Shop;
 
-use App\Repository\Shop\CategoryPropertyRepository;
-use Illuminate\Support\Collection;
+use App\DTO\Page\PublicPageDto;
+use App\Repository\Shop\ProductCategoryRepository;
 
 class CategoryService implements ICategoryService
 {
-    private $categoryRepository;
+    private ProductCategoryRepository $productCategoryRepository;
 
-    public function __construct(CategoryPropertyRepository $categoryRepository)
+    public function __construct(ProductCategoryRepository $productCategoryRepository)
     {
-        $this->categoryRepository = $categoryRepository;
+        $this->productCategoryRepository = $productCategoryRepository;
     }
 
-    public function getCategoryProperties(int $categoryId): Collection
+    public function loadCategoryPage(?string $categorySlug): ?PublicPageDto
     {
+        logger($categorySlug);
+        $category = $this->productCategoryRepository->getCategoryBySlug($categorySlug);
+
+        if (empty($category)) {
+            return (new PublicPageDto)->setTitle('404')->setCategoryId(0);
+        }
+
+        return (new PublicPageDto)
+            ->setTitle($category->name)
+            ->setBody($category->description)
+            ->setCategoryId($category->id);
     }
 }

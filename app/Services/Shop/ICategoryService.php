@@ -2,9 +2,9 @@
 
 namespace App\Services\Shop;
 
-use Illuminate\Support\Collection;
+use App\DTO\Page\PublicPageDto;
 
 interface ICategoryService
 {
-    public function getCategoryProperties(int $categoryId): Collection;
+    public function loadCategoryPage(?string $categorySlug): ?PublicPageDto;
 }

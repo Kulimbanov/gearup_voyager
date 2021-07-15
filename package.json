@@ -27,6 +27,8 @@
     },
     "dependencies": {
         "fa-icons": "^0.2.0",
-        "vue": "^2.6.14"
+        "vue": "^2.6.14",
+        "vue-axios": "^3.2.4",
+        "vue-router": "^3.5.2"
     }
 }

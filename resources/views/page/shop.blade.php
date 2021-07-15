@@ -4,7 +4,7 @@
 @section('content')
     <div class="container">
         <h1>{{ $page->getTitle() }}</h1>
-        {!! $page->getBody() !!}
+        <products type="{{ $page->category_id }}"></products>
     </div>
 @endsection
 

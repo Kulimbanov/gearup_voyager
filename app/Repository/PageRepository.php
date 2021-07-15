@@ -3,7 +3,6 @@
 namespace App\Repository;
 
 use App\Models\Page;
-use App\Providers\RouteServiceProvider;
 
 class PageRepository
 {
@@ -14,10 +13,6 @@ class PageRepository
 
     public function getBySlug(?string $slug): ?Page
     {
-        if (empty($slug)) {
-            return Page::where(Page::SLUG, RouteServiceProvider::HOME)->first();
-        }
-
         return Page::where(Page::SLUG, $slug)->first();
     }
 }

@@ -2,11 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\Page;
+use App\DTO\Page\PublicPageDto;
 
 interface IPageService
 {
     public function getSlugById(int $id): string;
 
-    public function load(?string $slug): Page;
+    public function loadPage(?string $slug): PublicPageDto;
 }

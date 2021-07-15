@@ -4,23 +4,35 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PageRequest;
 use App\Services\IPageService;
+use App\Services\Shop\ICategoryService;
+use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    private $pageService;
+    private IPageService $pageService;
+    private ICategoryService $categoryService;
 
     public function __construct()
     {
         $this->pageService = resolve(IPageService::class);
+        $this->categoryService = resolve(ICategoryService::class);
     }
 
     public function index(PageRequest $request)
     {
-        logger($request->getSlug());
-        $page = $this->pageService->load($request->route('slug'));
+        $page = $this->pageService->loadPage($request->route('slug'));
 
         return view('page.public')->with([
             'page' => $page,
+        ]);
+    }
+
+    public function shop(Request $request)
+    {
+        $category = $this->categoryService->loadCategoryPage($request->route('categorySlug'));
+
+        return view('page.shop')->with([
+            'page' => $category,
         ]);
     }
 }

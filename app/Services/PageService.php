@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Models\Page;
+use App\DTO\Page\PublicPageDto;
 use App\Repository\PageRepository;
 
 class PageService implements IPageService
 {
-    private $pageRepository;
+    private PageRepository $pageRepository;
 
     public function __construct()
     {
@@ -19,15 +19,15 @@ class PageService implements IPageService
         return $this->pageRepository->getSlugById($id);
     }
 
-    public function load(?string $slug): Page
+    public function loadPage(?string $slug): PublicPageDto
     {
-        $page = $this->pageRepository->getBySlug($slug);
+        $page = $this->pageRepository->getBySlug($slug ?? 'home');
 
         if (empty($page)) {
             //TODO: use settings
             $page = $this->pageRepository->getBySlug('404');
         }
 
-        return $page;
+        return (new PublicPageDto)->setTitle($page->title)->setBody($page->body);
     }
 }

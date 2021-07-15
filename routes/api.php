@@ -21,3 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::post('/category/properties/', [ProductController::class, 'getProperties'])
      ->name('category.properties');
+
+
+Route::middleware('api')->group(function () {
+    Route::resource('products', ProductController::class);
+});
