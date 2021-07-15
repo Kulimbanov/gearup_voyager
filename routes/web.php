@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/{slug?}', [PageController::class, 'index']);
-
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
+
+Route::get('/{slug?}/{child?}', [PageController::class, 'index']);

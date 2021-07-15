@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\IPageService;
+use App\Services\PageService;
 use App\Services\Shop\CategoryService;
 use App\Services\Shop\ICategoryService;
 use App\Services\Shop\IProductService;
@@ -22,6 +24,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(ICategoryService::class, CategoryService::class);
         $this->app->bind(IProductService::class, ProductService::class);
         $this->app->bind(IPropertyService::class, PropertyService::class);
+        $this->app->bind(IPageService::class, PageService::class);
     }
 
     /**

@@ -14,4 +14,5 @@ class Page extends Model
     const SLUG = 'slug';
     const BODY = 'body';
     const STATUS = 'status';
+    const PARENT_ID = 'parent_id';
 }

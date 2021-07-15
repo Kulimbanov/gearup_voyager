@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Page;
-use Illuminate\Http\Request;
+use App\Http\Requests\PageRequest;
+use App\Services\IPageService;
 
 class PageController extends Controller
 {
-    public function index(Request $request)
+    private $pageService;
+
+    public function __construct()
     {
-        $page = Page::where(Page::SLUG, $request->slug)->first();
+        $this->pageService = resolve(IPageService::class);
+    }
+
+    public function index(PageRequest $request)
+    {
+        $page = $this->pageService->load($request->getSlug());
 
         return view('page.public')->with([
             'page' => $page,
