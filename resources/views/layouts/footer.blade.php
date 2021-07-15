@@ -141,5 +141,7 @@
         <a class="text-white" href="https://gearup.mk/">Gear Up</a>
     </div>
     <!-- Copyright -->
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
 </footer>
 <!-- Footer -->

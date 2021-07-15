@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2 class="text-center">Products List</h2>
+        <h2 class="text-center">Products List {{ category_id }}</h2>
 
         <table class="table">
             <thead>
@@ -26,13 +26,14 @@
 const axios = require('axios');
 
 export default {
+    props: ['category_id'],
     data() {
         return {
             products: []
         }
     },
     created() {
-        this.$http.get('/api/products/')
+        this.$http.get('/api/products/?category_id=' + this.category_id)
             .then(response => {
                 this.products = response.data;
             });
