@@ -4,6 +4,13 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * Class PageRequest
+ * @package App\Http\Requests
+ *
+ * @property string slug
+ * @property string child
+ */
 class PageRequest extends FormRequest
 {
     public function authorize()
@@ -15,12 +22,11 @@ class PageRequest extends FormRequest
     {
         return [
             'slug' => 'nullable',
-            'child' => 'nullable|required_with:slug',
         ];
     }
 
     public function getSlug(): ?string
     {
-        return $this->slug . '/' . $this->child;
+        return $this->route('slug') ;
     }
 }

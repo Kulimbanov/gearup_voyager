@@ -16,7 +16,8 @@ class PageController extends Controller
 
     public function index(PageRequest $request)
     {
-        $page = $this->pageService->load($request->getSlug());
+        logger($request->getSlug());
+        $page = $this->pageService->load($request->route('slug'));
 
         return view('page.public')->with([
             'page' => $page,

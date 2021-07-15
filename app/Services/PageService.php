@@ -21,7 +21,6 @@ class PageService implements IPageService
 
     public function load(?string $slug): Page
     {
-        logger($slug);
         $page = $this->pageRepository->getBySlug($slug);
 
         if (empty($page)) {

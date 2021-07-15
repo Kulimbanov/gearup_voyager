@@ -18,12 +18,23 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-@include('layouts.nav')
+<header>
+    @include('layouts.nav')
+    <!-- Jumbotron -->
+        <div class="p-5 text-center bg-light">
+            <h1 class="mb-3">Heading</h1>
+            <h4 class="mb-3">Subheading</h4>
+            <a class="btn btn-primary" href="" role="button">Call to action</a>
+        </div>
+        <!-- Jumbotron -->
+</header>
+<div id="app">
+    <navigation></navigation>
+    @yield('content')
+</div>
 
-    <div id="app">
-        @yield('content')
-    </div>
 
+@include('layouts.footer')
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}" defer></script>
 </body>

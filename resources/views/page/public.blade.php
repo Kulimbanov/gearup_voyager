@@ -7,3 +7,5 @@
         {!! $page->body !!}
     </div>
 @endsection
+
+

@@ -18,4 +18,4 @@ Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
 
-Route::get('/{slug?}/{child?}', [PageController::class, 'index']);
+Route::get('/{slug?}', [PageController::class, 'index'])->where('slug', '[\/\w\.-]*');;
