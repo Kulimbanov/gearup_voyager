@@ -10,6 +10,8 @@ use App\Services\Shop\IProductService;
 use App\Services\Shop\IPropertyService;
 use App\Services\Shop\ProductService;
 use App\Services\Shop\PropertyService;
+use App\Services\Shop\UI\IProductUIMapper;
+use App\Services\Shop\UI\ProductUIMapper;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -25,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IProductService::class, ProductService::class);
         $this->app->bind(IPropertyService::class, PropertyService::class);
         $this->app->bind(IPageService::class, PageService::class);
+        $this->app->bind(IProductUIMapper::class, ProductUIMapper::class);
     }
 
     /**

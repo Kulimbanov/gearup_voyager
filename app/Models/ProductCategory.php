@@ -5,6 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class ProductCategory
+ * @package App\Models
+ *
+ * @property string name
+ */
 class ProductCategory extends Model
 {
     use HasFactory;
