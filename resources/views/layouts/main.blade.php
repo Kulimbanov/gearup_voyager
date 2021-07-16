@@ -19,13 +19,20 @@
 </head>
 <body>
 <header>
-    @include('layouts.nav')
-    <!-- Jumbotron -->
-    <div class="p-5 text-center bg-light">
-        <h1 class="mb-3">Heading</h1>
-        <h4 class="mb-3">Subheading</h4>
+@include('layouts.nav')
+<!-- Jumbotron -->
+    <div class="p-5 text-center bg-light header-image"
+         style="background-image: url({{Voyager::image(setting('site.headerImage'))}})">
+        <h1 class="mb-3 text-light">{{ $page->getTitle() }}</h1>
+        <h4 class="mb-3 text-light">{{ $page->getSubTitle() }}</h4>
         <a class="btn btn-primary" href="" role="button">Call to action</a>
     </div>
+{{--    <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">--}}
+{{--        <ol class="breadcrumb">--}}
+{{--            <li class="breadcrumb-item"><a href="#">Home</a></li>--}}
+{{--            <li class="breadcrumb-item active" aria-current="page">Library</li>--}}
+{{--        </ol>--}}
+{{--    </nav>--}}
     <!-- Jumbotron -->
 </header>
 

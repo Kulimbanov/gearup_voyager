@@ -28,6 +28,6 @@ class PageService implements IPageService
             $page = $this->pageRepository->getBySlug('404');
         }
 
-        return (new PublicPageDto)->setTitle($page->title)->setBody($page->body);
+        return (new PublicPageDto)->setTitle($page->title)->setBody($page->body)->setSubTitle($page->sub_title);
     }
 }

@@ -5,12 +5,10 @@ namespace App\DTO\Page;
 class PublicPageDto
 {
     public string $title;
+    public ?string $subTitle;
     public ?string $body;
     public ?int $category_id;
 
-    /**
-     * @return string
-     */
     public function getTitle(): string
     {
         return $this->title;
@@ -47,4 +45,15 @@ class PublicPageDto
         return $this;
     }
 
+    public function getSubTitle(): ?string
+    {
+        return $this->subTitle;
+    }
+
+    public function setSubTitle(?string $subTitle): PublicPageDto
+    {
+        $this->subTitle = $subTitle;
+
+        return $this;
+    }
 }

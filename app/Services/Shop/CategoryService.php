@@ -16,7 +16,6 @@ class CategoryService implements ICategoryService
 
     public function loadCategoryPage(?string $categorySlug): ?PublicPageDto
     {
-        logger($categorySlug);
         $category = $this->productCategoryRepository->getCategoryBySlug($categorySlug);
 
         if (empty($category)) {
@@ -25,6 +24,7 @@ class CategoryService implements ICategoryService
 
         return (new PublicPageDto)
             ->setTitle($category->name)
+            ->setSubTitle("Shop")
             ->setBody($category->description)
             ->setCategoryId($category->id);
     }
