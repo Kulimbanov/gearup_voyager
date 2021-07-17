@@ -24,6 +24,7 @@ Vue.prototype.$http = axios
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
 Vue.component('products', require('./components/Products').default);
+Vue.component('product-filter', require('./components/shared/ProductFilter').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
