@@ -7,7 +7,7 @@
 
             <!-- Facebook -->
             <a class="btn btn-outline-light btn-floating m-1" href="{{setting('site.facebook')}}" role="button"
-            ><i class="fab fa-facebook-f"></i
+            ><i class="fas fa-facebook-f"></i
                 ></a>
 
             <!-- Instagram -->
@@ -24,31 +24,31 @@
                 <!--Grid row-->
                 <div class="row d-flex justify-content-center">
                     <!--Grid column-->
-                    <div class="col-auto">
-                        <p class="pt-2">
-                            <strong>Sign up for our newsletter</strong>
-                        </p>
-                    </div>
-                    <!--Grid column-->
+                {{--                    <div class="col-auto">--}}
+                {{--                        <p class="pt-2">--}}
+                {{--                            <strong>Sign up for our newsletter</strong>--}}
+                {{--                        </p>--}}
+                {{--                    </div>--}}
+                <!--Grid column-->
 
                     <!--Grid column-->
-                    <div class="col-md-5 col-12">
-                        <!-- Email input -->
-                        <div class="form-outline form-white mb-4">
-                            <input type="email" id="form5Example2" class="form-control"/>
-                            <label class="form-label" for="form5Example2">Email address</label>
-                        </div>
-                    </div>
-                    <!--Grid column-->
+                {{--                    <div class="col-md-5 col-12">--}}
+                {{--                        <!-- Email input -->--}}
+                {{--                        <div class="form-outline form-white mb-4">--}}
+                {{--                            <input type="email" id="form5Example2" class="form-control"/>--}}
+                {{--                            <label class="form-label" for="form5Example2">Email address</label>--}}
+                {{--                        </div>--}}
+                {{--                    </div>--}}
+                <!--Grid column-->
 
                     <!--Grid column-->
-                    <div class="col-auto">
-                        <!-- Submit button -->
-                        <button type="submit" class="btn btn-outline-light mb-4">
-                            Subscribe
-                        </button>
-                    </div>
-                    <!--Grid column-->
+                {{--                    <div class="col-auto">--}}
+                {{--                        <!-- Submit button -->--}}
+                {{--                        <button type="submit" class="btn btn-outline-light mb-4">--}}
+                {{--                            Subscribe--}}
+                {{--                        </button>--}}
+                {{--                    </div>--}}
+                <!--Grid column-->
                 </div>
                 <!--Grid row-->
             </form>
