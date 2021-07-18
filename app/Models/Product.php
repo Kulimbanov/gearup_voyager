@@ -44,12 +44,12 @@ class Product extends Model
 
     public function productCategory(): BelongsTo
     {
-        return $this->belongsTo(ProductCategory::class,'category_id','id');
+        return $this->belongsTo(ProductCategory::class, 'category_id', 'id');
     }
 
     public function brands(): BelongsToMany
     {
-        return $this->belongsToMany(Brand::class,'product_in_brand','brand_id','product_id');
+        return $this->belongsToMany(Brand::class, 'product_in_brand', 'product_id', 'brand_id');
     }
 
     public function save(array $options = [])

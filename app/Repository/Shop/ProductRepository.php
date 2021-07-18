@@ -20,6 +20,8 @@ class ProductRepository
 
     public function getCategoryProducts(int $categoryId): Collection
     {
-        return Product::where(Product::CATEGORY_ID, $categoryId)->with([Product::R_BRANDS,Product::R_PRODUCT_CATEGORY])->get();
+        return Product::where(Product::CATEGORY_ID, $categoryId)
+                      ->with([Product::R_BRANDS, Product::R_PRODUCT_CATEGORY])
+                      ->get();
     }
 }

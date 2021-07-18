@@ -6,24 +6,24 @@
 
                 <h3 class="mt-5">Filters</h3>
                 <div class="row">
-                    <div class="container mb-5 mt-5">
+                    <div class="container mb-5 mt-5" v-if="showPriceFilter">
                         <h4 class="mb-5">Price</h4>
                         <price-filter
-                            v-if="!loading"
                             v-model="minPrice"
                             :minInput="minPrice"
                             :maxInput="maxPrice"
                             @setPriceRange="productsInPriceRange">
                         </price-filter>
                     </div>
-                    <div class="container mb-5 mt-5">
+                    <div class="container mb-5 mt-5" v-if="showBrandFilter">
                         <h4 class="mb-5">Brands</h4>
-                        <div class="form-check form-switch" v-for="brand in brands">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">
-                                {{ brand }}
-                            </label>
-                        </div>
+                        <brand-filter :brands="brands"></brand-filter>
+<!--                        <div class="form-check form-switch" v-for="brand in brands">-->
+<!--                            <input class="form-check-input" type="checkbox" :id="brand" checked>-->
+<!--                            <label class="form-check-label" :for="brand">-->
+<!--                                {{ brand }}-->
+<!--                            </label>-->
+<!--                        </div>-->
                     </div>
                 </div>
 
@@ -61,6 +61,7 @@
 
 <script>
 import PriceFilter from './shared/PriceFilter';
+import BrandFilter from './shared/BrandFilter';
 
 const axios = require('axios');
 
@@ -68,7 +69,8 @@ export default {
     props: ['category_id'],
     data() {
         return {
-            loading: true,
+            showPriceFilter: false,
+            showBrandFilter: false,
             products: [],
             minPrice: null,
             maxPrice: null,
@@ -76,7 +78,8 @@ export default {
         }
     },
     components: {
-        PriceFilter
+        PriceFilter,
+        BrandFilter
     },
     methods: {
         getImage(image) {
@@ -85,9 +88,11 @@ export default {
         setDefaultPriceRange() {
             this.maxPrice = this.products.reduce((max, product) => (max === undefined || max > product.price) ? max : product.price, this.products[0].price);
             this.minPrice = this.products.reduce((min, product) => (min === undefined || min < product.price) ? min : product.price, this.products[0].price);
+            this.showPriceFilter = this.maxPrice !== null && this.minPrice !== null;
         },
         setDefaultBrands() {
-            this.brands = this.products.map(product => product.brand);
+            this.products.map(product => JSON.parse(product.brand).map(b => this.brands.push(b)))
+            this.showBrandFilter = this.brands.length !== 0;
         },
         productsInPriceRange(minValue, maxValue) {
             this.minPrice = minValue;
@@ -100,7 +105,6 @@ export default {
                 this.products = response.data;
                 this.setDefaultPriceRange();
                 this.setDefaultBrands();
-                this.loading = false;
             });
     },
     computed: {

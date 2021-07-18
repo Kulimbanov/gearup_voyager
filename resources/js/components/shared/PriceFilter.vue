@@ -1,5 +1,5 @@
 <template>
-    <div class="">
+    <div class="card">
         <div class="track-container">
             <span class="range-value min">{{ minValue }} </span> <span class="range-value max">{{ maxValue }}</span>
             <div class="track" ref="_vpcTrack"></div>
