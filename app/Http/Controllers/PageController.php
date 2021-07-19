@@ -21,8 +21,9 @@ class PageController extends Controller
     public function index(PageRequest $request)
     {
         $page = $this->pageService->loadPage($request->route('slug'));
+        $template = !empty($page->template) ? 'templates.' . $page->template : 'public';
 
-        return view('page.public')->with([
+        return view('page.' . $template)->with([
             'page' => $page,
         ]);
     }

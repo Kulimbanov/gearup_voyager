@@ -2,6 +2,7 @@
 
 @section('content')
     <div class="container">
-        <products v-bind:category_id="{{ $page->category_id }}"></products>
+        {!! $page->getBody() !!}
     </div>
+    <services></services>
 @endsection

@@ -3,7 +3,9 @@
 namespace App\Services;
 
 use App\DTO\Page\PublicPageDto;
+use App\Models\Page;
 use App\Repository\PageRepository;
+use TCG\Voyager\Facades\Voyager;
 
 class PageService implements IPageService
 {
@@ -27,7 +29,18 @@ class PageService implements IPageService
             //TODO: use settings
             $page = $this->pageRepository->getBySlug('404');
         }
+        $headerImage = $this->getHeaderImage($page);
 
-        return (new PublicPageDto)->setTitle($page->title)->setBody($page->body)->setSubTitle($page->sub_title);
+        return (new PublicPageDto)
+            ->setTitle($page->title)
+            ->setBody($page->body)
+            ->setSubTitle($page->sub_title)
+            ->setHeaderImage($headerImage)
+            ->setTemplate($page->template);
+    }
+
+    private function getHeaderImage(Page $page): string
+    {
+        return Voyager::image(!empty($page->header_image) ? $page->header_image : setting('site.headerImage'));
     }
 }

@@ -6,7 +6,9 @@ class PublicPageDto
 {
     public string $title;
     public ?string $subTitle;
+    public ?string $headerImage;
     public ?string $body;
+    public ?string $template;
     public ?int $category_id;
 
     public function getTitle(): string
@@ -53,6 +55,30 @@ class PublicPageDto
     public function setSubTitle(?string $subTitle): PublicPageDto
     {
         $this->subTitle = $subTitle;
+
+        return $this;
+    }
+
+    public function getHeaderImage(): ?string
+    {
+        return $this->headerImage;
+    }
+
+    public function setHeaderImage(?string $headerImage): PublicPageDto
+    {
+        $this->headerImage = $headerImage;
+
+        return $this;
+    }
+
+    public function getTemplate(): ?string
+    {
+        return $this->template;
+    }
+
+    public function setTemplate(?string $template): PublicPageDto
+    {
+        $this->template = $template;
 
         return $this;
     }

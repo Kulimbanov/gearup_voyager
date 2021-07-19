@@ -1,8 +1,7 @@
 @extends('layouts.main')
 
-
 @section('content')
-    {!! $page->getBody() !!}
+    <div class="container">
+        {!! $page->getBody() !!}
+    </div>
 @endsection
-
-

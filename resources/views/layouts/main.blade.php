@@ -22,7 +22,7 @@
 @include('layouts.nav')
 <!-- Jumbotron -->
     <div class="p-5 text-center bg-light header-image"
-         style="background-image: url({{Voyager::image(setting('site.headerImage'))}})">
+         style="background-image: url({{$page->getHeaderImage()}})">
         <h1 class="mb-3 text-light">{{ $page->getTitle() }}</h1>
         <h4 class="mb-3 text-light">{{ $page->getSubTitle() }}</h4>
         <a class="btn btn-primary" href="" role="button">Tell me More</a>
@@ -33,7 +33,7 @@
 {{--            <li class="breadcrumb-item active" aria-current="page">Library</li>--}}
 {{--        </ol>--}}
 {{--    </nav>--}}
-    <!-- Jumbotron -->
+<!-- Jumbotron -->
 </header>
 
 <div id="app">
