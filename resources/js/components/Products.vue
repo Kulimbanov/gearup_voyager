@@ -17,13 +17,10 @@
                     </div>
                     <div class="container mb-5 mt-5" v-if="showBrandFilter">
                         <h4 class="mb-5">Brands</h4>
-                        <brand-filter :brands="brands"></brand-filter>
-<!--                        <div class="form-check form-switch" v-for="brand in brands">-->
-<!--                            <input class="form-check-input" type="checkbox" :id="brand" checked>-->
-<!--                            <label class="form-check-label" :for="brand">-->
-<!--                                {{ brand }}-->
-<!--                            </label>-->
-<!--                        </div>-->
+                        <brand-filter
+                            :brands="brands"
+                            @setBrandFilter="productsInBrand">
+                        </brand-filter>
                     </div>
                 </div>
 
@@ -38,7 +35,11 @@
                                 <div class="product-1 align-items-center p-2 text-center">
                                     <img :src="getImage(product.image)" class="rounded" width="160">
                                     <h5>{{ product.name }}</h5>
-                                    <div class="mt-3 info"><span class="text1 d-block">{{ product.brand }}</span></div>
+                                    <div class="mt-3 info">
+                                        <span class="text1 d-block" v-for="brand in JSON.parse(product.brand)">
+                                            {{ brand }}
+                                        </span>
+                                    </div>
                                     <div class=" cost mt-3 text-dark"><span>{{ product.price }}</span>
                                         <div class=" star mt-3 align-items-center"><i class="fa fa-star"></i> <i
                                             class="fa fa-star"></i> <i class="fa fa-star"></i> <i
@@ -71,10 +72,14 @@ export default {
         return {
             showPriceFilter: false,
             showBrandFilter: false,
+
             products: [],
+
             minPrice: null,
             maxPrice: null,
+
             brands: [],
+            checkedBrands: [],
         }
     },
     components: {
@@ -91,12 +96,16 @@ export default {
             this.showPriceFilter = this.maxPrice !== null && this.minPrice !== null;
         },
         setDefaultBrands() {
-            this.products.map(product => JSON.parse(product.brand).map(b => this.brands.push(b)))
+            this.products.map(product => JSON.parse(product.brand).map(b => this.brands.indexOf(b) === -1 ? this.brands.push(b) : ''))
+            this.checkedBrands = this.brands
             this.showBrandFilter = this.brands.length !== 0;
         },
         productsInPriceRange(minValue, maxValue) {
             this.minPrice = minValue;
             this.maxPrice = maxValue;
+        },
+        productsInBrand(checkedBrands) {
+            this.checkedBrands = checkedBrands;
         }
     },
     created() {
@@ -109,8 +118,11 @@ export default {
     },
     computed: {
         filterProducts() {
-            return this.products.filter(product => (product.price >= this.minPrice && product.price <= this.maxPrice));
+            console.log('compute');
+            return this.products.filter(product => (product.price >= this.minPrice && product.price <= this.maxPrice))
+                .filter(product => JSON.parse(product.brand).some(brand => this.checkedBrands.includes(brand)));
         }
     }
 }
+
 </script>

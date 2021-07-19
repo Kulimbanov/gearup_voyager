@@ -1,5 +1,5 @@
 <template>
-    <div class="card">
+    <div class="price-filter">
         <div class="track-container">
             <span class="range-value min">{{ minValue }} </span> <span class="range-value max">{{ maxValue }}</span>
             <div class="track" ref="_vpcTrack"></div>
@@ -11,7 +11,6 @@
 </template>
 
 <script>
-
 export default {
     props: {
         minInput: Number,
@@ -28,15 +27,14 @@ export default {
             max: this.maxInput,
             minValue: this.minInput,
             maxValue: this.maxInput,
-            step: 1,
-            totalSteps: 0,
+            step: 100,
+            totalSteps: 1000,
             percentPerStep: 1,
             trackWidth: null,
             isDragging: false,
             pos: {
                 curTrack: null
             }
-
         }
     },
 
@@ -69,8 +67,8 @@ export default {
 
 
         },
-        mousedown(ev, track) {
 
+        mousedown(ev, track) {
             if (this.isDragging) return;
             this.isDragging = true;
             this.pos.curTrack = track;
@@ -138,7 +136,7 @@ export default {
 
         // percent the track button to be moved on each step
         this.percentPerStep = 100 / this.totalSteps;
-        // console.log('percentPerStep', this.percentPerStep)
+        console.log('percentPerStep', this.percentPerStep)
 
         // set track1 initilal
         document.querySelector('.track1').style.left = this.valueToPercent(this.minValue) + '%'
@@ -176,7 +174,6 @@ export default {
         document.querySelector('.track').addEventListener('click', function (ev) {
             ev.stopPropagation();
             self.setClickMove(ev)
-
         })
 
         document.querySelector('.track-highlight').addEventListener('click', function (ev) {

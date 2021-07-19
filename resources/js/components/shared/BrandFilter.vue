@@ -1,8 +1,9 @@
 <template>
-    <div class="card">
+    <div class="brands-filter">
         <div class="form-check form-switch" v-for="brand in brands">
-            <input class="form-check-input" type="checkbox" :id="brand" checked>
-            <label class="form-check-label" :for="brand">
+            <input class="form-check-input" type="checkbox" :value="brand" v-model="checkedBrands"
+                   @change="setBrandFilter">
+            <label class=" form-check-label" :for="brand">
                 {{ brand }}
             </label>
         </div>
@@ -13,7 +14,18 @@
 export default {
     name: "BrandFilter",
     props: {
-        brands: []
+        brands: [],
+    },
+    data() {
+        return {
+            checkedBrands: this.brands
+        }
+    },
+    methods: {
+        setBrandFilter() {
+            console.log('setBrandFilter');
+            this.$emit('setBrandFilter', this.checkedBrands);
+        }
     }
 
 }
