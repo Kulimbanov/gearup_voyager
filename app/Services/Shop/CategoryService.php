@@ -4,6 +4,7 @@ namespace App\Services\Shop;
 
 use App\DTO\Page\PublicPageDto;
 use App\Repository\Shop\ProductCategoryRepository;
+use App\Services\Page\HeaderImageGenerator;
 
 class CategoryService implements ICategoryService
 {
@@ -21,11 +22,14 @@ class CategoryService implements ICategoryService
         if (empty($category)) {
             return (new PublicPageDto)->setTitle('404')->setCategoryId(0);
         }
+        $headerImage = HeaderImageGenerator::generateHeaderImage($category->image);
+
 
         return (new PublicPageDto)
             ->setTitle($category->name)
             ->setSubTitle("Shop")
             ->setBody($category->description)
-            ->setCategoryId($category->id);
+            ->setCategoryId($category->id)
+            ->setHeaderImage($headerImage);
     }
 }

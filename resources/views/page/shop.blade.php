@@ -2,6 +2,8 @@
 
 @section('content')
     <div class="container">
-        <products v-bind:category_id="{{ $page->category_id }}"></products>
+        <div class="py-5">
+            <products v-bind:category_id="{{ $page->category_id }}"></products>
+        </div>
     </div>
 @endsection

@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Services\IPageService;
+use App\Services\Page\HeaderImageGenerator;
+use App\Services\Page\IHeaderImageGenerator;
 use App\Services\PageService;
 use App\Services\Shop\CategoryService;
 use App\Services\Shop\ICategoryService;
@@ -18,7 +20,6 @@ class AppServiceProvider extends ServiceProvider
 {
     /**
      * Register any application services.
-     *
      * @return void
      */
     public function register()
@@ -32,7 +33,6 @@ class AppServiceProvider extends ServiceProvider
 
     /**
      * Bootstrap any application services.
-     *
      * @return void
      */
     public function boot()

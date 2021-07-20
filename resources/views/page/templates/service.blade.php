@@ -2,7 +2,9 @@
 
 @section('content')
     <div class="container">
-        {!! $page->getBody() !!}
+        <div class="py-5">
+            {!! $page->getBody() !!}
+        </div>
     </div>
     <services></services>
 @endsection
