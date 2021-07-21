@@ -28,55 +28,63 @@ export default {
             objLoader: OBJLoader,
             raycaster: null,
             mouse: null,
+            light: null,
+            plane: null,
         }
     },
     methods: {
         init: function () {
             this.scene = new THREE.Scene()
             this.camera = new THREE.PerspectiveCamera(
-                45,
+                75,
                 window.innerWidth / window.innerHeight,
                 0.1,
-                100
-            )
+                5
+            );
+            this.raycaster = new THREE.Raycaster();
+            this.mouse = new THREE.Vector2();
 
             this.renderer = new THREE.WebGLRenderer()
+            this.renderer.shadowMap.enabled = true;
+            this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
             this.onWindowResize();
             let container = document.getElementById('service-scene');
             container.appendChild(this.renderer.domElement)
-            this.renderer.domElement.addEventListener('click', this.select, false)
-            this.renderer.domElement.addEventListener('touchstart', this.touchSelect, false)
-
-            this.camera.position.set(5, 0, 0);
-            this.camera.lookAt(0, 0, 0);
+            container.addEventListener('click', this.select, false)
+            container.addEventListener('touchstart', this.touchSelect, false)
 
             const controls = new OrbitControls(this.camera, this.renderer.domElement);
             controls.addEventListener('change', this.render);
             controls.minDistance = 2;
-            controls.maxDistance = 2;
-            controls.enablePan = false;
+            controls.maxDistance = 3;
+            controls.enablePan = true;
+            controls.autoRotate = true;
 
-            const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.6);
+            const ambientLight = new THREE.AmbientLight(0xf8f9fa, 0.5);
             this.scene.add(ambientLight);
 
             const pointLight = new THREE.PointLight(0xffffff, 0.3);
             this.camera.add(pointLight);
 
+            this.light = new THREE.DirectionalLight(0xf8f9fa, 0.7, 10);
+            this.light.position.set(1, 3, 1); //default; light shining from top
+            this.light.castShadow = true; // default false
+            this.scene.add(this.light);
+
             this.scene.background = new THREE.Color(0xf8f9fa);
             this.scene.add(this.camera);
-
-            this.mouse = new THREE.Vector2();
-            this.raycast = new THREE.Raycaster();
         },
         animate: function () {
-            // requestAnimationFrame(this.animate)
             requestAnimationFrame(this.render.bind(this))
 
             if (this.bike !== null)
                 this.bike.rotation.y += rotationSpeed
+
             this.render()
         },
         render: function () {
+            this.light.position.copy(this.camera.position);
+            // this.plane.position.copy(this.camera.position);
             this.renderer.render(this.scene, this.camera)
         },
         onWindowResize: function () {
@@ -102,7 +110,7 @@ export default {
         },
         onError: function (xhr) {
         },
-        initLoaders: function () {
+        loadObjects: function () {
             let self = this;
             new MTLLoader()
                 .setPath('/assets/models/')
@@ -115,36 +123,52 @@ export default {
 
                             object.position.y = 0;
                             self.bike = object
+                            for (let k in object.children) {
+                                object.children[k].castShadow = true;
+                                object.children[k].receiveShadow = true;
+                            }
                             self.scene.add(object)
 
                         }, self.onProgress, self.onError);
                 });
+
+            const planeGeometry = new THREE.PlaneGeometry(200, 200);
+            planeGeometry.rotateX(-Math.PI / 2);
+            const planeMaterial = new THREE.MeshStandardMaterial({color: 0xf8f9fa})
+            planeMaterial.opacity = 0.5;
+
+            this.plane = new THREE.Mesh(planeGeometry, planeMaterial);
+            this.plane.position.y = -0.525;
+            this.plane.receiveShadow = true;
+            this.scene.add(this.plane);
         },
         touchSelect: function (e) {
             const rect = this.renderer.domElement.getBoundingClientRect();
             this.mouse.x = ((e.touches[0].clientX - rect.left) / (rect.right - rect.left)) * 2 - 1;
             this.mouse.y = -((e.touches[0].clientY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
-            console.log(this.mouse.x, this.mouse.y);
-            this.raycaster.setFromCamera(this.mouse, this.camera);
-            let intersects = this.raycaster.intersectObjects(this.scene.children, true);
-            if (intersects.length > 0) {
-                console.log(intersects);
-            }
+            this.showServiceDetails()
         },
         select: function (e) {
             const rect = this.renderer.domElement.getBoundingClientRect();
             this.mouse.x = ((e.clientX - rect.left) / (rect.right - rect.left)) * 2 - 1;
             this.mouse.y = -((e.clientY - rect.top) / (rect.bottom - rect.top)) * 2 + 1;
-            console.log(this.mouse.x, this.mouse.y);
+            this.showServiceDetails()
+        },
+        showServiceDetails: function () {
             this.raycaster.setFromCamera(this.mouse, this.camera);
             let intersects = this.raycaster.intersectObjects(this.scene.children, true);
             if (intersects.length > 0) {
-                console.log(intersects);
+                this.$http.get('/api/services/?name=' + intersects[0].object.name)
+                    .then(response => {
+                        this.products = response.data;
+                    });
             }
         },
     }, created() {
         this.onProgress = this.onProgress.bind(this)
         this.onError = this.onError.bind(this)
+        this.select = this.select.bind(this)
+        this.touchSelect = this.touchSelect.bind(this)
         window.addEventListener("resize", this.onWindowResize);
     },
     destroyed() {
@@ -152,7 +176,7 @@ export default {
     },
     mounted() {
         this.init()
-        this.initLoaders()
+        this.loadObjects()
         this.animate()
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\Api\ServicesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::post('/category/properties/', [ProductController::class, 'getProperties'])
      ->name('category.properties');
 
-
 Route::middleware('api')->group(function () {
     Route::resource('products', ProductController::class);
+    Route::resource('services', ServicesController::class);
 });
