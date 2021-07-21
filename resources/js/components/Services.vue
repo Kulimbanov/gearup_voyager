@@ -11,7 +11,7 @@ import {OrbitControls} from "three/examples/jsm/controls/OrbitControls";
 
 Vue.prototype.THREE = THREE
 
-const rotationSpeed = 0.0003;
+const rotationSpeed = 0.003;
 export default {
     name: 'Services',
     data() {
@@ -41,18 +41,18 @@ export default {
             let container = document.getElementById('service-scene');
             container.appendChild(this.renderer.domElement)
 
-            // this.camera.position.z = 5
+            this.camera.position.z = 5
 
             const controls = new OrbitControls(this.camera, this.renderer.domElement);
-            // controls.addEventListener('change', render);
-            controls.minDistance = 2;
-            controls.maxDistance = 220;
+            controls.addEventListener('change', this.render);
+            controls.minDistance = 1;
+            controls.maxDistance = 20;
             controls.enablePan = false;
 
-            const ambientLight = new THREE.AmbientLight(0xFFFFFF, 0.7);
+            const ambientLight = new THREE.AmbientLight(0xFFFFFF, 1);
             this.scene.add(ambientLight);
 
-            const pointLight = new THREE.PointLight(0xffffff, 0.3);
+            const pointLight = new THREE.PointLight(0xffffff, 0.9);
             this.camera.add(pointLight);
 
             this.scene.background = new THREE.Color(0xF5F9F8);
@@ -62,11 +62,14 @@ export default {
             }
         },
         animate: function () {
-            requestAnimationFrame(this.animate)
+            // requestAnimationFrame(this.animate)
+            requestAnimationFrame(this.render.bind(this))
 
-            this.bike.rotation.x += rotationSpeed
-            // this.bike.rotation.y += rotationSpeed
-
+            if (this.bike !== null)
+                this.bike.rotation.y += rotationSpeed
+            this.render()
+        },
+        render: function () {
             this.renderer.render(this.scene, this.camera)
         },
         onWindowResize: function () {
@@ -94,20 +97,19 @@ export default {
         initLoaders: function () {
             let self = this;
             self.mtlLoader = new MTLLoader()
-                .setPath('/assets/models')
-                .load('/manual-bike-import.mtl', materials => {
+                .setPath('/assets/models/')
+                .load('manual-bike-import.mtl', materials => {
                     materials.preload();
-                    self.objLoader = new OBJLoader()
-                    self.objLoader.setMaterials(materials)
-                    self.objLoader.load('/assets/models/manual-bike-import.obj', function (object) {
-                        // object.children[0].geometry.computeBoundingBox();
-                        // object.children[0].geometry.center()
+                    new OBJLoader()
+                        .setMaterials(materials)
+                        .setPath('/assets/models/')
+                        .load('manual-bike-import.obj', function (object) {
 
-                        // object.position.y = 0;
-                        self.bike = object
-                        self.scene.add(object)
+                            object.position.y = 0;
+                            self.bike = object
+                            self.scene.add(object)
 
-                    }, self.onProgress, self.onError);
+                        }, self.onProgress, self.onError);
                 });
         },
     }, created() {
