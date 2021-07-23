@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Repairment;
 use App\Services\Repairments\IRepairmentService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -18,8 +19,8 @@ class ServicesController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-        $repairment = $this->repairmentService->getRepairmentByName($request->get());
+        $repairment = $this->repairmentService->getRepairmentBySlug($request->get(Repairment::NAME));
 
-        return response()->json($repairment);
+        return response()->json($repairment->jsonSerialize());
     }
 }

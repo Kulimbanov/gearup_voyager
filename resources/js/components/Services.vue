@@ -1,6 +1,13 @@
 <template>
     <div class="container">
         <div id="service-scene"></div>
+        <Modal
+            v-show="isRepairmentVisible"
+            @close="closeServiceDetails">
+            <template v-slot:header> {{ repairment.name }}</template>
+            <template v-slot:body> {{ repairment.description }}</template>
+            <template v-slot:footer> {{ repairment.price }}</template>
+        </Modal>
     </div>
 </template>
 
@@ -10,12 +17,16 @@ import * as THREE from 'three'
 import {OrbitControls} from 'three/examples/jsm/controls/OrbitControls.js';
 import {OBJLoader} from 'three/examples/jsm/loaders/OBJLoader.js';
 import {MTLLoader} from 'three/examples/jsm/loaders/MTLLoader.js';
+import Modal from './shared/Modal';
 
 Vue.prototype.THREE = THREE
 
 const rotationSpeed = 0.003;
 export default {
     name: 'Services',
+    components: {
+        Modal,
+    },
     data() {
         return {
             bike: null,
@@ -30,17 +41,22 @@ export default {
             mouse: null,
             light: null,
             plane: null,
+            isRepairmentVisible: false,
+            repairment: [],
         }
     },
     methods: {
         init: function () {
             this.scene = new THREE.Scene()
             this.camera = new THREE.PerspectiveCamera(
-                75,
+                45,
                 window.innerWidth / window.innerHeight,
                 0.1,
                 5
             );
+            this.camera.position.set(-1, 0, 1); // Set position like this
+            // this.camera.lookAt(new THREE.Vector3(1, 0, 0)); // Set look at coordinate like this
+
             this.raycaster = new THREE.Raycaster();
             this.mouse = new THREE.Vector2();
 
@@ -55,36 +71,36 @@ export default {
 
             const controls = new OrbitControls(this.camera, this.renderer.domElement);
             controls.addEventListener('change', this.render);
-            controls.minDistance = 2;
+            controls.minDistance = 3;
             controls.maxDistance = 3;
-            controls.enablePan = true;
-            controls.autoRotate = true;
+            controls.minPolarAngle = 0;
+            controls.enablePan = false;
+            controls.maxPolarAngle = Math.PI * 0.5;
 
-            const ambientLight = new THREE.AmbientLight(0xf8f9fa, 0.5);
+            const ambientLight = new THREE.AmbientLight(0xf8fafc, 0.5);
             this.scene.add(ambientLight);
 
-            const pointLight = new THREE.PointLight(0xffffff, 0.3);
-            this.camera.add(pointLight);
+            // const pointLight = new THREE.PointLight(0xf8f9fa, 0.3);
+            // this.camera.add(pointLight);
 
-            this.light = new THREE.DirectionalLight(0xf8f9fa, 0.7, 10);
-            this.light.position.set(1, 3, 1); //default; light shining from top
-            this.light.castShadow = true; // default false
+            this.light = new THREE.DirectionalLight(0xf8fafc, 0.7, 10);
+            // this.light.position.set(0, 1, 0);
+            this.light.castShadow = true;
             this.scene.add(this.light);
 
-            this.scene.background = new THREE.Color(0xf8f9fa);
+            this.scene.background = new THREE.Color(0xf8fafc);
             this.scene.add(this.camera);
         },
         animate: function () {
             requestAnimationFrame(this.render.bind(this))
-
-            if (this.bike !== null)
+            if (this.bike !== null) {
                 this.bike.rotation.y += rotationSpeed
-
+            }
             this.render()
         },
         render: function () {
             this.light.position.copy(this.camera.position);
-            // this.plane.position.copy(this.camera.position);
+            this.plane.position.copy(new THREE.Vector3(0, -0.525, 0));
             this.renderer.render(this.scene, this.camera)
         },
         onWindowResize: function () {
@@ -95,17 +111,13 @@ export default {
             this.renderer.setSize(this.width, this.height);
         },
         calculateSize: function () {
-            this.width = document.getElementById('service-scene').clientWidth - 1;
-            this.height = window.innerHeight / 2;
+            this.width = document.getElementById('service-scene').clientWidth;
+            this.height = window.innerHeight / 1.85;
         },
         onProgress: function (xhr) {
-            // console.log(xhr)
             if (xhr.lengthComputable) {
-
                 let percentComplete = xhr.loaded / xhr.total * 100;
                 console.log(Math.round(percentComplete, 2) + '% downloaded');
-                // play(Math.round(percentComplete, 2))
-
             }
         },
         onError: function (xhr) {
@@ -132,15 +144,13 @@ export default {
                         }, self.onProgress, self.onError);
                 });
 
-            const planeGeometry = new THREE.PlaneGeometry(200, 200);
+            const planeGeometry = new THREE.PlaneGeometry(20, 20);
             planeGeometry.rotateX(-Math.PI / 2);
             const planeMaterial = new THREE.MeshStandardMaterial({color: 0xf8f9fa})
-            planeMaterial.opacity = 0.5;
-
             this.plane = new THREE.Mesh(planeGeometry, planeMaterial);
             this.plane.position.y = -0.525;
             this.plane.receiveShadow = true;
-            this.scene.add(this.plane);
+            // this.scene.add(this.plane);
         },
         touchSelect: function (e) {
             const rect = this.renderer.domElement.getBoundingClientRect();
@@ -157,13 +167,17 @@ export default {
         showServiceDetails: function () {
             this.raycaster.setFromCamera(this.mouse, this.camera);
             let intersects = this.raycaster.intersectObjects(this.scene.children, true);
-            if (intersects.length > 0) {
+            if (intersects[0].object && intersects[0].object.name) {
                 this.$http.get('/api/services/?name=' + intersects[0].object.name)
                     .then(response => {
-                        this.products = response.data;
+                        this.repairment = response.data;
+                        this.isRepairmentVisible = true;
                     });
             }
         },
+        closeServiceDetails: function () {
+            this.isRepairmentVisible = false;
+        }
     }, created() {
         this.onProgress = this.onProgress.bind(this)
         this.onError = this.onError.bind(this)
@@ -183,5 +197,8 @@ export default {
 </script>
 
 <style scoped>
-
+#service-scene {
+    width: 100%;
+    display: block;
+}
 </style>

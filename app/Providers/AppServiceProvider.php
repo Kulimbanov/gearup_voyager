@@ -3,9 +3,10 @@
 namespace App\Providers;
 
 use App\Services\IPageService;
-use App\Services\Page\HeaderImageGenerator;
 use App\Services\Page\IHeaderImageGenerator;
 use App\Services\PageService;
+use App\Services\Repairments\IRepairmentService;
+use App\Services\Repairments\RepairmentService;
 use App\Services\Shop\CategoryService;
 use App\Services\Shop\ICategoryService;
 use App\Services\Shop\IProductService;
@@ -29,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IPropertyService::class, PropertyService::class);
         $this->app->bind(IPageService::class, PageService::class);
         $this->app->bind(IProductUIMapper::class, ProductUIMapper::class);
+        $this->app->bind(IRepairmentService::class, RepairmentService::class);
     }
 
     /**
