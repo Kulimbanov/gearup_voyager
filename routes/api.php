@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ServicesController;
 use Illuminate\Http\Request;
@@ -26,4 +27,5 @@ Route::post('/category/properties/', [ProductController::class, 'getProperties']
 Route::middleware('api')->group(function () {
     Route::resource('products', ProductController::class);
     Route::resource('services', ServicesController::class);
+    Route::resource('contact', ContactController::class);
 });

@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\ContactForm\ContactFormService;
+use App\Services\ContactForm\IContactFormService;
 use App\Services\IPageService;
 use App\Services\Page\IHeaderImageGenerator;
 use App\Services\PageService;
@@ -31,6 +33,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IPageService::class, PageService::class);
         $this->app->bind(IProductUIMapper::class, ProductUIMapper::class);
         $this->app->bind(IRepairmentService::class, RepairmentService::class);
+        $this->app->bind(IContactFormService::class, ContactFormService::class);
     }
 
     /**

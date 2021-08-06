@@ -35,8 +35,9 @@
                             }else{
                                 $listItemClass = ' dropdown';
                             }
+                        } else {
+                            $options->id = null;
                         }
-
 
                         if(isset($options->id) && $originalItem->children->isEmpty()){
                             $linkAttributes = 'class="dropdown-item"';
