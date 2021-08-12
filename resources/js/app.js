@@ -8,9 +8,8 @@ require('./bootstrap');
 window.Vue = require('vue').default;
 
 import VueRouter from 'vue-router';
-import { routes } from './routes';
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import {routes} from './routes';
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
@@ -31,6 +30,7 @@ Vue.component('contact', require('./components/Contact').default);
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 const router = new VueRouter({
+    base: process.env.MIX_APP_API,
     mode: 'history',
     routes: routes
 });

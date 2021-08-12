@@ -125,12 +125,12 @@ export default {
         loadObjects: function () {
             let self = this;
             new MTLLoader()
-                .setPath('/assets/models/')
+                .setPath(process.env.MIX_APP_API + '/assets/models/')
                 .load('manual-bike-import.mtl', materials => {
                     materials.preload();
                     new OBJLoader()
                         .setMaterials(materials)
-                        .setPath('/assets/models/')
+                        .setPath(process.env.MIX_APP_API + '/assets/models/')
                         .load('manual-bike-import.obj', function (object) {
 
                             object.position.y = 0;
@@ -168,7 +168,7 @@ export default {
             this.raycaster.setFromCamera(this.mouse, this.camera);
             let intersects = this.raycaster.intersectObjects(this.scene.children, true);
             if (intersects[0].object && intersects[0].object.name) {
-                this.$http.get('/api/services/?name=' + intersects[0].object.name)
+                this.$http.get(process.env.MIX_APP_API + '/api/services/?name=' + intersects[0].object.name)
                     .then(response => {
                         this.repairment = response.data;
                         this.isRepairmentVisible = true;

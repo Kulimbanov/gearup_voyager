@@ -89,7 +89,7 @@ export default {
             this.sending = !this.sending;
             let self = this;
             let params = Object.assign({}, self.contact);
-            this.$http.post('api/contact', params)
+            this.$http.post(process.env.MIX_APP_API + '/api/contact', params)
                 .then(function (res) {
                     self.response = res.data.response;
                     this.newContactData();

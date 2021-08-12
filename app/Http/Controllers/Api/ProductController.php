@@ -12,8 +12,9 @@ use Illuminate\Routing\Controller;
 
 class ProductController extends Controller
 {
-    private IPropertyService $propertyService;
+
     private IProductService $productService;
+    private IPropertyService $propertyService;
 
     public function __construct()
     {

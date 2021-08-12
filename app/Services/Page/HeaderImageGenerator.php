@@ -4,7 +4,7 @@ namespace App\Services\Page;
 
 use TCG\Voyager\Facades\Voyager;
 
-class HeaderImageGenerator
+final class HeaderImageGenerator
 {
     public static function generateHeaderImage(?string $preferImage): string
     {

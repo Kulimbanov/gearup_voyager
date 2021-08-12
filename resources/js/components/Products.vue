@@ -88,7 +88,7 @@ export default {
     },
     methods: {
         getImage(image) {
-            return "/storage/" + image;
+            return process.env.MIX_APP_API + "/storage/" + image;
         },
         setDefaultPriceRange() {
             this.maxPrice = this.products.reduce((max, product) => (max === undefined || max > product.price) ? max : product.price, this.products[0].price);
@@ -109,7 +109,7 @@ export default {
         }
     },
     created() {
-        this.$http.get('/api/products/?category_id=' + this.category_id)
+        this.$http.get(process.env.MIX_APP_API + '/api/products/?category_id=' + this.category_id)
             .then(response => {
                 this.products = response.data;
                 this.setDefaultPriceRange();
