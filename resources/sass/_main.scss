@@ -1,7 +1,61 @@
 
-.header-image {
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    min-height: 41vh;
+.header {
+    &-image {
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        min-height: 41vh;
+        width: 100%;
+    }
+
+    &-wrapper {
+        height: 250px;
+        background: $header-logo;
+        align-content: center;
+        justify-content: center;
+        align-items: center;
+        flex-direction: row;
+        flex-wrap: nowrap;
+
+        .logo {
+            min-height: 200px;
+        }
+
+        .separate-right {
+            border-right: 3px solid #FF0303;
+            align-content: center;
+            justify-content: center;
+            flex-direction: row-reverse;
+            align-items: flex-end;
+            flex-wrap: wrap;
+        }
+
+        .title {
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 96px;
+            line-height: 112px;
+            text-align: center;
+
+            color: #151414;
+        }
+
+        .subtitle {
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: bold;
+            font-size: 40px;
+            line-height: 47px;
+            /* identical to box height */
+
+            text-align: center;
+
+            color: #000000;
+        }
+    }
+}
+
+.header-logo {
+
 }
