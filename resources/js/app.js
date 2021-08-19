@@ -24,6 +24,7 @@ Vue.prototype.$http = axios
 Vue.component('products', require('./components/Products').default);
 Vue.component('services', require('./components/Services').default);
 Vue.component('contact', require('./components/Contact').default);
+Vue.component('search', require('./components/Search').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -37,5 +38,5 @@ const router = new VueRouter({
 
 const app = new Vue({
     el: '#app',
-    router: router
-});
+    router: router,
+});//.$mount('app');

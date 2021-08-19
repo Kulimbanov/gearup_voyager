@@ -18,23 +18,16 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 </head>
 <body>
-<header>
-
-@include('layouts.nav')
-<!-- Jumbotron -->
-{{--    <nav style="--bs-breadcrumb-divider: '';" aria-label="breadcrumb">--}}
-{{--        <ol class="breadcrumb">--}}
-{{--            <li class="breadcrumb-item"><a href="#">Home</a></li>--}}
-{{--            <li class="breadcrumb-item active" aria-current="page">Library</li>--}}
-{{--        </ol>--}}
-{{--    </nav>--}}
-<!-- Jumbotron -->
-</header>
-
 <div id="app">
-    @yield('content')
-</div>
+    <header class="header">
+        @include('layouts.nav')
+    </header>
 
-@include('layouts.footer')
+    @yield('content')
+    <footer class="bg-dark text-center text-white">
+        @include('layouts.footer')
+    </footer>
+</div>
+<script src="{{ asset('js/app.js') }}" defer></script>
 </body>
 </html>

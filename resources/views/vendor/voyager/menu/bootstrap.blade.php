@@ -1,5 +1,5 @@
 @if(!isset($innerLoop))
-    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <ul class="navbar-nav">
         @else
             <ul class="dropdown-menu" aria-labelledby="<?php echo $options->id ?>">
                 @endif
@@ -31,9 +31,9 @@
 
 
                             if(url($item->link()) == url()->current()){
-                                $listItemClass = ' dropdown active';
+                                $listItemClass = 'nav-item dropdown active';
                             }else{
-                                $listItemClass = ' dropdown';
+                                $listItemClass = 'nav-item dropdown';
                             }
                         } else {
                             $options->id = null;
