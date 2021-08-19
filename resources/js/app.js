@@ -25,6 +25,13 @@ Vue.component('services', require('./components/Services').default);
 Vue.component('contact', require('./components/Contact').default);
 Vue.component('search', require('./components/Search').default);
 
+import {faCog, faCogs, faDna, faSpinner} from '@fortawesome/free-solid-svg-icons'
+import {library} from "@fortawesome/fontawesome-svg-core";
+
+library.add(faCog)
+library.add(faCogs)
+library.add(faDna)
+library.add(faSpinner)
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
