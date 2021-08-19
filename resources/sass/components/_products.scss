@@ -1,3 +1,7 @@
+.product {
+    display: flow-root;
+}
+
 .products-wrapper {
     min-height: 50vh;
 }
@@ -5,12 +9,26 @@
 .card {
     border: none;
     border-radius: 0;
-    background-color: #fff
+    background-color: #fff;
+
+    &-expand {
+        display: block;
+    }
+
+    &-colapsed {
+        display: none;
+    }
 }
 
 .text1 {
     font-size: 13px;
     color: #cbcbcb
+}
+
+.name {
+    //-webkit-rows: 3em;
+    //-moz-columns: 3em;
+    //columns: 3em; /* desired width of column */
 }
 
 .info {
