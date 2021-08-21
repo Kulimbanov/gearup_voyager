@@ -19,6 +19,8 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
 Vue.prototype.$http = axios
 
+var VueCookie = require('vue-cookie');
+Vue.use(VueCookie);
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
@@ -26,6 +28,7 @@ Vue.component('products', require('./components/Products').default);
 Vue.component('services', require('./components/Services').default);
 Vue.component('contact', require('./components/Contact').default);
 Vue.component('search', require('./components/Search').default);
+Vue.component('switch-mode', require('./components/SwitchMode').default);
 
 library.add(faCog)
 library.add(faCogs)

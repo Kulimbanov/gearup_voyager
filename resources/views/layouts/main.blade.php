@@ -27,6 +27,7 @@
     <footer class="bg-dark text-center text-white">
         @include('layouts.footer')
     </footer>
+    <switch-mode class="dark-light"></switch-mode>
 </div>
 <script src="{{ asset('js/app.js') }}" defer></script>
 </body>

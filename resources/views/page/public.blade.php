@@ -6,7 +6,7 @@
             <div class="container">
                 <h2 class="text-center">Bicycle Services</h2>
                 <p class="text-muted mb-5 text-center">Enjoy the ride with boosted bike performance.</p>
-                <div class="row">
+                <div class="services">
                     <div class="service silver col-sm p-3 m-auto">
                         <div class="card p-3">
                             <font-awesome-icon class="mx-auto my-4" icon="cog" size="4x"></font-awesome-icon>
@@ -40,4 +40,5 @@
         <!-- Page Content -->
         {!! $page->getBody() !!}
     </div>
+
 @endsection

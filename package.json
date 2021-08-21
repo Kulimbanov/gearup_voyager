@@ -33,6 +33,8 @@
         "fa-icons": "^0.2.0",
         "vue": "^2.6.14",
         "vue-axios": "^3.2.4",
+        "vue-cookie": "^1.1.4",
+        "vue-js-toggle-button": "^1.3.3",
         "vue-router": "^3.5.2"
     }
 }
