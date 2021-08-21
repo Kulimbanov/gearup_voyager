@@ -10,6 +10,8 @@ window.Vue = require('vue').default;
 import VueRouter from 'vue-router';
 import {routes} from './routes';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import {faCog, faCogs, faDna, faSpinner} from '@fortawesome/free-solid-svg-icons'
+import {library} from "@fortawesome/fontawesome-svg-core";
 
 
 Vue.component('font-awesome-icon', FontAwesomeIcon)
@@ -24,9 +26,6 @@ Vue.component('products', require('./components/Products').default);
 Vue.component('services', require('./components/Services').default);
 Vue.component('contact', require('./components/Contact').default);
 Vue.component('search', require('./components/Search').default);
-
-import {faCog, faCogs, faDna, faSpinner} from '@fortawesome/free-solid-svg-icons'
-import {library} from "@fortawesome/fontawesome-svg-core";
 
 library.add(faCog)
 library.add(faCogs)
