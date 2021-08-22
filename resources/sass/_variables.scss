@@ -1,6 +1,7 @@
 // Body
 $body-bg: #f8fafc;
-$header-color: #000000;
+$light-color: #eeeedd;
+$dark-color: #333333;
 
 // Typography
 $font-family-sans-serif: 'Nunito', sans-serif;
@@ -21,6 +22,12 @@ $teal: #4dc0b5;
 $cyan: #6cb2eb;
 $black: #000000;
 
+$light-switch: #eeeedd;
+$dark-switch: #333333;
 
-$header-logo: rgba(250, 250, 250, 0.5);
+$footer-light: #555555;
+$footer-dark: #999999;
+
+$header-light: rgba(250, 250, 250, 0.5);
+$header-dark: rgba(0, 0, 0, 0.5);
 $separate-border: #FF0303;

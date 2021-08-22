@@ -1,5 +1,14 @@
 <template>
-    <toggle-button @change="triggerToggleEvent" :value="toggleActive"/>
+    <div class="toggle">
+        <toggle-button
+            @change="triggerToggleEvent"
+            :labels="{checked: 'Light', unchecked: 'Dark'}"
+            :value="currentMode"
+            :css-colors="true"
+            :width="72"
+            :height="36"
+        />
+    </div>
 </template>
 
 <script>
@@ -13,21 +22,22 @@ export default {
     },
 
     computed: {
-        toggleActive: function () {
-            return this.isDarkMode();
+        currentMode: function () {
+            this.setBodyClass();
+            return this.getCurrentMode();
         }
     },
 
     methods: {
-        isDarkMode() {
-            return this.$cookie.get('mode') === 'true';
+        getCurrentMode() {
+            return (this.$cookie.get('mode') === 'true');
         },
         triggerToggleEvent() {
-            this.$cookie.set('mode', !this.isDarkMode(), 1);
-            this.setClass();
+            this.$cookie.set('mode', !this.getCurrentMode(), 1);
+            this.setBodyClass();
         },
-        setClass() {
-            if (this.isDarkMode())
+        setBodyClass() {
+            if (this.getCurrentMode())
                 document.body.classList.add('dark')
             else
                 document.body.classList.remove('dark')

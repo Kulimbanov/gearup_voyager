@@ -3,7 +3,7 @@
     <!-- Section: Social media -->
     <section class="mb-4">
 
-        <a class="btn text-light btn-floating m-1" href="{{setting('site.facebook')}}" role="button">
+        <a class="btn btn-floating m-1" href="{{setting('site.facebook')}}" role="button">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-facebook"
                  viewBox="0 0 16 16">
                 <path
@@ -11,7 +11,7 @@
             </svg>
         </a>
 
-        <a class="btn text-light btn-floating m-1" href="{{setting('site.instagram')}}" role="button">
+        <a class="btn btn-floating m-1" href="{{setting('site.instagram')}}" role="button">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-instagram"
                  viewBox="0 0 16 16">
                 <path
@@ -19,7 +19,7 @@
             </svg>
         </a>
 
-        <a class="btn text-light btn-floating m-1" href="{{setting('site.youtube')}}" role="button">
+        <a class="btn btn-floating m-1" href="{{setting('site.youtube')}}" role="button">
             <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" fill="currentColor" class="bi bi-youtube"
                  viewBox="0 0 16 16">
                 <path
@@ -49,16 +49,16 @@
 
                 <ul class="list-unstyled mb-0">
                     <li>
-                        <a href="#!" class="text-white">Link 1</a>
+                        <a href="#!" class="">Link 1</a>
                     </li>
                     <li>
-                        <a href="#!" class="text-white">Link 2</a>
+                        <a href="#!" class="">Link 2</a>
                     </li>
                     <li>
-                        <a href="#!" class="text-white">Link 3</a>
+                        <a href="#!" class="">Link 3</a>
                     </li>
                     <li>
-                        <a href="#!" class="text-white">Link 4</a>
+                        <a href="#!" class="">Link 4</a>
                     </li>
                 </ul>
             </div>
@@ -70,13 +70,13 @@
 
                 <ul class="list-unstyled mb-0">
                     <li>
-                        <a href="#!" class="text-white">Bikes</a>
+                        <a href="#!" class="">Bikes</a>
                     </li>
                     <li>
-                        <a href="#!" class="text-white">Bike Wear</a>
+                        <a href="#!" class="">Bike Wear</a>
                     </li>
                     <li>
-                        <a href="#!" class="text-white">Accessories</a>
+                        <a href="#!" class="">Accessories</a>
                     </li>
                 </ul>
             </div>
@@ -88,16 +88,16 @@
 
                 <ul class="list-unstyled mb-0">
                     <li>
-                        <a href="#!" class="text-white">Link 1</a>
+                        <a href="#!" class="">Link 1</a>
                     </li>
                     <li>
-                        <a href="#!" class="text-white">Link 2</a>
+                        <a href="#!" class="">Link 2</a>
                     </li>
                     <li>
-                        <a href="#!" class="text-white">Link 3</a>
+                        <a href="#!" class="">Link 3</a>
                     </li>
                     <li>
-                        <a href="#!" class="text-white">Link 4</a>
+                        <a href="#!" class="">Link 4</a>
                     </li>
                 </ul>
             </div>

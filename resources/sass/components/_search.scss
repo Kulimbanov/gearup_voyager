@@ -15,15 +15,20 @@
         .input {
             width: 100%;
             background: none;
-            border: 3px solid $header-color;
             border-radius: 26px;
             box-sizing: border-box;
             padding: 5px 15px 7px;
             font-size: 14px;
-            color: $header-color;
             z-index: 2;
             position: relative;
             height: 36px;
+            border: 3px solid $dark-color;
+            color: $dark-color;
+
+            body.dark & {
+                border: 3px solid $light-color;
+                color: $light-color;
+            }
 
             &:focus {
                 outline: none;
@@ -43,12 +48,16 @@
                 content: '';
                 width: 13px;
                 height: 3px;
-                background-color: $header-color;
                 border-radius: 3px;
                 position: absolute;
                 transform-origin: 100% 100%;
                 animation-duration: 1.1s;
                 animation-fill-mode: forwards;
+                background-color: $dark-color;
+
+                body.dark & {
+                    background-color: $light-color;
+                }
             }
 
             &:after {
@@ -72,7 +81,11 @@
         &.open {
 
             width: 250px;
-            color: $header-color;
+            color: $dark-color;
+
+            body.dark & {
+                color: $light-color;
+            }
 
             .after {
                 cursor: pointer;
@@ -220,36 +233,10 @@
     }
     100% {
         width: 250px;
-        color: $header-color;
+        //color: $dark-color;
+        //
+        //body.dark & {
+        //    color: $light-color;
+        //}
     }
 }
-
-
-//h4 {
-//    color: #fff;
-//    text-align: center;
-//    letter-spacing: 0.5px;
-//    transform: scale(0);
-//    transition: all 0.3s;
-//    position: relative;
-//    top: -25px;
-//    margin: 0;
-//    font-weight: normal;
-//}
-//
-//h4.show {
-//    animation: alert 0.18s ease-in-out;
-//    animation-fill-mode: forwards;
-//}
-//
-//@keyframes alert {
-//    0% {
-//        transform: scale(0);
-//    }
-//    80% {
-//        transform: scale(1.2);
-//    }
-//    100% {
-//        transform: scale(1);
-//    }
-//}

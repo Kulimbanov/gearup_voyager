@@ -22,9 +22,8 @@
     <header class="header">
         @include('layouts.nav')
     </header>
-
     @yield('content')
-    <footer class="bg-dark text-center text-white">
+    <footer class="footer text-center">
         @include('layouts.footer')
     </footer>
     <switch-mode class="dark-light"></switch-mode>

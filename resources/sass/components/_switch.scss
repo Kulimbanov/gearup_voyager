@@ -1,0 +1,25 @@
+.dark-light {
+    position: fixed;
+    bottom: 0;
+    left: 50px;
+    transform: translate(-50%, -25%);
+
+    .v-switch-core {
+        background: $dark-switch;
+    }
+
+    .v-switch-label {
+        color: $light-switch !important;
+    }
+
+    .toggled {
+
+        .v-switch-core {
+            background: $light-switch;
+        }
+
+        .v-switch-label {
+            color: $dark-switch !important;
+        }
+    }
+}

@@ -1,101 +1,175 @@
-.header {
-    .navbar {
-        padding: 0;
+#app {
+    color: $dark-color;
+    background-color: $light-color;
+
+    body.dark & {
+        color: $light-color;
+        background-color: $dark-color;
     }
 
-    &-image {
-        background-position: center;
-        background-size: cover;
-        background-repeat: no-repeat;
-        min-height: 41vh;
-        width: 100%;
-    }
+    .header {
+        .navbar {
+            @extend .navbar-light;
+            padding: 0;
 
-    .holder {
-        background: $header-logo;
-    }
-
-    &-wrapper {
-        align-content: center;
-        justify-content: center;
-        align-items: center;
-        flex-direction: row;
-        flex-wrap: nowrap;
-
-        .separate {
-            &-left {
-                border-bottom: 3px solid $separate-border;
-                flex: 0.35 1 0;
-
-                .logo {
-                    max-width: 120px;
-                }
-
-                .subtitle {
-                    font-family: 'Nunito';
-                    font-size: 20px;
-                    text-align: center;
-                    color: $header-color;
-                }
+            body.dark & {
+                @extend .navbar-dark;
             }
+        }
 
-            @media (min-width: 576px) {
+        &-image {
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+            min-height: 41vh;
+            width: 100%;
+        }
+
+        .holder {
+            background: $header-light;
+
+            body.dark & {
+                background: $header-dark;
+            }
+        }
+
+        &-wrapper {
+            align-content: center;
+            justify-content: center;
+            align-items: center;
+            flex-direction: row;
+            flex-wrap: nowrap;
+
+            .separate {
                 &-left {
-                    border-right: 3px solid $separate-border;
-                    border-bottom: none;
+                    border-bottom: 3px solid $separate-border;
+                    flex: 0.35 1 0;
 
                     .logo {
-                        max-width: 200px;
+                        max-width: 120px;
+
+                        &.dark {
+                            display: none;
+                        }
+
+                        body.dark & {
+                            display: none;
+
+                            &.dark {
+                                display: inline-block;
+                            }
+                        }
                     }
 
                     .subtitle {
-                        font-size: 24px;
-                        line-height: 42px;
-                        text-align: left;
+                        font-family: 'Nunito';
+                        font-size: 20px;
+                        text-align: center;
+                        color: $dark-color;
+
+                        body.dark & {
+                            color: $light-color;
+                        }
                     }
                 }
-            }
 
-            &-right {
-                flex: 0.75 0 0;
+                @media (min-width: 576px) {
+                    &-left {
+                        border-right: 3px solid $separate-border;
+                        border-bottom: none;
 
-                .title {
-                    font-family: 'Nunito';
-                    font-weight: bold;
-                    font-size: 48px;
-                    line-height: 112px;
-                    text-align: left;
-                    color: $header-color;
-                    margin: auto;
-                    width: auto;
+                        .logo {
+                            max-width: 200px;
+                        }
+
+                        .subtitle {
+                            font-size: 24px;
+                            line-height: 42px;
+                            text-align: left;
+                        }
+                    }
                 }
 
-                @media (min-width: 992px) {
+                &-right {
+                    flex: 0.75 0 0;
+
                     .title {
-                        width: 100%;
-                        margin-left: 5%;
+                        font-family: 'Nunito';
+                        font-weight: bold;
+                        font-size: 48px;
+                        line-height: 112px;
+                        text-align: left;
+                        color: $dark-color;
+                        margin: auto;
+                        width: auto;
+
+                        body.dark & {
+                            color: $light-color;
+                        }
                     }
-                }
 
-                .navbar-toggler {
-                    align-self: flex-end;
-                    margin: auto;
-                }
+                    @media (min-width: 992px) {
+                        .title {
+                            width: 100%;
+                            margin-left: 5%;
+                        }
+                    }
 
-                .navbar-collapse {
-                    align-items: flex-end;
+                    .navbar-toggler {
+                        align-self: flex-end;
+                        margin: auto;
+                        color: $dark-color;
+                        border-color: $dark-color;
 
-                    .navbar-nav {
-                        font-size: 18px;
-                        flex: 1 1 auto;
+                        body.dark & {
+                            color: $light-color;
+                            border-color: $light-color;
+                        }
+                    }
 
-                        .nav-item {
-                            padding: 0 10px;
-                            margin: 0 auto;
+                    .navbar-collapse {
+                        align-items: flex-end;
+
+                        .navbar-nav {
+                            font-size: 18px;
+                            flex: 1 1 auto;
+
+                            .nav-item {
+                                padding: 0 10px;
+                                margin: 0 auto;
+
+                                .nav-link {
+                                    color: $dark-color;
+
+                                    body.dark & {
+                                        color: $light-color;
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
         }
     }
+
+    footer {
+        body.dark & {
+            @extend .bg-secondary;
+            @extend .text-dark;
+
+            a {
+                @extend .text-dark;
+            }
+        }
+
+        @extend .bg-dark;
+        @extend .text-white;
+
+        a {
+            @extend .text-white;
+        }
+    }
 }
+
+
