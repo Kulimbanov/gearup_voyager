@@ -1,0 +1,18 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;1,100;1,300;1,900&display=swap');
+
+// Variables
+@import 'variables';
+
+//Main
+@import "main";
+
+//Components
+@import 'components/products';
+@import 'components/search';
+@import 'components/services';
+@import 'components/switch';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';

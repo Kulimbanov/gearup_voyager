@@ -1,0 +1,70 @@
+.product {
+    display: flow-root;
+}
+
+.products-wrapper {
+    min-height: 50vh;
+}
+
+.card {
+    border: none;
+    border-radius: 0;
+    background-color: #fff;
+
+    &-expand {
+        display: block;
+    }
+
+    &-colapsed {
+        display: none;
+    }
+}
+
+.text1 {
+    font-size: 13px;
+    color: #cbcbcb
+}
+
+.name {
+    //-webkit-rows: 3em;
+    //-moz-columns: 3em;
+    //columns: 3em; /* desired width of column */
+}
+
+.info {
+    line-height: 17px
+}
+
+.cost span {
+    color: #fb3531;
+    font-weight: bold;
+    font-size: 20px
+}
+
+.star {
+    color: #FBC02D
+}
+
+.watchcost span {
+    color: #286783;
+    font-weight: bold;
+    font-size: 20px
+}
+
+.watch {
+    background: #286783
+}
+
+.tshirtcost span {
+    color: #0012b2;
+    font-weight: bold;
+    font-size: 20px
+}
+
+.tshirt {
+    background-color: #0012b2
+}
+
+.cursor {
+    cursor: pointer
+}
