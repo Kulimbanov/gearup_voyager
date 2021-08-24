@@ -11,7 +11,7 @@
                         <div class="card wrapper p-3">
                             <font-awesome-icon class="mx-auto my-4" icon="cog" size="4x"></font-awesome-icon>
                             <h3 class="mt-4 mb-1">Silver Pack</h3>
-                            <ul>
+                            <ul class="content">
                                 <li>Проверка и штелување на брзини</li>
                                 <li>Проверка и штелување на кочници</li>
                                 <li>Центрирање на тркала</li>

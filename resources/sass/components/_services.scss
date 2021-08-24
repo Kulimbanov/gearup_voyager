@@ -65,8 +65,13 @@ $circle-width: 174px;
         &:hover {
             animation: slide 3s ease 0s infinite normal;
 
-            .wrapper h3 {
-                transform: translateY(-$circle-width);
+            .wrapper {
+                h3 {
+                    transform: translateY(-$circle-width);
+                }
+                .content{
+                    opacity: 1;
+                }
             }
 
             &:after, &:before {
@@ -76,6 +81,7 @@ $circle-width: 174px;
                 height: 100%;
 
             }
+
         }
 
         .wrapper {
@@ -96,6 +102,21 @@ $circle-width: 174px;
                 background: $header-dark;
                 color: $light-service;
             }
+
+            .content {
+                position: absolute;
+                width: 300px;
+                left: -96px;
+                right: 0;
+                top: 0;
+                bottom: 0;
+                z-index: 2;
+                list-style: none;
+                color: $dark-color;
+                font-size: smaller;
+                opacity: 0;
+            }
+
         }
 
         &.silver {

@@ -168,7 +168,35 @@
 
         a {
             @extend .text-white;
+
+            &:hover, &:active, &:focus {
+                &.social {
+                    //stroke: currentColor;
+                    transform: scale(1.2);
+                    transition: all .45s;
+
+                    .icon {
+                        &--facebook {
+                            fill: #16a4fb;
+                            transition: all .45s;
+                        }
+
+                        &--instagram {
+                            fill: url(#simpleInsta) !important;
+                            transition: all .45s;
+                        }
+
+                        &--youtube {
+                            fill: #ff0000;
+                            transition: all .45s;
+                        }
+                    }
+                }
+            }
+
         }
+
+
     }
 }
 
