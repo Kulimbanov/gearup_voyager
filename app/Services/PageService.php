@@ -25,7 +25,6 @@ class PageService implements IPageService
         $page = $this->pageRepository->getBySlug($slug ?? 'home');
 
         if (empty($page)) {
-            //TODO: use settings
             $page = $this->pageRepository->getBySlug('404');
         }
         $headerImage = HeaderImageGenerator::generateHeaderImage($page->header_image);

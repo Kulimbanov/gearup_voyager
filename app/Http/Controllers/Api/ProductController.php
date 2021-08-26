@@ -36,4 +36,11 @@ class ProductController extends Controller
             $request->getCategoryId()
         );
     }
+
+    public function getFeaturedProducts(): JsonResponse
+    {
+        $featured = $this->productService->getFeaturedProducts();
+
+        return response()->json($featured);
+    }
 }

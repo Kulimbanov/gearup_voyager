@@ -29,6 +29,7 @@ Vue.component('services', require('./components/Services').default);
 Vue.component('contact', require('./components/Contact').default);
 Vue.component('search', require('./components/Search').default);
 Vue.component('switch-mode', require('./components/SwitchMode').default);
+Vue.component('featured-product', require('./components/Featured').default);
 
 library.add(faCog)
 library.add(faCogs)

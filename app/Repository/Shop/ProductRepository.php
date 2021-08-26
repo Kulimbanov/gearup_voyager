@@ -24,4 +24,9 @@ class ProductRepository
                       ->with([Product::R_BRANDS, Product::R_PRODUCT_CATEGORY])
                       ->get();
     }
+
+    public function getFeaturedProducts(): Collection
+    {
+        return Product::where(Product::FEATURED, 1)->get();
+    }
 }

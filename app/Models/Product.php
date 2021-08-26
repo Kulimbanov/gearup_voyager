@@ -32,6 +32,7 @@ class Product extends Model
     const USER_ID = 'user_id';
     const CATEGORY_ID = 'category_id';
     const BRAND_ID = 'brand_id';
+    const FEATURED = 'featured';
 
     const R_PRODUCT_PROPERTIES = 'productProperties';
     const R_PRODUCT_CATEGORY = 'productCategory';

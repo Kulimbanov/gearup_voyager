@@ -37,4 +37,9 @@ class ProductService implements IProductService
 
         return $this->productRepository->getCategoryProducts($categoryId);
     }
+
+    public function getFeaturedProducts(): Collection
+    {
+        return $this->productRepository->getFeaturedProducts();
+    }
 }

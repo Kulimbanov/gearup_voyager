@@ -111,11 +111,7 @@ export default {
             this.checkedBrands = checkedBrands;
         },
         showProductCardPrice(product) {
-            if ((typeof (product.show) == 'undefined') || (!product.show)) {
-                product.show = true;
-            } else {
-                product.show = false;
-            }
+            product.show = (typeof (product.show) == 'undefined') || (!product.show);
         }
     },
     created() {
@@ -128,7 +124,6 @@ export default {
     },
     computed: {
         filterProducts() {
-            console.log('compute');
             return this.products.filter(product => (product.price >= this.minPrice && product.price <= this.maxPrice))
                 .filter(product => JSON.parse(product.brand).some(brand => this.checkedBrands.includes(brand)));
         }
