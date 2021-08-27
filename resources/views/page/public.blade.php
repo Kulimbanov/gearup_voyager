@@ -48,10 +48,8 @@
             </div>
         </section>
 
-        <section class="featured">
-            <featured-product></featured-product>
-        </section>
-        {!! $page->getBody() !!}
+{{--        {!! $page->getBody() !!}--}}
     </div>
 
+        <featured-product></featured-product>
 @endsection

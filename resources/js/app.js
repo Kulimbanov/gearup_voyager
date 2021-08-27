@@ -13,7 +13,6 @@ import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
 import {faCog, faCogs, faDna, faSpinner} from '@fortawesome/free-solid-svg-icons'
 import {library} from "@fortawesome/fontawesome-svg-core";
 
-
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
