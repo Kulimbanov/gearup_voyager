@@ -16,8 +16,8 @@
                  viewBox="0 0 16 16">
                 <defs>
                     <linearGradient x1="0%" y1="100%" y2="0%" id="simpleInsta">
-                        <stop stop-color="#D72F3F" offset="0%" />
-                        <stop stop-color="#4221B9" offset="100%" />
+                        <stop stop-color="#D72F3F" offset="0%"/>
+                        <stop stop-color="#4221B9" offset="100%"/>
                     </linearGradient>
                 </defs>
                 <path class="icon--instagram "
@@ -51,22 +51,7 @@
         <div class="row">
             <!--Grid column-->
             <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-                <h5 class="text-uppercase">Contact</h5>
-
-                <ul class="list-unstyled mb-0">
-                    <li>
-                        <a href="#!" class="">Link 1</a>
-                    </li>
-                    <li>
-                        <a href="#!" class="">Link 2</a>
-                    </li>
-                    <li>
-                        <a href="#!" class="">Link 3</a>
-                    </li>
-                    <li>
-                        <a href="#!" class="">Link 4</a>
-                    </li>
-                </ul>
+                <weather></weather>
             </div>
             <!--Grid column-->
 
