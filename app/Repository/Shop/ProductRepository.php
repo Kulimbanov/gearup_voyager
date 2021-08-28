@@ -27,6 +27,11 @@ class ProductRepository
 
     public function getFeaturedProducts(): Collection
     {
-        return Product::where(Product::FEATURED, 1)->get();
+        return Product::where(Product::FEATURED, 1)->with(Product::R_PRODUCT_CATEGORY)->get();
+    }
+
+    public function getProductBySlug(string $slug): ?Product
+    {
+        return Product::where(Product::SLUG, $slug)->first();
     }
 }

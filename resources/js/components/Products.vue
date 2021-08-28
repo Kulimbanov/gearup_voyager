@@ -42,10 +42,13 @@
                                             {{ brand }}
                                         </span>
                                     </div>
-                                    <div class=" star mt-3 align-items-center"><i class="fa fa-star"></i> <i
-                                        class="fa fa-star"></i> <i class="fa fa-star"></i> <i
-                                        class="fa fa-star"></i> <i
-                                        class="fa fa-star"></i></div>
+                                    <div class=" star mt-3 align-items-center">
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                        <i class="fa fa-star"></i>
+                                    </div>
                                 </div>
                                 <div v-show="product.show"
                                      class="p-3 bg-danger text-center text-white mt-3 cursor card-expand">
@@ -92,6 +95,9 @@ export default {
     methods: {
         getImage(image) {
             return process.env.MIX_APP_API + "/storage/" + image;
+        },
+        getProductLink(slug) {
+            return process.env.MIX_APP_API + "/shop/" + slug;
         },
         setDefaultPriceRange() {
             this.maxPrice = this.products.reduce((max, product) => (max === undefined || max > product.price) ? max : product.price, this.products[0].price);

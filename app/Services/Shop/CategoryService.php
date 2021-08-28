@@ -4,15 +4,18 @@ namespace App\Services\Shop;
 
 use App\DTO\Page\PublicPageDto;
 use App\Repository\Shop\ProductCategoryRepository;
+use App\Services\IPageService;
 use App\Services\Page\HeaderImageGenerator;
 
 class CategoryService implements ICategoryService
 {
     private ProductCategoryRepository $productCategoryRepository;
+    private IPageService $pageService;
 
-    public function __construct(ProductCategoryRepository $productCategoryRepository)
+    public function __construct(ProductCategoryRepository $productCategoryRepository, IPageService $pageService)
     {
         $this->productCategoryRepository = $productCategoryRepository;
+        $this->pageService = $pageService;
     }
 
     public function loadCategoryPage(?string $categorySlug): ?PublicPageDto
@@ -20,10 +23,9 @@ class CategoryService implements ICategoryService
         $category = $this->productCategoryRepository->getCategoryBySlug($categorySlug);
 
         if (empty($category)) {
-            return (new PublicPageDto)->setTitle('404')->setCategoryId(0);
+            return $this->pageService->loadPage('404')->setCategoryId(0);
         }
         $headerImage = HeaderImageGenerator::generateHeaderImage($category->image);
-
 
         return (new PublicPageDto)
             ->setTitle($category->name)

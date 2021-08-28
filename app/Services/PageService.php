@@ -27,6 +27,7 @@ class PageService implements IPageService
         if (empty($page)) {
             $page = $this->pageRepository->getBySlug('404');
         }
+
         $headerImage = HeaderImageGenerator::generateHeaderImage($page->header_image);
 
         return (new PublicPageDto)
@@ -36,5 +37,4 @@ class PageService implements IPageService
             ->setHeaderImage($headerImage)
             ->setTemplate($page->template);
     }
-
 }

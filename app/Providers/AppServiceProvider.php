@@ -5,9 +5,11 @@ namespace App\Providers;
 use App\Services\ContactForm\ContactFormService;
 use App\Services\ContactForm\IContactFormService;
 use App\Services\IPageService;
+use App\Services\IProductPageService;
 use App\Services\Mail\ISendService;
 use App\Services\Mail\SendService;
 use App\Services\PageService;
+use App\Services\ProductPageService;
 use App\Services\Repairments\IRepairmentService;
 use App\Services\Repairments\RepairmentService;
 use App\Services\Shop\CategoryService;
@@ -36,6 +38,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IRepairmentService::class, RepairmentService::class);
         $this->app->bind(IContactFormService::class, ContactFormService::class);
         $this->app->bind(ISendService::class, SendService::class);
+        $this->app->bind(IProductPageService::class, ProductPageService::class);
     }
 
     /**

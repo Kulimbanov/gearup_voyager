@@ -15206,6 +15206,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Featured",
@@ -15222,6 +15225,9 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     getImage: function getImage(image) {
       return "" + "/storage/" + image;
+    },
+    getProductLink: function getProductLink(categorySlug, productSlug) {
+      return "" + "/shop/" + categorySlug + '/' + productSlug;
     }
   },
   created: function created() {
@@ -15314,6 +15320,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 
 
@@ -15339,6 +15348,9 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
   methods: {
     getImage: function getImage(image) {
       return "" + "/storage/" + image;
+    },
+    getProductLink: function getProductLink(slug) {
+      return "" + "/shop/" + slug;
     },
     setDefaultPriceRange: function setDefaultPriceRange() {
       this.maxPrice = this.products.reduce(function (max, product) {
@@ -104666,9 +104678,20 @@ var render = function() {
                       "a",
                       {
                         staticClass: "link border-animation",
-                        attrs: { href: "#" }
+                        attrs: {
+                          href: _vm.getProductLink(
+                            product.product_category.slug,
+                            product.slug
+                          )
+                        }
                       },
-                      [_vm._v(_vm._s(product.name))]
+                      [
+                        _vm._v(
+                          "\n                    " +
+                            _vm._s(product.name) +
+                            "\n                "
+                        )
+                      ]
                     )
                   ]
                 )
