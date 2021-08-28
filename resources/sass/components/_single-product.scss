@@ -1,0 +1,47 @@
+.single-product {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background: linear-gradient(-75deg, $light-single-product-left-background 55%, $light-single-product-right-background 55%), $light-single-product-right-background;
+    background-size: auto auto, cover;
+
+    body.dark & {
+        background: linear-gradient(-75deg, $dark-single-product-left-background 55%, $dark-single-product-right-background 55%), $dark-single-product-right-background;
+    }
+
+    &-card {
+        //max-width: 255px;
+        //max-height: 325px;
+        border: none;
+        //img {
+        //    width: 100%;
+        //    max-width: 255px;
+        //    max-height: 325px;
+        //}
+
+        .image {
+            position: relative;
+            max-width: 355px;
+            min-height: 225px;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            transform: translate(10px, 10px);
+
+            &:before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 355px;
+                height: 225px;
+                border: 25px solid #fff;
+                z-index: 1;
+                background: linear-gradient(145deg, #ffffff, #e6e6e6);
+                box-shadow: 7px 7px 21px #bdbdbd, -7px -7px 21px #ffffff;
+                background: transparent;
+                filter: url(#wavy2);
+            }
+        }
+    }
+}

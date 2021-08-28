@@ -2,9 +2,9 @@
 
 namespace App\Services;
 
-use App\DTO\Page\PublicPageDto;
+use App\DTO\Page\ProductPageDto;
 
 interface IProductPageService
 {
-    public function loadProductPage(?string $productSlug): PublicPageDto;
+    public function loadProductPage(?string $productSlug): ProductPageDto;
 }

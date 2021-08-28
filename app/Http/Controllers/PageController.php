@@ -23,7 +23,6 @@ class PageController extends Controller
 
     public function index(PageRequest $request)
     {
-        logger('index');
         $page = $this->pageService->loadPage($request->route('slug'));
         $template = !empty($page->template) ? 'templates.' . $page->template : 'public';
 
@@ -34,7 +33,6 @@ class PageController extends Controller
 
     public function shop(Request $request)
     {
-        logger('shop');
         $category = $this->categoryService->loadCategoryPage($request->route('categorySlug'));
 
         return view('page.shop')->with([

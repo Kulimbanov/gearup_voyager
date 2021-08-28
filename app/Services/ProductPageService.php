@@ -2,7 +2,8 @@
 
 namespace App\Services;
 
-use App\DTO\Page\PublicPageDto;
+use App\DTO\Page\ProductPageDto;
+use App\ENUM\PageTemplates;
 use App\Repository\Shop\ProductRepository;
 use App\Services\Page\HeaderImageGenerator;
 
@@ -17,7 +18,7 @@ class ProductPageService implements IProductPageService
         $this->pageService = resolve(IPageService::class);
     }
 
-    public function loadProductPage(?string $productSlug): PublicPageDto
+    public function loadProductPage(?string $productSlug): ProductPageDto
     {
         if (empty($productSlug)) {
             return $this->pageService->loadPage('404');
@@ -25,13 +26,21 @@ class ProductPageService implements IProductPageService
 
         $product = $this->productRepository->getProductBySlug($productSlug);
 
+        if (empty($product)) {
+            return $this->pageService->loadPage('404');
+        }
+
         $headerImage = HeaderImageGenerator::generateHeaderImage($product->image);
 
-        return (new PublicPageDto)
+        return (new ProductPageDto)
             ->setTitle($product->name)
             ->setBody($product->description)
             ->setSubTitle($product->sub_title)
             ->setHeaderImage($headerImage)
-            ->setTemplate($product->template);
+            ->setTemplate(PageTemplates::PRODUCT)
+            ->setPrice($product->price)
+            ->setImages(collect($product->image))
+            ->setBrands($product->brands)
+            ->setCategory($product->productCategory->name);
     }
 }
