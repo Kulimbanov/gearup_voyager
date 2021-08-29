@@ -62,7 +62,7 @@
                     }
 
                     .subtitle {
-                        font-family: 'Nunito';
+                        font-family: $font-family-sans-serif-nunito;
                         font-size: 20px;
                         text-align: center;
                         color: $dark-color;
@@ -94,14 +94,14 @@
                     flex: 0.75 0 0;
 
                     .title {
-                        font-family: 'Nunito';
+                        font-family: $font-family-sans-serif-nunito;
                         font-weight: bold;
                         font-size: 48px;
-                        line-height: 112px;
                         text-align: left;
                         color: $dark-color;
                         margin: auto;
                         width: auto;
+                        line-height: 1;
 
                         body.dark & {
                             color: $light-color;
