@@ -6,5 +6,5 @@ use App\DTO\Page\ProductPageDto;
 
 interface IProductPageService
 {
-    public function loadProductPage(?string $productSlug): ProductPageDto;
+    public function getProductPageDto(string $productSlug, string $categorySlug): ProductPageDto;
 }

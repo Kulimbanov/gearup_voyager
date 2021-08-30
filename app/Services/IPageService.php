@@ -8,5 +8,5 @@ interface IPageService
 {
     public function getSlugById(int $id): string;
 
-    public function loadPage(?string $slug): PublicPageDto;
+    public function getPublicPageDto(?string $slug): PublicPageDto;
 }

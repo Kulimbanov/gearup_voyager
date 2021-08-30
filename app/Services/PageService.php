@@ -3,17 +3,16 @@
 namespace App\Services;
 
 use App\DTO\Page\PublicPageDto;
-use App\Models\Page;
 use App\Repository\PageRepository;
-use App\Services\Page\HeaderImageGenerator;
+use App\Services\Page\PublicPageMap;
 
 class PageService implements IPageService
 {
     private PageRepository $pageRepository;
 
-    public function __construct()
+    public function __construct(PageRepository $pageRepository)
     {
-        $this->pageRepository = resolve(PageRepository::class);
+        $this->pageRepository = $pageRepository;
     }
 
     public function getSlugById(int $id): string
@@ -21,7 +20,7 @@ class PageService implements IPageService
         return $this->pageRepository->getSlugById($id);
     }
 
-    public function loadPage(?string $slug): PublicPageDto
+    public function getPublicPageDto(?string $slug): PublicPageDto
     {
         $page = $this->pageRepository->getBySlug($slug ?? 'home');
 
@@ -29,18 +28,7 @@ class PageService implements IPageService
             $page = $this->pageRepository->getBySlug('404');
         }
 
-        return $this->mapPageDto($page);
+        return PublicPageMap::mapPage($page);
     }
 
-    private function mapPageDto(Page $page): PublicPageDto
-    {
-        $headerImage = HeaderImageGenerator::generateHeaderImage($page->header_image);
-
-        return (new PublicPageDto)
-            ->setTitle($page->title)
-            ->setBody($page->body)
-            ->setSubTitle($page->sub_title)
-            ->setHeaderImage($headerImage)
-            ->setTemplate($page->template);
-    }
 }

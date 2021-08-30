@@ -9,7 +9,6 @@ class PublicPageDto
     public ?string $headerImage;
     public ?string $body;
     public ?string $template;
-    public ?int $category_id;
 
     public function getTitle(): string
     {
@@ -31,18 +30,6 @@ class PublicPageDto
     public function setBody(?string $body): self
     {
         $this->body = $body;
-
-        return $this;
-    }
-
-    public function getCategoryId(): int
-    {
-        return $this->category_id;
-    }
-
-    public function setCategoryId(int $category_id): self
-    {
-        $this->category_id = $category_id;
 
         return $this;
     }

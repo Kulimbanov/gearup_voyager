@@ -6,10 +6,12 @@ use Illuminate\Support\Collection;
 
 class ProductPageDto extends PublicPageDto
 {
+    private string $name;
     private ?float $price;
     private ?string $category;
     private Collection $images;
     private Collection $brands;
+    private Collection $properties;
 
     public function getPrice(): ?float
     {
@@ -55,6 +57,30 @@ class ProductPageDto extends PublicPageDto
     public function setImages(Collection $images): ProductPageDto
     {
         $this->images = $images;
+
+        return $this;
+    }
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): ProductPageDto
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    public function getProperties(): Collection
+    {
+        return $this->properties;
+    }
+
+    public function setProperties(Collection $properties): ProductPageDto
+    {
+        $this->properties = $properties;
 
         return $this;
     }

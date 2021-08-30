@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PageRequest;
 use App\Services\IPageService;
 use App\Services\IProductPageService;
+use App\Services\Page\GetTemplateView;
 use App\Services\Shop\ICategoryService;
 use Illuminate\Http\Request;
 
@@ -23,29 +24,31 @@ class PageController extends Controller
 
     public function index(PageRequest $request)
     {
-        $page = $this->pageService->loadPage($request->route('slug'));
-        $template = !empty($page->template) ? 'templates.' . $page->template : 'public';
+        $page = $this->pageService->getPublicPageDto($request->route('slug'));
 
-        return view('page.' . $template)->with([
+        return view(GetTemplateView::get($page->getTemplate()))->with([
             'page' => $page,
         ]);
     }
 
     public function shop(Request $request)
     {
-        $category = $this->categoryService->loadCategoryPage($request->route('categorySlug'));
+        $categoryPageDto = $this->categoryService->getCategoryPageDto($request->route('categorySlug'));
 
-        return view('page.shop')->with([
-            'page' => $category,
+        return view(GetTemplateView::get($categoryPageDto->getTemplate()))->with([
+            'page' => $categoryPageDto,
         ]);
     }
 
     public function product(Request $request)
     {
-        $productPage = $this->productPageService->loadProductPage($request->route('productSlug'));
+        $productPageDto = $this->productPageService->getProductPageDto(
+            $request->route('productSlug'),
+            $request->route('categorySlug')
+        );
 
-        return view('page.product')->with([
-            'page' => $productPage
+        return view(GetTemplateView::get($productPageDto->getTemplate()))->with([
+            'page' => $productPageDto
         ]);
     }
 }

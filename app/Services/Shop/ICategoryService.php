@@ -6,5 +6,5 @@ use App\DTO\Page\PublicPageDto;
 
 interface ICategoryService
 {
-    public function loadCategoryPage(?string $categorySlug): ?PublicPageDto;
+    public function getCategoryPageDto(?string $categorySlug): ?PublicPageDto;
 }
