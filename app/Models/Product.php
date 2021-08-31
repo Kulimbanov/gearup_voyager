@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Auth;
  * @property int id
  * @property string name
  * @property string slug
- * @property string descriptions
+ * @property string description
  * @property float price
  * @property string image
  */
@@ -26,7 +26,7 @@ class Product extends Model
     const ID = 'id';
     const NAME = 'name';
     const SLUG = 'slug';
-    const DESCRIPTION = 'descriptions';
+    const DESCRIPTION = 'description';
     const PRICE = 'price';
     const IMAGE = 'image';
     const USER_ID = 'user_id';
@@ -45,7 +45,7 @@ class Product extends Model
 
     public function productCategory(): BelongsTo
     {
-        return $this->belongsTo(ProductCategory::class, 'category_id', 'id');
+        return $this->belongsTo(ProductCategory::class, self::CATEGORY_ID, 'id');
     }
 
     public function brands(): BelongsToMany

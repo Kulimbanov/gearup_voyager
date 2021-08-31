@@ -36,16 +36,18 @@ final class PublicPageMap
 
     public static function mapProduct(IPublicPage $categoryPageDto, Product $product): ProductPageDto
     {
+        logger(json_encode($product->productProperties()));
         return (new ProductPageDto)
             ->setTitle($categoryPageDto->getTitle())
-            ->setBody($categoryPageDto->getBody())
             ->setSubTitle($categoryPageDto->getSubTitle())
             ->setHeaderImage($categoryPageDto->getHeaderImage())
             ->setTemplate(PageTemplates::PRODUCT)
+            ->setBody($product->description)
             ->setPrice($product->price)
             ->setImages(collect($product->image))
             ->setBrands($product->brands)
-            ->setCategory($product->productCategory->name);
+            ->setCategory($product->productCategory->name)
+            ->setProperties($product->productProperties);
     }
 
 }

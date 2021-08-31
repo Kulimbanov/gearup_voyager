@@ -1,6 +1,6 @@
 <template>
     <div>
-        the product her
+        {{ page }}
     </div>
 </template>
 

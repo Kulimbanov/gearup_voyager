@@ -3,6 +3,7 @@
 namespace App\Services\Shop;
 
 use App\DTO\Shop\ProductPropertiesDto;
+use App\Models\CategoryProperty;
 use App\Repository\Shop\PropertyValueRepository;
 use Illuminate\Support\Collection;
 
@@ -19,8 +20,8 @@ class PropertyService implements IPropertyService
     {
         $data = $this->propertyRepository->getProperties($productId, $categoryId);
 
-        return $data->map(function ($property) {
-            return $this->mapDto($property);
+        return $data->map(function (CategoryProperty $property) {
+            return new ProductPropertiesDto($property);
         });
     }
 
@@ -31,12 +32,5 @@ class PropertyService implements IPropertyService
         })->flatten();
 
         $this->propertyRepository->clearProductProperties($newProperties, $productId);
-    }
-
-    private function mapDto($data): ProductPropertiesDto
-    {
-        logger(collect($data)->get('property_values', ['value' => '']));
-
-        return new ProductPropertiesDto(collect($data));
     }
 }
