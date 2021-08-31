@@ -9,6 +9,7 @@ use App\ENUM\PageTemplates;
 use App\Models\Page;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Services\Page\Type\IPublicPage;
 
 final class PublicPageMap
 {
@@ -33,7 +34,7 @@ final class PublicPageMap
             ->setCategoryId($productCategory->id);
     }
 
-    public static function mapProduct(CategoryPageDto $categoryPageDto, Product $product): ProductPageDto
+    public static function mapProduct(IPublicPage $categoryPageDto, Product $product): ProductPageDto
     {
         return (new ProductPageDto)
             ->setTitle($categoryPageDto->getTitle())

@@ -8,11 +8,6 @@ use Illuminate\Support\Collection;
 
 class ProductUIMapper implements IProductUIMapper
 {
-
-    public function __construct()
-    {
-    }
-
     public function mapListProducts(Collection $products): Collection
     {
         return $products->map(function (Product $product) {

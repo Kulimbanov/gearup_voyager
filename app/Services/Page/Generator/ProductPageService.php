@@ -1,29 +1,28 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Page\Generator;
 
-use App\DTO\Page\ProductPageDto;
 use App\Services\Page\PublicPageMap;
-use App\Services\Shop\ICategoryService;
+use App\Services\Page\Type\IPublicPage;
 use App\Services\Shop\IProductService;
 
 class ProductPageService implements IProductPageService
 {
     private IProductService $productService;
-    private IPageService $pageService;
-    private ICategoryService $categoryService;
+    private IPublicPageService $pageService;
+    private ICategoryPageService $categoryService;
 
     public function __construct(
         IProductService $productService,
-        IPageService $pageService,
-        ICategoryService $categoryService
+        IPublicPageService $pageService,
+        ICategoryPageService $categoryService
     ) {
         $this->productService = $productService;
         $this->pageService = $pageService;
         $this->categoryService = $categoryService;
     }
 
-    public function getProductPageDto(string $productSlug, string $categorySlug): ProductPageDto
+    public function getProductPageDto(string $productSlug, string $categorySlug): IPublicPage
     {
         $categoryPageDto = $this->categoryService->getCategoryPageDto($categorySlug);
 

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Page\Generator;
 
 use App\DTO\Page\PublicPageDto;
 use App\Repository\PageRepository;
 use App\Services\Page\PublicPageMap;
 
-class PageService implements IPageService
+class PublicPageService implements IPublicPageService
 {
     private PageRepository $pageRepository;
 
@@ -20,9 +20,9 @@ class PageService implements IPageService
         return $this->pageRepository->getSlugById($id);
     }
 
-    public function getPublicPageDto(?string $slug): PublicPageDto
+    public function getPublicPageDto(string $slug): PublicPageDto
     {
-        $page = $this->pageRepository->getBySlug($slug ?? 'home');
+        $page = $this->pageRepository->getBySlug($slug);
 
         if (empty($page)) {
             $page = $this->pageRepository->getBySlug('404');
@@ -30,5 +30,4 @@ class PageService implements IPageService
 
         return PublicPageMap::mapPage($page);
     }
-
 }

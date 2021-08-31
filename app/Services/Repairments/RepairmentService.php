@@ -9,19 +9,19 @@ class RepairmentService implements IRepairmentService
 {
     private RepairmentRepository $repairmentRepository;
 
-    public function __construct()
+    public function __construct(RepairmentRepository $repairmentRepository)
     {
-        $this->repairmentRepository = resolve(RepairmentRepository::class);
+        $this->repairmentRepository = $repairmentRepository;
     }
 
     public function getRepairmentBySlug(?string $slug): RepairmentDto
     {
-        $model = $this->repairmentRepository->getBySlug($slug);
+        $repairment = $this->repairmentRepository->getBySlug($slug);
 
         return (new RepairmentDto)
-            ->setId($model->id)
-            ->setName($model->name)
-            ->setSlug($model->slug)
-            ->setDescription($model->description);
+            ->setId($repairment->id)
+            ->setName($repairment->name)
+            ->setSlug($repairment->slug)
+            ->setDescription($repairment->description);
     }
 }

@@ -2,7 +2,9 @@
 
 namespace App\DTO\Page;
 
-class CategoryPageDto extends PublicPageDto
+use App\Services\Page\Type\IPublicPage;
+
+class CategoryPageDto extends PublicPageDto implements IPublicPage
 {
     public ?int $category_id;
 

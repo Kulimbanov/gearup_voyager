@@ -8,11 +8,11 @@ use Illuminate\Support\Collection;
 
 class PropertyService implements IPropertyService
 {
-    private $propertyRepository;
+    private PropertyValueRepository $propertyRepository;
 
-    public function __construct()
+    public function __construct(PropertyValueRepository $propertyRepository)
     {
-        $this->propertyRepository = resolve(PropertyValueRepository::class);
+        $this->propertyRepository = $propertyRepository;
     }
 
     public function getProductCategoryProperties(int $productId = null, int $categoryId = null): Collection
@@ -36,6 +36,7 @@ class PropertyService implements IPropertyService
     private function mapDto($data): ProductPropertiesDto
     {
         logger(collect($data)->get('property_values', ['value' => '']));
+
         return new ProductPropertiesDto(collect($data));
     }
 }

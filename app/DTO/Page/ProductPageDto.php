@@ -2,9 +2,10 @@
 
 namespace App\DTO\Page;
 
+use App\Services\Page\Type\IPublicPage;
 use Illuminate\Support\Collection;
 
-class ProductPageDto extends PublicPageDto
+class ProductPageDto extends PublicPageDto implements IPublicPage
 {
     private string $name;
     private ?float $price;

@@ -2,7 +2,9 @@
 
 namespace App\DTO\Page;
 
-class PublicPageDto
+use App\Services\Page\Type\IPublicPage;
+
+class PublicPageDto implements IPublicPage
 {
     public string $title;
     public ?string $subTitle;

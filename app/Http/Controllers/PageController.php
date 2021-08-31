@@ -3,28 +3,34 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PageRequest;
-use App\Services\IPageService;
-use App\Services\IProductPageService;
+use App\Providers\RouteServiceProvider;
+use App\Services\Page\Generator\ICategoryPageService;
+use App\Services\Page\Generator\IProductPageService;
+use App\Services\Page\Generator\IPublicPageService;
 use App\Services\Page\GetTemplateView;
-use App\Services\Shop\ICategoryService;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
 {
-    private IPageService $pageService;
-    private ICategoryService $categoryService;
+    private IPublicPageService $publicPageService;
+    private ICategoryPageService $categoryPageService;
     private IProductPageService $productPageService;
 
-    public function __construct()
-    {
-        $this->pageService = resolve(IPageService::class);
-        $this->categoryService = resolve(ICategoryService::class);
-        $this->productPageService = resolve(IProductPageService::class);
+    public function __construct(
+        IPublicPageService $publicPageService,
+        ICategoryPageService $categoryPageService,
+        IProductPageService $productPageService
+    ) {
+        $this->publicPageService = $publicPageService;
+        $this->categoryPageService = $categoryPageService;
+        $this->productPageService = $productPageService;
     }
 
     public function index(PageRequest $request)
     {
-        $page = $this->pageService->getPublicPageDto($request->route('slug'));
+        $page = $this->publicPageService->getPublicPageDto(
+            $request->route('slug', RouteServiceProvider::HOME)
+        );
 
         return view(GetTemplateView::get($page->getTemplate()))->with([
             'page' => $page,
@@ -33,7 +39,7 @@ class PageController extends Controller
 
     public function shop(Request $request)
     {
-        $categoryPageDto = $this->categoryService->getCategoryPageDto($request->route('categorySlug'));
+        $categoryPageDto = $this->categoryPageService->getCategoryPageDto($request->route('categorySlug'));
 
         return view(GetTemplateView::get($categoryPageDto->getTemplate()))->with([
             'page' => $categoryPageDto,
