@@ -14,8 +14,9 @@ class ListProductDto implements JsonSerializable
     private string $name;
     private ?string $image;
     private ?string $brand;
-    private string $category;
+    private string $categorySlug;
     private ?float $price;
+    private bool $featured;
     private Collection $properties;
 
     public function getSlug(): string
@@ -54,14 +55,14 @@ class ListProductDto implements JsonSerializable
         return $this;
     }
 
-    public function getCategory(): string
+    public function getCategorySlug(): string
     {
-        return $this->category;
+        return $this->categorySlug;
     }
 
-    public function setCategory(string $category): ListProductDto
+    public function setCategorySlug(string $categorySlug): ListProductDto
     {
-        $this->category = $category;
+        $this->categorySlug = $categorySlug;
 
         return $this;
     }
@@ -98,6 +99,18 @@ class ListProductDto implements JsonSerializable
     public function setImage(string $image): ListProductDto
     {
         $this->image = $image;
+
+        return $this;
+    }
+
+    public function isFeatured(): bool
+    {
+        return $this->featured;
+    }
+
+    public function setFeatured(bool $featured): ListProductDto
+    {
+        $this->featured = $featured;
 
         return $this;
     }

@@ -36,7 +36,6 @@ final class PublicPageMap
 
     public static function mapProduct(IPublicPage $categoryPageDto, Product $product): ProductPageDto
     {
-        logger(json_encode($product->productProperties()));
         return (new ProductPageDto)
             ->setTitle($categoryPageDto->getTitle())
             ->setSubTitle($categoryPageDto->getSubTitle())
@@ -49,5 +48,4 @@ final class PublicPageMap
             ->setCategory($product->productCategory->name)
             ->setProperties($product->productProperties);
     }
-
 }

@@ -1,10 +1,9 @@
 <template>
-
-    <div class="row">
-        <div class="col-md-3">
+    <div class="row category-products">
+        <div class="col-md-3 category-products-filters">
             <div class="pb-3 px-3">
-
                 <h3 class="mt-5">Filters</h3>
+
                 <div class="row">
                     <div class="container mb-5 mt-5" v-if="showPriceFilter">
                         <h4 class="mb-5">Price</h4>
@@ -23,37 +22,35 @@
                         </brand-filter>
                     </div>
                 </div>
-
             </div>
         </div>
-        <div class="col-md-9">
-            <div class="pb-3">
-                <div class="container mb-5 mt-5">
-                    <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-6 col-xs-1"
-                             v-for="product in filterProducts"
-                             :key="product.id">
-                            <div class="card mt-3" v-on:click="showProductCardPrice(product)">
-                                <div class="product align-items-center p-2 text-center">
-                                    <img :src="getImage(product.image)" class="rounded" width="160">
-                                    <h5 class="name">{{ product.name }}</h5>
-                                    <div class="mt-3 info">
-                                        <span class="text1 d-block" v-for="brand in JSON.parse(product.brand)">
-                                            {{ brand }}
-                                        </span>
-                                    </div>
-                                    <div class=" star mt-3 align-items-center">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
+        <div class="col-md-9 category-products-container">
+            <div class="container mb-5 mt-5 pb-3">
+                <div class="row">
+
+                    <div class="col-lg-4 col-md-6 col-sm-6 col-xs-1"
+                         v-for="product in filterProducts"
+                         :key="product.id">
+
+                        <div class="product">
+                            <div class="product-tag-sale" v-if="product.featured"></div>
+                            <div class="product-image">
+                                <span class="product-image-hover-link"></span>
+                                <a :href="getProductLink(product.categorySlug,product.slug)" class="product-image-link">details</a>
+                                <img class="img-responsive" :src="getImage(product.image)" alt="">
+                            </div>
+                            <div class="product-description">
+                                <div class="product-description-label">
+                                    <div class="product-description-label-name">
+                                        <div class="title">{{ product.name }}</div>
+                                        <p class="price">{{ product.price }}.mkd</p>
+                                        <p class="sub-title">{{ product.brands }}</p>
                                     </div>
                                 </div>
-                                <div v-show="product.show"
-                                     class="p-3 bg-danger text-center text-white mt-3 cursor card-expand">
-                                    <div class=" cost mt-3 text-dark">
-                                        <span>{{ product.price }}</span>
+                                <div class="product-description-option" v-if="product.properties.count > 0">
+                                    <div class="product-description-size" v-for="property in product.properties">
+                                        <h3>{{ property.name }}</h3>
+                                        <p>{{ property.value }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -96,8 +93,8 @@ export default {
         getImage(image) {
             return process.env.MIX_APP_API + "/storage/" + image;
         },
-        getProductLink(slug) {
-            return process.env.MIX_APP_API + "/shop/" + slug;
+        getProductLink(categorySlug, productSlug) {
+            return process.env.MIX_APP_API + "/shop/" + categorySlug + '/' + productSlug;
         },
         setDefaultPriceRange() {
             this.maxPrice = this.products.reduce((max, product) => (max === undefined || max > product.price) ? max : product.price, this.products[0].price);

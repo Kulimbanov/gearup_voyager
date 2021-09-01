@@ -15320,9 +15320,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
 
 
 
@@ -15349,8 +15346,8 @@ var axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
     getImage: function getImage(image) {
       return "" + "/storage/" + image;
     },
-    getProductLink: function getProductLink(slug) {
-      return "" + "/shop/" + slug;
+    getProductLink: function getProductLink(categorySlug, productSlug) {
+      return "" + "/shop/" + categorySlug + '/' + productSlug;
     },
     setDefaultPriceRange: function setDefaultPriceRange() {
       this.maxPrice = this.products.reduce(function (max, product) {
@@ -104841,8 +104838,8 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "row" }, [
-    _c("div", { staticClass: "col-md-3" }, [
+  return _c("div", { staticClass: "row category-products" }, [
+    _c("div", { staticClass: "col-md-3 category-products-filters" }, [
       _c("div", { staticClass: "pb-3 px-3" }, [
         _c("h3", { staticClass: "mt-5" }, [_vm._v("Filters")]),
         _vm._v(" "),
@@ -104889,123 +104886,98 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    _c("div", { staticClass: "col-md-9" }, [
-      _c("div", { staticClass: "pb-3" }, [
-        _c("div", { staticClass: "container mb-5 mt-5" }, [
-          _c(
-            "div",
-            { staticClass: "row" },
-            _vm._l(_vm.filterProducts, function(product) {
-              return _c(
-                "div",
-                {
-                  key: product.id,
-                  staticClass: "col-lg-3 col-md-4 col-sm-6 col-xs-1"
-                },
-                [
-                  _c(
-                    "div",
-                    {
-                      staticClass: "card mt-3",
-                      on: {
-                        click: function($event) {
-                          return _vm.showProductCardPrice(product)
+    _c("div", { staticClass: "col-md-9 category-products-container" }, [
+      _c("div", { staticClass: "container mb-5 mt-5 pb-3" }, [
+        _c(
+          "div",
+          { staticClass: "row" },
+          _vm._l(_vm.filterProducts, function(product) {
+            return _c(
+              "div",
+              {
+                key: product.id,
+                staticClass: "col-lg-4 col-md-6 col-sm-6 col-xs-1"
+              },
+              [
+                _c("div", { staticClass: "product" }, [
+                  product.featured
+                    ? _c("div", { staticClass: "product-tag-sale" })
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "product-image" }, [
+                    _c("span", { staticClass: "product-image-hover-link" }),
+                    _vm._v(" "),
+                    _c(
+                      "a",
+                      {
+                        staticClass: "product-image-link",
+                        attrs: {
+                          href: _vm.getProductLink(
+                            product.categorySlug,
+                            product.slug
+                          )
                         }
-                      }
-                    },
-                    [
+                      },
+                      [_vm._v("details")]
+                    ),
+                    _vm._v(" "),
+                    _c("img", {
+                      staticClass: "img-responsive",
+                      attrs: { src: _vm.getImage(product.image), alt: "" }
+                    })
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "product-description" }, [
+                    _c("div", { staticClass: "product-description-label" }, [
                       _c(
                         "div",
-                        {
-                          staticClass:
-                            "product align-items-center p-2 text-center"
-                        },
+                        { staticClass: "product-description-label-name" },
                         [
-                          _c("img", {
-                            staticClass: "rounded",
-                            attrs: {
-                              src: _vm.getImage(product.image),
-                              width: "160"
-                            }
-                          }),
-                          _vm._v(" "),
-                          _c("h5", { staticClass: "name" }, [
+                          _c("div", { staticClass: "title" }, [
                             _vm._v(_vm._s(product.name))
                           ]),
                           _vm._v(" "),
-                          _c(
-                            "div",
-                            { staticClass: "mt-3 info" },
-                            _vm._l(JSON.parse(product.brand), function(brand) {
-                              return _c(
-                                "span",
-                                { staticClass: "text1 d-block" },
-                                [
-                                  _vm._v(
-                                    "\n                                        " +
-                                      _vm._s(brand) +
-                                      "\n                                    "
-                                  )
-                                ]
-                              )
-                            }),
-                            0
-                          ),
+                          _c("p", { staticClass: "price" }, [
+                            _vm._v(_vm._s(product.price) + ".mkd")
+                          ]),
                           _vm._v(" "),
-                          _vm._m(0, true)
-                        ]
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: product.show,
-                              expression: "product.show"
-                            }
-                          ],
-                          staticClass:
-                            "p-3 bg-danger text-center text-white mt-3 cursor card-expand"
-                        },
-                        [
-                          _c("div", { staticClass: " cost mt-3 text-dark" }, [
-                            _c("span", [_vm._v(_vm._s(product.price))])
+                          _c("p", { staticClass: "sub-title" }, [
+                            _vm._v(_vm._s(product.brands))
                           ])
                         ]
                       )
-                    ]
-                  )
-                ]
-              )
-            }),
-            0
-          )
-        ])
+                    ]),
+                    _vm._v(" "),
+                    product.properties.count > 0
+                      ? _c(
+                          "div",
+                          { staticClass: "product-description-option" },
+                          _vm._l(product.properties, function(property) {
+                            return _c(
+                              "div",
+                              { staticClass: "product-description-size" },
+                              [
+                                _c("h3", [_vm._v(_vm._s(property.name))]),
+                                _vm._v(" "),
+                                _c("p", [_vm._v(_vm._s(property.value))])
+                              ]
+                            )
+                          }),
+                          0
+                        )
+                      : _vm._e()
+                  ])
+                ])
+              ]
+            )
+          }),
+          0
+        )
       ])
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: " star mt-3 align-items-center" }, [
-      _c("i", { staticClass: "fa fa-star" }),
-      _vm._v(" "),
-      _c("i", { staticClass: "fa fa-star" }),
-      _vm._v(" "),
-      _c("i", { staticClass: "fa fa-star" }),
-      _vm._v(" "),
-      _c("i", { staticClass: "fa fa-star" }),
-      _vm._v(" "),
-      _c("i", { staticClass: "fa fa-star" })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
