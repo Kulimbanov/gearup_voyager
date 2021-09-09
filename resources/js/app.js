@@ -30,6 +30,8 @@ Vue.component('search', require('./components/Search').default);
 Vue.component('switch-mode', require('./components/SwitchMode').default);
 Vue.component('featured-product', require('./components/Featured').default);
 
+Vue.component('nav-menu', require('./components/nav/DeviceMenu').default);
+
 library.add(faCog)
 library.add(faCogs)
 library.add(faDna)

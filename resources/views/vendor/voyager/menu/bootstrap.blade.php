@@ -1,7 +1,7 @@
 @if(!isset($innerLoop))
-    <ul class="navbar-nav">
+    <ol class="menu-main">
         @else
-            <ul class="dropdown-menu" aria-labelledby="<?php echo $options->id ?>">
+            <ol class="menu-sub" aria-labelledby="<?php echo $options->id ?>">
                 @endif
 
                 @php
@@ -17,37 +17,39 @@
                             $item = $item->translate($options->locale);
                         }
 
-                        $listItemClass = 'nav-item';
+                        $listItemClass = 'menu-item';
                         if(url($item->link()) == url()->current()){
-                            $linkAttributes = 'class="nav-link active"';
+                            $linkAttributes = 'class="menu-link active"';
                         }else{
-                            $linkAttributes = 'class="nav-link"';
+                            $linkAttributes = 'class="menu-link"';
                         }
+
+                        $isParent = !$originalItem->children->isEmpty();
                         // With Children Attributes
-                        if(!$originalItem->children->isEmpty()) {
+                        if($isParent) {
                             $options->id = \Illuminate\Support\Str::random(12);
-                            $linkAttributes =  'class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false" id="' . $options->id . '"';
+                            $linkAttributes =  'class="menu-link" role="button" aria-expanded="false" id="' . $options->id . '"';
 
 
                             if(url($item->link()) == url()->current()){
-                                $listItemClass = 'nav-item dropdown active';
+                                $listItemClass = 'menu-item active';
                             }else{
-                                $listItemClass = 'nav-item dropdown';
+                                $listItemClass = 'menu-item';
                             }
+
                         } else {
                             $options->id = null;
                         }
 
                         if(isset($options->id) && $originalItem->children->isEmpty()){
-                            $linkAttributes = 'class="dropdown-item"';
+                            $linkAttributes = 'class="sub-menu-item"';
                             $listItemClass = '';
                         }
 
                     @endphp
 
                     <li class="{{ $listItemClass }}">
-                        <a href="{{ url($item->link()) }}" target="{{ $item->target }}" {!! $linkAttributes ?? '' !!}>
+                        <a href="{{ $isParent?'#':url($item->link()) }}" target="{{ $item->target }}" {!! $linkAttributes ?? '' !!}>
                             {{ $item->title }}
                         </a>
                         @if(!$originalItem->children->isEmpty())
@@ -56,4 +58,4 @@
                     </li>
                 @endforeach
 
-            </ul>
+            </ol>

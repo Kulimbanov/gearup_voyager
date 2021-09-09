@@ -1,10 +1,10 @@
 <template>
-    <div class="search m-auto py-2 m-sm-2">
+    <div class="search my-1 m-auto mr-sm-0 my-sm-5 py-2">
         <form class="search-form" @submit="onFormSubmit($event)"
               :class="{ 'open': isSearchOpen, 'in': isSearchIn, 'close': isSearchClose , 'explode': shouldExplode }">
             <input class="input" @focus="onSearchFocusIn" type="text"/>
             <div @click="onAfterClicked($event)" class="after"></div>
-            <input  class="submit" @focus="onSearchFocusIn" type="submit"/>
+            <input class="submit" @focus="onSearchFocusIn" type="submit"/>
         </form>
         <h4 v-if="haveMessage"></h4>
     </div>

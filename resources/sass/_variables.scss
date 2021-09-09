@@ -32,9 +32,16 @@ $dark-switch: #333333;
 $footer-light: #555555;
 $footer-dark: #999999;
 
-$header-light: rgba(250, 250, 250, 0.5);
-$header-dark: rgba(0, 0, 0, 0.5);
+$header-light: rgba(250, 250, 250, 0.15);
+$header-dark: rgba(0, 0, 0, 0.15);
 $separate-border: #FF0303;
+
+$menu-hover: rgba(255, 0, 0, 0.2);
+
+$menu-background-light: #a4b8cd;
+$menu-background-dark: #212529;
+
+$active-menu-color: #6c0000;
 
 
 $silver:linear-gradient( to bottom, #bcc6cc, #eee, #bcc6cc);
