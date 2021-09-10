@@ -13,6 +13,7 @@ class PropertyValue extends Model
     const PRODUCT_ID = 'product_id';
     const CATEGORY_PROPERTY_ID = 'category_property_id';
     const VALUE = 'value';
+    const REQUIRED = 'reqiured';
 
     const R_CATEGORY_PROPERTY = 'category_properties';
     const R_PRODUCT = 'product';

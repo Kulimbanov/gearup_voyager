@@ -49,6 +49,7 @@
                                 </div>
                                 <div class="product-description-option" v-if="product.properties.count > 0">
                                     <div class="product-description-size" v-for="property in product.properties">
+                                        <product-property @property="property"></product-property>
                                         <h3>{{ property.name }}</h3>
                                         <p>{{ property.value }}</p>
                                     </div>

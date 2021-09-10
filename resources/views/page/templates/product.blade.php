@@ -35,11 +35,6 @@
 
             </div>
             <single-product :page="{{json_encode($page->getProperties())}}"></single-product>
-
-            <div class="row pt-5">
-                <p>{!! json_encode($page)  !!} </p>
-                <p>{!! $page->getBody()  !!} </p>
-            </div>
         </div>
     </div>
 @endsection

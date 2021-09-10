@@ -37,10 +37,10 @@ class Product extends Model
 
     const R_PRODUCT_PROPERTIES = 'productProperties';
     const R_PRODUCT_CATEGORY = 'productCategory';
-    const R_PRODUCT_CATEGORY_PROPERTIES = 'productCategoryProperties';
+    const R_PROPERTIES_VALUES = 'productPropertiesValues';
     const R_BRANDS = 'brands';
 
-    public function productCategoryProperties(): HasManyThrough
+    public function productPropertiesValues(): HasManyThrough
     {
         return $this->hasManyThrough(
             CategoryProperty::class,

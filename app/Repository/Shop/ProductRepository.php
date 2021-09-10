@@ -35,7 +35,7 @@ class ProductRepository
     public function getProductBySlug(string $slug): ?Product
     {
         return Product::where(Product::SLUG, $slug)
-                      ->with(Product::R_PRODUCT_PROPERTIES)
+                      ->with(Product::R_PRODUCT_PROPERTIES, Product::R_PRODUCT_CATEGORY, Product::R_PROPERTIES_VALUES)
                       ->first();
     }
 }

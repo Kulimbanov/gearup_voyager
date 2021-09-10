@@ -14,13 +14,13 @@ class ProductUIMapper implements IProductUIMapper
     public function mapListProducts(Collection $products): Collection
     {
         return $products->map(function (Product $product) {
-            return $this->mapListProduct($product);
+            return $this->mapProductProperties($product);
         });
     }
 
-    private function mapListProduct(Product $product): ListProductDto
+    private function mapProductProperties(Product $product): ListProductDto
     {
-        $properties = $this->mapProperties($product->productCategoryProperties, $product->productProperties);
+        $properties = $this->mapPropertiesValues($product->productPropertiesValues, $product->productProperties);
 
         return (new ListProductDto)
             ->setSlug($product->slug)
@@ -33,7 +33,7 @@ class ProductUIMapper implements IProductUIMapper
             ->setProperties($properties);
     }
 
-    private function mapProperties(Collection $properties, Collection $values): Collection
+    public static function mapPropertiesValues(Collection $properties, Collection $values): Collection
     {
         return $properties->map(function ($property) use ($values) {
             return [
