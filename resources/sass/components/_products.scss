@@ -1,70 +1,347 @@
-.product {
-    display: flow-root;
-}
+.category-products {
+    &-container {
 
-.products-wrapper {
-    min-height: 50vh;
-}
+        .product {
+            background-color: #fff;
+            height: 400px;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 20px;
 
-.card {
-    border: none;
-    border-radius: 0;
-    background-color: #fff;
+            &:hover {
+                box-shadow: 0 10px 25px -2px rgba(0, 0, 0, 0.36);
 
-    &-expand {
-        display: block;
+                .product {
+                    &-image {
+                        height: 140px;
+                        transition: 1s;
+                    }
+
+                    &-option {
+                        display: block;
+                    }
+
+                    &-image-hover-link {
+                        opacity: 0.5;
+                    }
+                }
+            }
+
+            &-tag-sale {
+                background-color: #4fdaa4;
+                width: 86px;
+                height: 98px;
+                position: absolute;
+                color: #fff;
+                right: -41px;
+                z-index: 9;
+                top: -44px;
+                transform: rotate(137deg);
+
+                &:before {
+                    content: "SALE";
+                    color: #fff;
+                    font-weight: bold;
+                    display: block;
+                    transform-origin: top center;
+                    transform: rotate(222.5deg) translateX(-28px) translateY(-37px);
+                }
+            }
+
+            &-image {
+                padding: 20px;
+                height: 265px;
+                position: relative;
+                overflow: hidden;
+                transition: 1s;
+
+                &-hover-link {
+                    background-color: #4FDAA4;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    opacity: 0;
+                    width: 100%;
+                    height: 100%;
+                    transition: 0.5s;
+                }
+
+                &-link {
+                    position: absolute;
+                    background: #fff;
+                    width: 100px;
+                    height: 100px;
+                    color: #4FDAA4;
+                    border-radius: 50%;
+                    font-size: 25px;
+                    text-align: center;
+                    padding: 22px 0;
+                    line-height: 25px;
+                    left: calc(50% - 50px);
+                    top: calc(50% - 50px);
+                    opacity: 0;
+                    transition: 1s;
+                    font-style: italic;
+
+                    &:hover {
+                        text-decoration: none;
+                        color: #4FDAA4;
+                        opacity: 1;
+                        -webkit-animation: hovering 1000ms linear both;
+                        animation: hovering 1000ms linear both;
+                    }
+                }
+
+                img {
+                    width: 100%;
+                }
+            }
+
+            &-description {
+                background-color: #F7F7F7;
+                border-top: 1px solid #EFEFEF;
+                padding: 10px 20px;
+                color: #797979;
+
+                &-label {
+                    &-name {
+                        min-height: 125px;
+
+                        .title {
+                            font-size: 18px;
+                            margin-bottom: 5px;
+                            margin-top: 0;
+                            display: inline-block;
+                            min-height: 60px;
+                            --max-lines: 2;
+                            position: relative;
+                            max-height: calc(var(--lh) * var(--max-lines));
+                            overflow: hidden;
+                            padding-right: 1rem;
+                        }
+
+                        .sub-title {
+                            color: #C4C4C4;
+                        }
+
+                        .price {
+                            display: inline-block;
+                            font-size: 22px;
+                            text-align: right;
+                            font-weight: bold;
+                            color: #2DD493;
+                            margin-bottom: 5px;
+                        }
+                    }
+                }
+
+
+                &-option {
+                    border-top: 1px solid #D2D2D2;
+
+                    h3 {
+                        font-size: 16px;
+                        font-weight: bold;
+                        margin-bottom: 3px;
+                    }
+
+                    .product-color {
+                        ul {
+                            list-style-type: none;
+                            padding: 0;
+                        }
+
+                        li {
+                            display: inline-block;
+                            width: 15px;
+                            height: 15px;
+
+                            &.red {
+                                background-color: #F75375;
+                            }
+
+                            &.blue {
+                                background-color: #53A0F7;
+                            }
+
+                            &.green {
+                                background-color: #59CFAF;
+                            }
+
+                            &.gray {
+                                background-color: #C7C7C7;
+                            }
+
+                            &.black {
+                                background-color: #4E5156;
+                            }
+
+                            &.dark-blue {
+                                background-color: #2060AF;
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
     }
+}
 
-    &-colapsed {
-        display: none;
+@-webkit-keyframes hovering {
+    0% {
+        -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    2.3% {
+        -webkit-transform: matrix3d(1.102, 0, 0, 0, 0, 1.102, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.102, 0, 0, 0, 0, 1.102, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    4.6% {
+        -webkit-transform: matrix3d(1.136, 0, 0, 0, 0, 1.136, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.136, 0, 0, 0, 0, 1.136, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    7.41% {
+        -webkit-transform: matrix3d(1.099, 0, 0, 0, 0, 1.099, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.099, 0, 0, 0, 0, 1.099, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    10.21% {
+        -webkit-transform: matrix3d(1.023, 0, 0, 0, 0, 1.023, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.023, 0, 0, 0, 0, 1.023, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    13.01% {
+        -webkit-transform: matrix3d(0.962, 0, 0, 0, 0, 0.962, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(0.962, 0, 0, 0, 0, 0.962, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    15.72% {
+        -webkit-transform: matrix3d(0.942, 0, 0, 0, 0, 0.942, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(0.942, 0, 0, 0, 0, 0.942, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    18.52% {
+        -webkit-transform: matrix3d(0.958, 0, 0, 0, 0, 0.958, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(0.958, 0, 0, 0, 0, 0.958, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    21.32% {
+        -webkit-transform: matrix3d(0.99, 0, 0, 0, 0, 0.99, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(0.99, 0, 0, 0, 0, 0.99, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    24.12% {
+        -webkit-transform: matrix3d(1.016, 0, 0, 0, 0, 1.016, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.016, 0, 0, 0, 0, 1.016, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    26.83% {
+        -webkit-transform: matrix3d(1.025, 0, 0, 0, 0, 1.025, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.025, 0, 0, 0, 0, 1.025, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    32.43% {
+        -webkit-transform: matrix3d(1.004, 0, 0, 0, 0, 1.004, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.004, 0, 0, 0, 0, 1.004, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    38.04% {
+        -webkit-transform: matrix3d(0.989, 0, 0, 0, 0, 0.989, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(0.989, 0, 0, 0, 0, 0.989, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    49.15% {
+        -webkit-transform: matrix3d(1.005, 0, 0, 0, 0, 1.005, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.005, 0, 0, 0, 0, 1.005, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    60.26% {
+        -webkit-transform: matrix3d(0.998, 0, 0, 0, 0, 0.998, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(0.998, 0, 0, 0, 0, 0.998, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    71.37% {
+        -webkit-transform: matrix3d(1.001, 0, 0, 0, 0, 1.001, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.001, 0, 0, 0, 0, 1.001, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    82.48% {
+        -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    93.59% {
+        -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    100% {
+        -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
     }
 }
 
-.text1 {
-    font-size: 13px;
-    color: #cbcbcb
-}
-
-.name {
-    //-webkit-rows: 3em;
-    //-moz-columns: 3em;
-    //columns: 3em; /* desired width of column */
-}
-
-.info {
-    line-height: 17px
-}
-
-.cost span {
-    color: #fb3531;
-    font-weight: bold;
-    font-size: 20px
-}
-
-.star {
-    color: #FBC02D
-}
-
-.watchcost span {
-    color: #286783;
-    font-weight: bold;
-    font-size: 20px
-}
-
-.watch {
-    background: #286783
-}
-
-.tshirtcost span {
-    color: #0012b2;
-    font-weight: bold;
-    font-size: 20px
-}
-
-.tshirt {
-    background-color: #0012b2
-}
-
-.cursor {
-    cursor: pointer
+@keyframes hovering {
+    0% {
+        -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    2.3% {
+        -webkit-transform: matrix3d(1.102, 0, 0, 0, 0, 1.102, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.102, 0, 0, 0, 0, 1.102, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    4.6% {
+        -webkit-transform: matrix3d(1.136, 0, 0, 0, 0, 1.136, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.136, 0, 0, 0, 0, 1.136, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    7.41% {
+        -webkit-transform: matrix3d(1.099, 0, 0, 0, 0, 1.099, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.099, 0, 0, 0, 0, 1.099, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    10.21% {
+        -webkit-transform: matrix3d(1.023, 0, 0, 0, 0, 1.023, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.023, 0, 0, 0, 0, 1.023, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    13.01% {
+        -webkit-transform: matrix3d(0.962, 0, 0, 0, 0, 0.962, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(0.962, 0, 0, 0, 0, 0.962, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    15.72% {
+        -webkit-transform: matrix3d(0.942, 0, 0, 0, 0, 0.942, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(0.942, 0, 0, 0, 0, 0.942, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    18.52% {
+        -webkit-transform: matrix3d(0.958, 0, 0, 0, 0, 0.958, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(0.958, 0, 0, 0, 0, 0.958, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    21.32% {
+        -webkit-transform: matrix3d(0.99, 0, 0, 0, 0, 0.99, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(0.99, 0, 0, 0, 0, 0.99, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    24.12% {
+        -webkit-transform: matrix3d(1.016, 0, 0, 0, 0, 1.016, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.016, 0, 0, 0, 0, 1.016, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    26.83% {
+        -webkit-transform: matrix3d(1.025, 0, 0, 0, 0, 1.025, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.025, 0, 0, 0, 0, 1.025, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    32.43% {
+        -webkit-transform: matrix3d(1.004, 0, 0, 0, 0, 1.004, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.004, 0, 0, 0, 0, 1.004, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    38.04% {
+        -webkit-transform: matrix3d(0.989, 0, 0, 0, 0, 0.989, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(0.989, 0, 0, 0, 0, 0.989, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    49.15% {
+        -webkit-transform: matrix3d(1.005, 0, 0, 0, 0, 1.005, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.005, 0, 0, 0, 0, 1.005, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    60.26% {
+        -webkit-transform: matrix3d(0.998, 0, 0, 0, 0, 0.998, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(0.998, 0, 0, 0, 0, 0.998, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    71.37% {
+        -webkit-transform: matrix3d(1.001, 0, 0, 0, 0, 1.001, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1.001, 0, 0, 0, 0, 1.001, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    82.48% {
+        -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    93.59% {
+        -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
+    100% {
+        -webkit-transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+        transform: matrix3d(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1);
+    }
 }

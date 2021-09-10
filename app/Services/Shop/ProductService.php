@@ -2,6 +2,7 @@
 
 namespace App\Services\Shop;
 
+use App\Models\Product;
 use App\Repository\Shop\ProductRepository;
 use App\Services\Shop\UI\IProductUIMapper;
 use Illuminate\Support\Collection;
@@ -11,10 +12,10 @@ class ProductService implements IProductService
     private ProductRepository $productRepository;
     private IProductUIMapper $productUIMapper;
 
-    public function __construct()
+    public function __construct(ProductRepository $productRepository, IProductUIMapper $productUIMapper)
     {
-        $this->productRepository = resolve(ProductRepository::class);
-        $this->productUIMapper = resolve(IProductUIMapper::class);
+        $this->productRepository = $productRepository;
+        $this->productUIMapper = $productUIMapper;
     }
 
     public function getProductCategoryProperties(int $productId, int $categoryId = null): Collection
@@ -41,5 +42,10 @@ class ProductService implements IProductService
     public function getFeaturedProducts(): Collection
     {
         return $this->productRepository->getFeaturedProducts();
+    }
+
+    public function getProductBySlug(string $slug): ?Product
+    {
+        return $this->productRepository->getProductBySlug($slug);
     }
 }

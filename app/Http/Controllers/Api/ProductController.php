@@ -31,10 +31,10 @@ class ProductController extends Controller
 
     public function getProperties(ProductPropertiesRequest $request): JsonResponse
     {
-        return $this->propertyService->getProductCategoryProperties(
+        return response()->json($this->propertyService->getProductCategoryProperties(
             $request->getProductId(),
             $request->getCategoryId()
-        );
+        ));
     }
 
     public function getFeaturedProducts(): JsonResponse

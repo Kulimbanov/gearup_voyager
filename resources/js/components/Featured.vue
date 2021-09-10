@@ -21,7 +21,10 @@
                     <div class="cover">
                         <img :src="getImage(product.image)" class="rounded" width="160">
                     </div>
-                    <a class="link border-animation" href="#">{{ product.name }}</a>
+                    <a class="link border-animation"
+                       :href="getProductLink(product.product_category.slug,product.slug)">
+                        {{ product.name }}
+                    </a>
                 </slide>
             </carousel>
         </div>
@@ -46,6 +49,9 @@ export default {
     methods: {
         getImage(image) {
             return process.env.MIX_APP_API + "/storage/" + image;
+        },
+        getProductLink(categorySlug, productSlug) {
+            return process.env.MIX_APP_API + "/shop/" + categorySlug + '/' + productSlug;
         },
     },
     created() {

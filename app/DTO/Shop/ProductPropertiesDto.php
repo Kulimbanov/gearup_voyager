@@ -2,7 +2,7 @@
 
 namespace App\DTO\Shop;
 
-use Illuminate\Support\Collection;
+use App\Models\CategoryProperty;
 
 class ProductPropertiesDto
 {
@@ -10,11 +10,11 @@ class ProductPropertiesDto
     public $name;
     public $value;
 
-    public function __construct(Collection $data)
+    public function __construct(CategoryProperty $data)
     {
-        $this->id = $data->get('id');
-        $this->name = $data->get('name');
-        $propertyValue = $data->get('property_values');
-        $this->value = $propertyValue ? $propertyValue['value'] : '';
+        $this->id = $data->id;
+        $this->name = $data->name;
+        $propertyValue = $data->propertyValues;
+        $this->value = !empty($propertyValue) ? $propertyValue->value : '';
     }
 }

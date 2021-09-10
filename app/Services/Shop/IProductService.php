@@ -2,6 +2,7 @@
 
 namespace App\Services\Shop;
 
+use App\Models\Product;
 use Illuminate\Support\Collection;
 
 interface IProductService
@@ -11,4 +12,6 @@ interface IProductService
     public function getProductsByCategoryId(?int $categoryId): Collection;
 
     public function getFeaturedProducts(): Collection;
+
+    public function getProductBySlug(string $slug): ?Product;
 }

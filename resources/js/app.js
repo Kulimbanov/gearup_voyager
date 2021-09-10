@@ -29,6 +29,7 @@ Vue.component('contact', require('./components/Contact').default);
 Vue.component('search', require('./components/Search').default);
 Vue.component('switch-mode', require('./components/SwitchMode').default);
 Vue.component('featured-product', require('./components/Featured').default);
+Vue.component('single-product', require('./components/SingleProduct').default);
 
 Vue.component('nav-menu', require('./components/nav/DeviceMenu').default);
 

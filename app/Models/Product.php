@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Facades\Auth;
 
 /**
@@ -15,9 +16,10 @@ use Illuminate\Support\Facades\Auth;
  * @property int id
  * @property string name
  * @property string slug
- * @property string descriptions
+ * @property string description
  * @property float price
  * @property string image
+ * @property bool featured
  */
 class Product extends Model
 {
@@ -26,17 +28,29 @@ class Product extends Model
     const ID = 'id';
     const NAME = 'name';
     const SLUG = 'slug';
-    const DESCRIPTION = 'descriptions';
+    const DESCRIPTION = 'description';
     const PRICE = 'price';
     const IMAGE = 'image';
     const USER_ID = 'user_id';
     const CATEGORY_ID = 'category_id';
-    const BRAND_ID = 'brand_id';
     const FEATURED = 'featured';
 
     const R_PRODUCT_PROPERTIES = 'productProperties';
     const R_PRODUCT_CATEGORY = 'productCategory';
+    const R_PRODUCT_CATEGORY_PROPERTIES = 'productCategoryProperties';
     const R_BRANDS = 'brands';
+
+    public function productCategoryProperties(): HasManyThrough
+    {
+        return $this->hasManyThrough(
+            CategoryProperty::class,
+            PropertyValue::class,
+            PropertyValue::PRODUCT_ID,
+            CategoryProperty::ID,
+            Product::ID,
+            PropertyValue::CATEGORY_PROPERTY_ID
+        );
+    }
 
     public function productProperties(): HasMany
     {
@@ -45,7 +59,7 @@ class Product extends Model
 
     public function productCategory(): BelongsTo
     {
-        return $this->belongsTo(ProductCategory::class, 'category_id', 'id');
+        return $this->belongsTo(ProductCategory::class, self::CATEGORY_ID, 'id');
     }
 
     public function brands(): BelongsToMany
