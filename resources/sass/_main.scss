@@ -21,7 +21,6 @@
             background-position: center;
             background-size: cover;
             background-repeat: no-repeat;
-            min-height: 41vh;
             width: 100%;
         }
 
@@ -230,11 +229,8 @@
                         display: none;
                     }
 
-                    $nav-width: 45px;
-                    $span-height: 6px;
-
                     @media screen and (max-width: 576px) {
-                        .title{
+                        .title {
                             order: -1;
                         }
 
@@ -243,7 +239,7 @@
                             width: $nav-width;
                             height: auto;
                             position: relative;
-                            margin: auto 0 auto auto;
+                            margin: auto 2px auto auto;
                             -webkit-transform: rotate(0deg);
                             -moz-transform: rotate(0deg);
                             -o-transform: rotate(0deg);
@@ -253,7 +249,7 @@
                             -o-transition: .5s ease-in-out;
                             transition: .5s ease-in-out;
                             cursor: pointer;
-                            top: 12px;
+                            top: 15px;
                             order: 1;
 
                             span {
@@ -317,12 +313,12 @@
                                     }
 
                                     &:nth-child(1) {
-                                        left: 5px;
+                                        left: 4px;
                                         top: 7px;
                                     }
 
                                     &:nth-child(2) {
-                                        left: calc(50% - 5px);
+                                        left: calc(50% - 4px);
                                         top: 7px;
                                     }
 
@@ -337,12 +333,12 @@
                                     }
 
                                     &:nth-child(5) {
-                                        left: 5px;
+                                        left: 4px;
                                         top: calc((#{$nav-width} / 2) - 1px);
                                     }
 
                                     &:nth-child(6) {
-                                        left: calc(50% - 5px);
+                                        left: calc(50% - 4px);
                                         top: calc((#{$nav-width} / 2) - 1px);
                                     }
                                 }
@@ -356,6 +352,9 @@
                             &.active > ol {
                                 display: block;
                                 top: 61px;
+                                width: 100%;
+                                position: fixed;
+                                left: 0;
                             }
 
                             ol {
@@ -395,9 +394,7 @@
                                 }
                             }
                         }
-                        //.menu:hover:after {
-                        //    box-shadow: none;
-                        //}
+
                     }
                 }
             }

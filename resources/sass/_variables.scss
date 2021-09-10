@@ -4,8 +4,8 @@ $body-bg: #f8fafc;
 $light-color: #eeeedd;
 $dark-color: #333333;
 
-$light-service:#f8fafc;
-$dark-service:#00000F;
+$light-service: #f8fafc;
+$dark-service: #00000F;
 
 // Typography
 $font-family-sans-serif: 'Nunito', sans-serif;
@@ -33,17 +33,22 @@ $footer-light: #555555;
 $footer-dark: #999999;
 
 $header-light: rgba(250, 250, 250, 0.15);
-$header-dark: rgba(0, 0, 0, 0.15);
+$header-dark: rgba(0, 0, 0, 0.25);
 $separate-border: #FF0303;
 
+$nav-width: 45px;
+$span-height: 3px;
+$search-line-size: 3px;
 $menu-hover: rgba(255, 0, 0, 0.2);
 
-$menu-background-light: #a4b8cd;
-$menu-background-dark: #212529;
+//$menu-background-light: #a4b8cd;
+//$menu-background-dark: #212529;
+$menu-background-light: rgba(250, 250, 250, 0.95);
+$menu-background-dark: rgba(0, 0, 0, 0.95);
 
 $active-menu-color: #6c0000;
 
 
-$silver:linear-gradient( to bottom, #bcc6cc, #eee, #bcc6cc);
-$golden:linear-gradient( to bottom, #c39738, #deb761, #c39738);
-$platinum:linear-gradient( to bottom, #d5d7e5, #eee, #d5d7e5);
+$silver: linear-gradient(to bottom, #bcc6cc, #eee, #bcc6cc);
+$golden: linear-gradient(to bottom, #c39738, #deb761, #c39738);
+$platinum: linear-gradient(to bottom, #d5d7e5, #eee, #d5d7e5);

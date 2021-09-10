@@ -105025,7 +105025,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "search my-1 m-auto mr-sm-0 my-sm-5 py-2" }, [
+  return _c("div", { staticClass: "search my-1 m-auto mr-sm-0 my-sm-3 py-2" }, [
     _c(
       "form",
       {

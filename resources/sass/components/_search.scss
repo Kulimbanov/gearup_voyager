@@ -13,6 +13,10 @@
         box-sizing: border-box;
         position: relative;
 
+        @media screen and (max-width: 576px) {
+            margin: 0;
+        }
+
         .input {
             width: 100%;
             background: none;
@@ -23,11 +27,11 @@
             z-index: 2;
             position: relative;
             height: 36px;
-            border: 3px solid $dark-color;
+            border: $search-line-size solid $dark-color;
             color: $dark-color;
 
             body.dark & {
-                border: 3px solid $light-color;
+                border: $search-line-size solid $light-color;
                 color: $light-color;
             }
 
