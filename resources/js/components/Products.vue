@@ -47,11 +47,10 @@
                                         <p class="sub-title">{{ product.brands }}</p>
                                     </div>
                                 </div>
-                                <div class="product-description-option" v-if="product.properties.count > 0">
-                                    <div class="product-description-size" v-for="property in product.properties">
-                                        <product-property @property="property"></product-property>
-                                        <h3>{{ property.name }}</h3>
-                                        <p>{{ property.value }}</p>
+                                <div class="product-description-properties">
+                                    <div v-if="product.properties.length" class="property"
+                                         v-for="property in product.properties.slice(0, 4)">
+                                        <div>{{ property.name }} - <span>{{ property.value }}</span></div>
                                     </div>
                                 </div>
                             </div>
@@ -71,7 +70,10 @@ import BrandFilter from './shared/BrandFilter';
 const axios = require('axios');
 
 export default {
-    props: ['category_id'],
+    props: {
+        category_id: 0
+    },
+
     data() {
         return {
             showPriceFilter: false,

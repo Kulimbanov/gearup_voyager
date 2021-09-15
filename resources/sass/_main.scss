@@ -11,6 +11,7 @@
         .navbar {
             @extend .navbar-light;
             padding: 0;
+            z-index: 10;
 
             body.dark & {
                 @extend .navbar-dark;

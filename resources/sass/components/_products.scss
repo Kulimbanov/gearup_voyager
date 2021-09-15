@@ -136,51 +136,18 @@
                 }
 
 
-                &-option {
+                &-properties {
                     border-top: 1px solid #D2D2D2;
+                    min-height: 115px;
 
-                    h3 {
+                    .property {
                         font-size: 16px;
                         font-weight: bold;
-                        margin-bottom: 3px;
-                    }
+                        margin: 3px;
 
-                    .product-color {
-                        ul {
-                            list-style-type: none;
-                            padding: 0;
+                        span {
+                            font-weight: normal;
                         }
-
-                        li {
-                            display: inline-block;
-                            width: 15px;
-                            height: 15px;
-
-                            &.red {
-                                background-color: #F75375;
-                            }
-
-                            &.blue {
-                                background-color: #53A0F7;
-                            }
-
-                            &.green {
-                                background-color: #59CFAF;
-                            }
-
-                            &.gray {
-                                background-color: #C7C7C7;
-                            }
-
-                            &.black {
-                                background-color: #4E5156;
-                            }
-
-                            &.dark-blue {
-                                background-color: #2060AF;
-                            }
-                        }
-
                     }
                 }
             }

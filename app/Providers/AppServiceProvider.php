@@ -21,6 +21,8 @@ use App\Services\Shop\PropertyService;
 use App\Services\Shop\UI\IProductUIMapper;
 use App\Services\Shop\UI\ProductUIMapper;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Sanctum\PersonalAccessToken;
+use Laravel\Sanctum\Sanctum;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -51,5 +53,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        Sanctum::usePersonalAccessTokenModel(PersonalAccessToken::class);
     }
 }

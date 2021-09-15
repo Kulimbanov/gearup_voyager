@@ -23,6 +23,7 @@
                 background-repeat: no-repeat;
                 background-position: center;
                 background-color: $white;
+                left: 15px;
 
                 &:before {
                     content: "";
@@ -34,7 +35,7 @@
                     border: 25px solid #fff;
                     z-index: 1;
                     background: transparent;
-                    filter: url(#wavy2);
+                    filter: url(#imageFrame);
                 }
             }
 
@@ -54,5 +55,43 @@
 
     &-description {
         text-align: right
+    }
+}
+
+$cardColor: #1c2e4c;
+@mixin absolute-zero {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.card-columns {
+    column-count: 3;
+    @media (min-width: 768px) {
+        column-count: 4;
+    }
+    @media (min-width: 1200px) {
+        column-count: 5;
+    }
+}
+.card-img-overlay {
+    .card-block {
+        @include absolute-zero;
+        padding: 1.25rem;
+        z-index: 1;
+    }
+    &::after {
+        content: '';
+        @include absolute-zero;
+        z-index: 0;
+        background-color: rgba($cardColor, .8);
+        transition: all .3s ease-in-out;
+    }
+    &:hover {
+        &::after {
+            background-color: rgba($cardColor, .2);
+        }
     }
 }

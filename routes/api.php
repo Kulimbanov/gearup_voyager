@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('/category/properties/', [ProductController::class, 'getProperties'])
+Route::middleware('auth:sanctum')->post('/category/properties/', [ProductController::class, 'getProperties'])
      ->name('category.properties');
 
 Route::middleware('api')->get('/products/featured', [ProductController::class, 'getFeaturedProducts']);
