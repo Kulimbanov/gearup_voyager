@@ -1,6 +1,7 @@
 <nav class="navbar">
     <div class="py-sm-5 pt-0 text-center header-image"
          style="background-image: url({{$page->getHeaderImage()}})">
+        <auth-user v-bind:user="{{ json_encode(Auth::user()) }}"></auth-user>
         <div class="holder">
             <div class="d-flex flex-column-reverse flex-sm-row align-items-stretch header-wrapper container">
                 <div class="separate-left">
@@ -13,7 +14,7 @@
                 <div class="separate-right d-flex flex-column-reverse flex-sm-column flex-wrap">
                     <search></search>
                     <h1 class="title">{{ $page->getTitle() }}</h1>
-                    <nav-menu></nav-menu>
+                    <device-menu></device-menu>
                     <div class="menu">
                         {{ menu('Public','bootstrap') }}
                     </div>
