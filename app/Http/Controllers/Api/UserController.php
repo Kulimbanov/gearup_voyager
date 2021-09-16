@@ -2,90 +2,48 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Session;
+use App\Http\Requests\Auth\UserLoginRequest;
+use App\Http\Requests\Auth\UserRegisterRequest;
+use App\Models\User;
+use App\Services\Auth\IUserService;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
-    /**
-     * Register
-     */
-    public function register(Request $request)
+    private IUserService $userService;
+
+    public function __construct(IUserService $userService)
     {
-        try {
-            $user = new User();
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->password = Hash::make($request->password);
-            $user->save();
-
-            $success = true;
-            $message = 'User register successfully';
-        } catch (\Illuminate\Database\QueryException $ex) {
-            $success = false;
-            $message = $ex->getMessage();
-        }
-
-        // response
-        $response = [
-            'success' => $success,
-            'message' => $message,
-        ];
-
-        return response()->json($response);
+        $this->userService = $userService;
     }
 
-    /**
-     * Login
-     */
-    public function login(Request $request)
+    public function register(UserRegisterRequest $request): JsonResponse
     {
-        $credentials = [
-            'email' => $request->user,
-            'password' => $request->password,
-        ];
+        $response = $this->userService->register($request->getUserDto());
 
-        if (Auth::attempt($credentials)) {
-            $success = true;
-            $message = 'User login successfully';
-        } else {
-            $success = false;
-            $message = 'Unauthorised';
-        }
-
-        // response
-        $response = [
-            'success' => $success,
-            'message' => $message,
-        ];
-
-        return response()->json($response);
+        return response()->json($response->jsonSerialize());
     }
 
-    /**
-     * Logout
-     */
-    public function logout()
+    public function login(UserLoginRequest $request): JsonResponse
     {
-        try {
-            Session::flush();
-            $success = true;
-            $message = 'Successfully logged out';
-        } catch (\Illuminate\Database\QueryException $ex) {
-            $success = false;
-            $message = $ex->getMessage();
-        }
+        $response = $this->userService->login($request->getUserDto());
 
-        // response
-        $response = [
-            'success' => $success,
-            'message' => $message,
-        ];
+        return response()->json($response->jsonSerialize());
+    }
 
-        return response()->json($response);
+    public function logout(): JsonResponse
+    {
+        $response = $this->userService->logout();
+
+        return response()->json($response->jsonSerialize());
+    }
+
+    public function resetPassword(Request $request): JsonResponse
+    {
+        $response = $this->userService->sendPasswordResetEmail($request->get(User::EMAIL));
+
+        return response()->json($response->jsonSerialize());
     }
 }

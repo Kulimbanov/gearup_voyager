@@ -20,7 +20,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('login', [UserController::class, 'login']);
 Route::post('register', [UserController::class, 'register']);
-Route::post('logout', [UserController::class, 'logout'])->middleware('auth:sanctum');
+Route::post('logout', [UserController::class, 'logout'])->middleware(['auth:sanctum', 'api']);
+Route::post('password', [UserController::class, 'resetPassword']);
 
 Route::middleware('api')->get('/user', function (Request $request) {
     return $request->user();

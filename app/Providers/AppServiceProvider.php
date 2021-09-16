@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Services\Auth\IUserService;
+use App\Services\Auth\UserService;
 use App\Services\ContactForm\ContactFormService;
 use App\Services\ContactForm\IContactFormService;
 use App\Services\Mail\ISendService;
@@ -45,6 +47,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(IPublicPageService::class, PublicPageService::class);
         $this->app->bind(ICategoryPageService::class, CategoryPageService::class);
         $this->app->bind(IProductPageService::class, ProductPageService::class);
+
+        //User auth
+        $this->app->bind(IUserService::class, UserService::class);
     }
 
     /**
