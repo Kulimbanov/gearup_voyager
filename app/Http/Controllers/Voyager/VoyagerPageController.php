@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Voyager;
 
 use App\Models\Page;
-use App\Services\IPageService;
+use App\Services\Page\Generator\IPublicPageService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -11,11 +11,11 @@ use TCG\Voyager\Http\Controllers\VoyagerBaseController as BaseVoyagerBaseControl
 
 class VoyagerPageController extends BaseVoyagerBaseController
 {
-    private $pageService;
+    private IPublicPageService $pageService;
 
     public function __construct()
     {
-        $this->pageService = resolve(IPageService::class);
+        $this->pageService = resolve(IPublicPageService::class);
     }
 
     public function store(Request $request): RedirectResponse
