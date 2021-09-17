@@ -12,7 +12,7 @@ class ContactFormMail extends Mailable
     use Queueable, SerializesModels;
 
     protected ContactFormDto $contactFormDto;
-    protected $message;
+    protected string $message;
 
     public function __construct(ContactFormDto $contactFormDto)
     {
