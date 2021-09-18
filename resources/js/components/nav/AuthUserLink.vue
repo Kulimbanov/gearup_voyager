@@ -6,7 +6,7 @@
         </div>
         <div v-else>
             <a href="" @click.prevent="toggleModal('login')">Login</a>
-            <login :active="openLogin" @loginUser="loginUser" @toggleModal="toggleModal"></login>
+            <login :active="openLogin" @loginUser="loginUser" @toggleModal="toggleModal" :message="message"></login>
             <forgot-password :active="openPass" @forgotPassword="forgotPassword"
                              @toggleModal="toggleModal"></forgot-password>
 
@@ -35,7 +35,8 @@ export default {
             openLogin: false,
             openPass: false,
             openRegister: false,
-            user: null
+            user: null,
+            message: ''
         }
     },
     created() {
@@ -43,7 +44,6 @@ export default {
     },
     methods: {
         toggleModal(modal) {
-            console.log(modal);
             switch (modal) {
                 case 'login': {
                     this.openLogin = !this.openLogin;
@@ -69,9 +69,19 @@ export default {
         },
         loginUser(data) {
             UserService.login(data).then((response) => {
-                this.closeAll();
-                this.checkUser();
-                response.data.message;
+                this.message = response.data.message;
+
+                setTimeout(() => {
+
+                    if (response.data.success) {
+                        this.closeAll();
+                        this.checkUser();
+                    } else {
+                        this.message = '0';
+                    }
+
+                }, 2000);
+
             });
         },
         logout() {

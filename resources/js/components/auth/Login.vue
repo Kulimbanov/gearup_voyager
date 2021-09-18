@@ -3,11 +3,11 @@
         <div class="user-modal">
             <div class="form-login" :class="{ 'active': active }" id="form-login">
                 <div class="error-message" v-text="loginTittle"></div>
-                <input type="text" name="user" placeholder="Email or Username" v-model="user.username"
-                       @keyup.enter="loginSubmit" @blur="validateEmail">
+                <input type="text" name="user" placeholder="Email" v-model="user.email"
+                       @keyup.enter="loginSubmit">
                 <input type="password" name="password" placeholder="Password" v-model="user.password"
                        @keyup.enter="loginSubmit">
-                <input type="submit" :class="{ 'disabled': valid }" @click.prevent="loginSubmit"
+                <input type="submit" :class="{ 'disabled': !valid }" @click.prevent="loginSubmit"
                        v-model="this.loginButton" id="loginSubmit">
                 <div class="links">
                     <a href="" @click.prevent="open()">Forgot your password?</a>
@@ -21,21 +21,42 @@
 export default {
     name: "Login",
     props: {
-        active: false
+        active: false,
+        message: '',
     },
     data() {
         return {
             user: {
-                username: '',
+                email: '',
                 password: ''
             },
             loginButton: 'Login',
-            loginTittle: 'Welcome',
         }
     },
     computed: {
         valid() {
-            return !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.username));
+            return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.email));
+        },
+        loginTittle() {
+            if (this.message !== '') {
+                if (this.message === '0') {
+                    this.loginButton = 'Try again';
+                } else {
+                    this.loginButton = this.message;
+                }
+                return 'Email or password is wrong';
+            }
+            if (this.valid) {
+                this.loginButton = 'Send';
+                return 'Email looks good';
+            } else {
+                if (this.user.email === '') {
+                    this.loginButton = 'Login';
+                    return 'Welcome';
+                }
+                this.loginButton = 'No!';
+                return 'Please enter a valid email address';
+            }
         }
     },
     methods: {
@@ -47,28 +68,18 @@ export default {
             this.$emit('toggleModal', 'login');
             this.$emit('toggleModal', 'password');
         },
-        validateEmail() {
-            if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.username)) {
-                this.loginTittle = 'Please enter a valid email address';
-            } else {
-                this.loginTittle = 'Email looks good';
-                this.loginButton = 'Send';
-            }
-        },
         loginSubmit() {
-            this.validateEmail();
-            if (this.valid) {
+            if (!this.valid) {
                 return;
             }
             this.loginButton = 'Logging in...';
             let data = {
-                user: this.user.username,
+                email: this.user.email,
                 password: this.user.password
             };
             this.$emit('loginUser', data);
         }
     }
-
 }
 </script>
 

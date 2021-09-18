@@ -4,7 +4,6 @@ namespace App\Http\Requests\Auth;
 
 use App\DTO\Auth\UserDto;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Support\Facades\Hash;
 
 /**
  * Class UserRegisterRequest
@@ -40,6 +39,6 @@ class UserLoginRequest extends FormRequest
     {
         return (new UserDto)
             ->setEmail($this->email)
-            ->setPassword(Hash::make($this->password));
+            ->setPassword($this->password);
     }
 }

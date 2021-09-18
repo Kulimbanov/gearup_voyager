@@ -5,7 +5,7 @@
                 <div class="error-message" v-text="passwordTittle"></div>
                 <input type="email" name="email" placeholder="Email" v-model="user.email"
                        @keyup.enter="passwordSubmit" @blur="validateEmail">
-                <input type="submit" :class="{ 'disabled': valid }"
+                <input type="submit" :class="{ 'disabled': !valid }"
                        @click="passwordSubmit" v-model="passwordButton" id="passwordSubmit">
             </div>
         </div>
@@ -29,12 +29,11 @@ export default {
     },
     computed: {
         valid() {
-            return !(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.email));
+            return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.email));
         }
     },
     methods: {
         close(e) {
-            console.log(e.target.id);
             if (e.target.id === 'password-modal')
                 this.$emit('toggleModal', 'password');
         },
@@ -51,7 +50,7 @@ export default {
         },
         passwordSubmit() {
             this.validateEmail();
-            if (this.valid) {
+            if (!this.valid) {
                 return;
             }
             this.passwordButton = "Sending...";

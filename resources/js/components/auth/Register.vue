@@ -78,7 +78,7 @@ export default {
         },
         register() {
             this.validate();
-            if (this.valid) {
+            if (!this.valid) {
                 return;
             }
             this.registerButton = 'Sending...';
