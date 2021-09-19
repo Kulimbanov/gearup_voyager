@@ -11,7 +11,8 @@
                              @toggleModal="toggleModal"></forgot-password>
 
             <a href="" @click.prevent="toggleModal('register')">Register</a>
-            <register :active="openRegister" @registerUser="registerUser" @toggleModal="toggleModal"></register>
+            <register :active="openRegister" @registerUser="registerUser" @toggleModal="toggleModal"
+                      :message="message"></register>
         </div>
     </div>
 </template>
@@ -68,25 +69,22 @@ export default {
             });
         },
         loginUser(data) {
+            this.message = '';
             UserService.login(data).then((response) => {
                 this.message = response.data.message;
-
                 setTimeout(() => {
-
                     if (response.data.success) {
                         this.closeAll();
                         this.checkUser();
                     } else {
                         this.message = '0';
                     }
-
                 }, 2000);
 
             });
         },
         logout() {
             UserService.logout().then((response) => {
-                console.log(response);
                 this.closeAll();
                 this.user = null;
             });
@@ -98,10 +96,24 @@ export default {
             });
         },
         registerUser(data) {
+            this.message = '';
             UserService.register(data).then((response) => {
-                console.log(response);
-                this.closeAll();
-            });
+                this.message = response.data.message;
+                setTimeout(() => {
+                    if (response.data.success) {
+                        this.closeAll();
+                    } else {
+                        this.message = '0';
+                    }
+                }, 2000);
+            }).catch(error => {
+                let self = this;
+                if (error.response) {
+                    error.response.data.errors.email.forEach(e => {
+                        self.message += e;
+                    });
+                }
+            })
         }
 
     }
