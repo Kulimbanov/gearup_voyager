@@ -3,10 +3,13 @@
 namespace App\Services\Auth;
 
 use App\DTO\ApiResponseDto;
+use App\DTO\Auth\EmailVerifyResponseDto;
 use App\DTO\Auth\UserDto;
 use App\ENUM\ResponseMessages;
+use App\Providers\RouteServiceProvider;
 use App\Repository\UserRepository;
 use App\Services\Api\Response;
+use App\Services\Page\Generator\IPublicPageService;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Throwable;
@@ -15,9 +18,12 @@ class UserService implements IUserService
 {
     private UserRepository $userRepository;
 
-    public function __construct(UserRepository $userRepository)
+    protected IPublicPageService $pageService;
+
+    public function __construct(UserRepository $userRepository, IPublicPageService $pageService)
     {
         $this->userRepository = $userRepository;
+        $this->pageService = $pageService;
     }
 
     public function register(UserDto $userDto): ApiResponseDto
@@ -52,23 +58,25 @@ class UserService implements IUserService
         }
     }
 
-    public function verifyEmail(int $userId): ApiResponseDto
+    public function verifyEmail(int $userId): EmailVerifyResponseDto
     {
-        logger("user:$userId");
+        //todo:: do it better
+        $publicPageDto = $this->pageService->getPublicPageDto(RouteServiceProvider::HOME);
+        $returnDto = new EmailVerifyResponseDto($publicPageDto);
+
         try {
             $this->userRepository->verifyByUserId($userId);
         } catch (\Throwable $exception) {
-            return Response::fail($exception->getMessage());
+            $returnDto->setApiResponseDto(Response::fail($exception->getMessage()));
         }
 
-        $s = Auth::loginUsingId($userId, true);
-        logger("user:$s");
+        Auth::loginUsingId($userId, true);
 
         if (!Auth::check()) {
-            return Response::fail('Not Auth');
+            $returnDto->setApiResponseDto(Response::fail(ResponseMessages::REGISTER_FAIL));
         }
 
-        return Response::success(ResponseMessages::LOGIN_SUCCESS);
+        return $returnDto->setApiResponseDto(Response::success(ResponseMessages::VERIFY_SUCCESS));
     }
 
     public function sendPasswordResetEmail(string $email): ApiResponseDto

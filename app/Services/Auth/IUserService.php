@@ -3,6 +3,7 @@
 namespace App\Services\Auth;
 
 use App\DTO\ApiResponseDto;
+use App\DTO\Auth\EmailVerifyResponseDto;
 use App\DTO\Auth\UserDto;
 
 interface IUserService
@@ -13,7 +14,7 @@ interface IUserService
 
     public function logout(): ApiResponseDto;
 
-    public function verifyEmail(int $userId);
+    public function verifyEmail(int $userId): EmailVerifyResponseDto;
 
     public function sendPasswordResetEmail(string $email): ApiResponseDto;
 }

@@ -1,12 +1,9 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
+    <div class="container-fluid mh-100">
         <h2 class="text-center">Thank you for verifying your email.?</h2>
         <!-- Illustration inspiration by Dennis de Groot -->
-        <div class="pause">
-
-        </div>
         <div class="bike">
             <div class="part frame">
                 <div class="bar left-top"></div>

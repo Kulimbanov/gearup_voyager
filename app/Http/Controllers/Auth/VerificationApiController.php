@@ -30,9 +30,8 @@ class VerificationApiController extends Controller
         $response = $this->userService->verifyEmail($request['id']);
 
         return view('page.auth.verified')->with([
-            $response->jsonSerialize()
+            'page' => $response,
         ]);
-        //return redirect('home');//->json($response->jsonSerialize());
     }
 
     public function resend(Request $request)
