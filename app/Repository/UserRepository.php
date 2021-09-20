@@ -10,9 +10,9 @@ class UserRepository
     /**
      * @throws \Throwable
      */
-    public function register(UserDto $userDto): void
+    public function register(UserDto $userDto): User
     {
-        (new User)->create([
+        return (new User)->create([
             User::NAME => $userDto->getName(),
             User::EMAIL => $userDto->getEmail(),
             User::PASSWORD => $userDto->getPassword(),

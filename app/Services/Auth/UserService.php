@@ -23,7 +23,8 @@ class UserService implements IUserService
     public function register(UserDto $userDto): ApiResponseDto
     {
         try {
-            $this->userRepository->register($userDto);
+           $user = $this->userRepository->register($userDto);
+           $user->sendEmailVerificationNotification();
         } catch (Throwable $exception) {
             return Response::fail($exception->getMessage());
         }

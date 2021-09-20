@@ -12,7 +12,6 @@ use Illuminate\Routing\Controller;
 
 class ProductController extends Controller
 {
-
     private IProductService $productService;
     private IPropertyService $propertyService;
 

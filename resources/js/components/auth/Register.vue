@@ -10,7 +10,7 @@
                        @keyup.enter="registerSubmit">
                 <input type="password" name="password" placeholder="Password" v-model="user.password"
                        @keyup.enter="registerSubmit">
-                <input type="password" name="confirm" placeholder="Confirm password" v-model="passwordConfirm"
+                <input type="password" name="c_password" placeholder="Confirm password" v-model="user.c_password"
                        @keyup.enter="registerSubmit">
                 <input type="submit" :class="{ 'disabled': !valid }"
                        @click="registerSubmit" v-model="registerButton" id="registerSubmit">
@@ -36,6 +36,7 @@ export default {
                 name: '',
                 email: '',
                 password: '',
+                c_password: ''
             },
             passwordConfirm: '',
             registerButton: 'Register',
@@ -47,19 +48,26 @@ export default {
             return this.validateEmail && this.validatePasswords;
         },
         validateEmail() {
-            return (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.email));
+            return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.email);
         },
         validatePasswords() {
-            return (this.user.password === this.passwordConfirm) && (this.user.password !== '');
+            return this.user.password !== '' && this.user.password === this.user.c_password;
         },
         title() {
             if (this.message !== '') {
-                this.registerButton = 'Try again';
-                if (this.message === '0') {
-                    return this.message;
-                } else {
-                    return this.message;
+                if (this.message === '1') {
+                    this.user = {
+                        name: '',
+                        email: '',
+                        password: '',
+                        c_password: '',
+                    }
+                    this.registerButton = 'Please verify';
+                    return 'Please verify your email';
                 }
+                // this.registerButton = 'Try again';
+                return this.message;
+
             }
 
             if (!this.validateEmail) {
@@ -96,7 +104,8 @@ export default {
             let data = {
                 name: this.user.name,
                 email: this.user.email,
-                password: this.user.password
+                password: this.user.password,
+                c_password: this.user.c_password,
             };
             this.$emit('registerUser', data);
         }

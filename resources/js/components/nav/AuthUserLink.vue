@@ -61,6 +61,7 @@ export default {
             }
         },
         closeAll() {
+            this.message = '';
             this.openLogin = this.openRegister = this.openPass = false;
         },
         checkUser() {
@@ -101,6 +102,7 @@ export default {
                 this.message = response.data.message;
                 setTimeout(() => {
                     if (response.data.success) {
+                        this.message = '1';
                         this.closeAll();
                     } else {
                         this.message = '0';

@@ -13122,14 +13122,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Register",
   props: {
-    active: false
+    active: false,
+    message: ''
   },
   data: function data() {
     return {
       user: {
         name: '',
         email: '',
-        password: ''
+        password: '',
+        c_password: ''
       },
       passwordConfirm: '',
       registerButton: 'Register',
@@ -13138,7 +13140,48 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     valid: function valid() {
-      return !/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.email) && this.user.password !== this.passwordConfirm && this.user.password !== '';
+      return this.validateEmail && this.validatePasswords;
+    },
+    validateEmail: function validateEmail() {
+      return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.email);
+    },
+    validatePasswords: function validatePasswords() {
+      return this.user.password !== '' && this.user.password === this.user.c_password;
+    },
+    title: function title() {
+      if (this.message !== '') {
+        if (this.message === '1') {
+          this.user = {
+            name: '',
+            email: '',
+            password: '',
+            c_password: ''
+          };
+          this.registerButton = 'Please verify';
+          return 'Please verify your email';
+        } // this.registerButton = 'Try again';
+
+
+        return this.message;
+      }
+
+      if (!this.validateEmail) {
+        if (this.user.email === '') {
+          this.registerButton = 'Register';
+          return 'Register new user';
+        }
+
+        return 'Please enter a valid email address';
+      } else {
+        if (this.user.password.length < 8) {
+          return 'Password needs 8 or more characters';
+        } else if (!this.validatePasswords) {
+          return 'Confirm password does not match';
+        }
+      }
+
+      this.registerButton = 'Register';
+      return 'Looks good';
     }
   },
   methods: {
@@ -13149,29 +13192,7 @@ __webpack_require__.r(__webpack_exports__);
       this.$emit('toggleModal', 'register');
       this.$emit('toggleModal', 'login');
     },
-    validateEmail: function validateEmail() {
-      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.email)) {
-        this.registerTittle = 'Please enter a valid email address';
-      } else {
-        this.registerTittle = 'Looks good.';
-        this.registerButton = 'Register';
-      }
-    },
-    validatePasswords: function validatePasswords() {
-      if (this.user.password !== this.passwordConfirm) {
-        this.registerTittle = 'Confirm password does not match';
-      } else {
-        this.registerTittle = 'Looks good';
-        this.registerButton = 'Register';
-      }
-    },
-    validate: function validate() {
-      this.validateEmail();
-      this.validatePasswords();
-    },
-    register: function register() {
-      this.validate();
-
+    registerSubmit: function registerSubmit() {
       if (!this.valid) {
         return;
       }
@@ -13180,7 +13201,8 @@ __webpack_require__.r(__webpack_exports__);
       var data = {
         name: this.user.name,
         email: this.user.email,
-        password: this.user.password
+        password: this.user.password,
+        c_password: this.user.c_password
       };
       this.$emit('registerUser', data);
     }
@@ -13204,6 +13226,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _auth_Login__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../auth/Login */ "./resources/js/components/auth/Login.vue");
 /* harmony import */ var _auth_ForgotPassword__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../auth/ForgotPassword */ "./resources/js/components/auth/ForgotPassword.vue");
 /* harmony import */ var _auth_Register__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../auth/Register */ "./resources/js/components/auth/Register.vue");
+//
 //
 //
 //
@@ -13268,6 +13291,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     closeAll: function closeAll() {
+      this.message = '';
       this.openLogin = this.openRegister = this.openPass = false;
     },
     checkUser: function checkUser() {
@@ -13282,6 +13306,7 @@ __webpack_require__.r(__webpack_exports__);
     loginUser: function loginUser(data) {
       var _this2 = this;
 
+      this.message = '';
       _services_UserService__WEBPACK_IMPORTED_MODULE_0__["default"].login(data).then(function (response) {
         _this2.message = response.data.message;
         setTimeout(function () {
@@ -13299,8 +13324,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this3 = this;
 
       _services_UserService__WEBPACK_IMPORTED_MODULE_0__["default"].logout().then(function (response) {
-        console.log(response);
-
         _this3.closeAll();
 
         _this3.user = null;
@@ -13318,10 +13341,26 @@ __webpack_require__.r(__webpack_exports__);
     registerUser: function registerUser(data) {
       var _this5 = this;
 
+      this.message = '';
       _services_UserService__WEBPACK_IMPORTED_MODULE_0__["default"].register(data).then(function (response) {
-        console.log(response);
+        _this5.message = response.data.message;
+        setTimeout(function () {
+          if (response.data.success) {
+            _this5.message = '1';
 
-        _this5.closeAll();
+            _this5.closeAll();
+          } else {
+            _this5.message = '0';
+          }
+        }, 2000);
+      })["catch"](function (error) {
+        var self = _this5;
+
+        if (error.response) {
+          error.response.data.errors.email.forEach(function (e) {
+            self.message += e;
+          });
+        }
       });
     }
   }
@@ -103031,7 +103070,7 @@ var render = function() {
           [
             _c("div", {
               staticClass: "error-message",
-              domProps: { textContent: _vm._s(_vm.registerTittle) }
+              domProps: { textContent: _vm._s(_vm.title) }
             }),
             _vm._v(" "),
             _c("input", {
@@ -103053,7 +103092,7 @@ var render = function() {
                   ) {
                     return null
                   }
-                  return _vm.register.apply(null, arguments)
+                  return _vm.registerSubmit.apply(null, arguments)
                 },
                 input: function($event) {
                   if ($event.target.composing) {
@@ -103083,7 +103122,7 @@ var render = function() {
                   ) {
                     return null
                   }
-                  return _vm.register.apply(null, arguments)
+                  return _vm.registerSubmit.apply(null, arguments)
                 },
                 input: function($event) {
                   if ($event.target.composing) {
@@ -103117,7 +103156,7 @@ var render = function() {
                   ) {
                     return null
                   }
-                  return _vm.register.apply(null, arguments)
+                  return _vm.registerSubmit.apply(null, arguments)
                 },
                 input: function($event) {
                   if ($event.target.composing) {
@@ -103133,16 +103172,16 @@ var render = function() {
                 {
                   name: "model",
                   rawName: "v-model",
-                  value: _vm.passwordConfirm,
-                  expression: "passwordConfirm"
+                  value: _vm.user.c_password,
+                  expression: "user.c_password"
                 }
               ],
               attrs: {
                 type: "password",
-                name: "confirm",
+                name: "c_password",
                 placeholder: "Confirm password"
               },
-              domProps: { value: _vm.passwordConfirm },
+              domProps: { value: _vm.user.c_password },
               on: {
                 keyup: function($event) {
                   if (
@@ -103151,13 +103190,13 @@ var render = function() {
                   ) {
                     return null
                   }
-                  return _vm.register.apply(null, arguments)
+                  return _vm.registerSubmit.apply(null, arguments)
                 },
                 input: function($event) {
                   if ($event.target.composing) {
                     return
                   }
-                  _vm.passwordConfirm = $event.target.value
+                  _vm.$set(_vm.user, "c_password", $event.target.value)
                 }
               }
             }),
@@ -103171,11 +103210,11 @@ var render = function() {
                   expression: "registerButton"
                 }
               ],
-              class: { disabled: _vm.valid },
+              class: { disabled: !_vm.valid },
               attrs: { type: "submit", id: "registerSubmit" },
               domProps: { value: _vm.registerButton },
               on: {
-                click: _vm.register,
+                click: _vm.registerSubmit,
                 input: function($event) {
                   if ($event.target.composing) {
                     return
@@ -103292,7 +103331,7 @@ var render = function() {
             ),
             _vm._v(" "),
             _c("register", {
-              attrs: { active: _vm.openRegister },
+              attrs: { active: _vm.openRegister, message: _vm.message },
               on: {
                 registerUser: _vm.registerUser,
                 toggleModal: _vm.toggleModal
@@ -121681,7 +121720,7 @@ class OBJLoader extends three__WEBPACK_IMPORTED_MODULE_0__.Loader {
 /***/ ((module) => {
 
 "use strict";
-module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"Promise based HTTP client for the browser and node.js","main":"index.js","scripts":{"test":"grunt test","start":"node ./sandbox/server.js","build":"NODE_ENV=production grunt build","preversion":"npm test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json","postversion":"git push && git push --tags","examples":"node ./examples/server.js","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","fix":"eslint --fix lib/**/*.js"},"repository":{"type":"git","url":"https://github.com/axios/axios.git"},"keywords":["xhr","http","ajax","promise","node"],"author":"Matt Zabriskie","license":"MIT","bugs":{"url":"https://github.com/axios/axios/issues"},"homepage":"https://axios-http.com","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"jsdelivr":"dist/axios.min.js","unpkg":"dist/axios.min.js","typings":"./index.d.ts","dependencies":{"follow-redirects":"^1.14.0"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}]}');
+module.exports = JSON.parse('{"_args":[["axios@0.21.4","C:\\\\Users\\\\Goran\\\\Documents\\\\gearup\\\\gearup"]],"_from":"axios@0.21.4","_id":"axios@0.21.4","_inBundle":false,"_integrity":"sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==","_location":"/axios","_phantomChildren":{},"_requested":{"type":"version","registry":true,"raw":"axios@0.21.4","name":"axios","escapedName":"axios","rawSpec":"0.21.4","saveSpec":null,"fetchSpec":"0.21.4"},"_requiredBy":["#DEV:/"],"_resolved":"https://registry.npmjs.org/axios/-/axios-0.21.4.tgz","_spec":"0.21.4","_where":"C:\\\\Users\\\\Goran\\\\Documents\\\\gearup\\\\gearup","author":{"name":"Matt Zabriskie"},"browser":{"./lib/adapters/http.js":"./lib/adapters/xhr.js"},"bugs":{"url":"https://github.com/axios/axios/issues"},"bundlesize":[{"path":"./dist/axios.min.js","threshold":"5kB"}],"dependencies":{"follow-redirects":"^1.14.0"},"description":"Promise based HTTP client for the browser and node.js","devDependencies":{"coveralls":"^3.0.0","es6-promise":"^4.2.4","grunt":"^1.3.0","grunt-banner":"^0.6.0","grunt-cli":"^1.2.0","grunt-contrib-clean":"^1.1.0","grunt-contrib-watch":"^1.0.0","grunt-eslint":"^23.0.0","grunt-karma":"^4.0.0","grunt-mocha-test":"^0.13.3","grunt-ts":"^6.0.0-beta.19","grunt-webpack":"^4.0.2","istanbul-instrumenter-loader":"^1.0.0","jasmine-core":"^2.4.1","karma":"^6.3.2","karma-chrome-launcher":"^3.1.0","karma-firefox-launcher":"^2.1.0","karma-jasmine":"^1.1.1","karma-jasmine-ajax":"^0.1.13","karma-safari-launcher":"^1.0.0","karma-sauce-launcher":"^4.3.6","karma-sinon":"^1.0.5","karma-sourcemap-loader":"^0.3.8","karma-webpack":"^4.0.2","load-grunt-tasks":"^3.5.2","minimist":"^1.2.0","mocha":"^8.2.1","sinon":"^4.5.0","terser-webpack-plugin":"^4.2.3","typescript":"^4.0.5","url-search-params":"^0.10.0","webpack":"^4.44.2","webpack-dev-server":"^3.11.0"},"homepage":"https://axios-http.com","jsdelivr":"dist/axios.min.js","keywords":["xhr","http","ajax","promise","node"],"license":"MIT","main":"index.js","name":"axios","repository":{"type":"git","url":"git+https://github.com/axios/axios.git"},"scripts":{"build":"NODE_ENV=production grunt build","coveralls":"cat coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js","examples":"node ./examples/server.js","fix":"eslint --fix lib/**/*.js","postversion":"git push && git push --tags","preversion":"npm test","start":"node ./sandbox/server.js","test":"grunt test","version":"npm run build && grunt version && git add -A dist && git add CHANGELOG.md bower.json package.json"},"typings":"./index.d.ts","unpkg":"dist/axios.min.js","version":"0.21.4"}');
 
 /***/ })
 

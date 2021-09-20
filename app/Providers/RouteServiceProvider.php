@@ -20,41 +20,41 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME = 'home';
     public const SHOP = 'shop';
 
-    /**
-     * The controller namespace for the application.
-     *
-     * When present, controller route declarations will automatically be prefixed with this namespace.
-     *
-     * @var string|null
-     */
-    // protected $namespace = 'App\\Http\\Controllers';
+    //protected $namespace = 'App\\Http\\Controllers';
 
-    /**
-     * Define your route model bindings, pattern filters, etc.
-     *
-     * @return void
-     */
     public function boot()
     {
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            Route::prefix('api')
-                ->middleware('api')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/api.php'));
-
-            Route::middleware('web')
-                ->namespace($this->namespace)
-                ->group(base_path('routes/web.php'));
+            $this->mapApiRoutes();
+            $this->mapVerifyEmailRoutes();
+            $this->mapWebRoutes();
         });
     }
 
-    /**
-     * Configure the rate limiters for the application.
-     *
-     * @return void
-     */
+    private function mapApiRoutes(): void
+    {
+        Route::prefix('api')
+             ->middleware('api')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/api.php'));
+    }
+
+    private function mapVerifyEmailRoutes(): void
+    {
+        Route::middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/verify-email.php'));
+    }
+
+    private function mapWebRoutes(): void
+    {
+        Route::middleware('web')
+             ->namespace($this->namespace)
+             ->group(base_path('routes/web.php'));
+    }
+
     protected function configureRateLimiting()
     {
         RateLimiter::for('api', function (Request $request) {
