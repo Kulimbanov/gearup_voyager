@@ -27,16 +27,14 @@ Route::post('password', [UserController::class, 'resetPassword']);
 
 Route::post('login', [UsersApiController::class, 'login']);
 Route::post('register', [UsersApiController::class, 'register']);
-Route::group(['middleware' => 'auth:api'], function () {
-    Route::post('details', 'UsersApiController@details')->middleware('verified');
-}); // will work only when user has verified the email
 
-Route::get('email/verify/{id}', [VerificationApiController::class, 'verify'])->name('verificationapi.verify');
-Route::get('email/resend', [VerificationApiController::class, 'resend'])->name('verificationapi.resend');
-
+//Route::group(['middleware' => 'auth:api'], function () {
+//    Route::post('details', 'UsersApiController@details')->middleware('verified');
+//}); // will work only when user has verified the email
 Route::middleware('api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
 
 Route::middleware('auth:sanctum')->post('/category/properties/', [ProductController::class, 'getProperties'])
      ->name('category.properties');

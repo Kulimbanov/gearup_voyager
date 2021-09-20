@@ -13,5 +13,7 @@ interface IUserService
 
     public function logout(): ApiResponseDto;
 
+    public function verifyEmail(int $userId);
+
     public function sendPasswordResetEmail(string $email): ApiResponseDto;
 }

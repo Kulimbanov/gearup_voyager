@@ -54,20 +54,22 @@ export default {
             return this.user.password !== '' && this.user.password === this.user.c_password;
         },
         title() {
-            if (this.message !== '') {
-                if (this.message === '1') {
-                    this.user = {
-                        name: '',
-                        email: '',
-                        password: '',
-                        c_password: '',
-                    }
-                    this.registerButton = 'Please verify';
-                    return 'Please verify your email';
-                }
-                // this.registerButton = 'Try again';
+            if (this.message === '0') {
+                this.registerButton = 'Login';
                 return this.message;
-
+            }
+            if (this.message === '1') {
+                this.user = {
+                    name: '',
+                    email: '',
+                    password: '',
+                    c_password: '',
+                }
+                this.registerButton = 'Please verify';
+            }
+            if (this.message !== '') {
+                this.registerButton = 'Login?';
+                return this.message;
             }
 
             if (!this.validateEmail) {

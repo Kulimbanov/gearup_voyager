@@ -25,6 +25,7 @@ class User extends VoyagerUser implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    const ID = 'id';
     const NAME = 'name';
     const EMAIL = 'email';
     const PASSWORD = 'password';

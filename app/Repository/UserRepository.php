@@ -18,4 +18,10 @@ class UserRepository
             User::PASSWORD => $userDto->getPassword(),
         ]);
     }
+
+    public function verifyByUserId(int $userId): bool
+    {
+        return (new User)->find($userId)->updateOrFail([User::EMAIL_VERIFIED_AT => strtotime(now())]);
+    }
+
 }

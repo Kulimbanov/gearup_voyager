@@ -23,8 +23,8 @@ class UserService implements IUserService
     public function register(UserDto $userDto): ApiResponseDto
     {
         try {
-           $user = $this->userRepository->register($userDto);
-           $user->sendEmailVerificationNotification();
+            $user = $this->userRepository->register($userDto);
+            $user->sendEmailVerificationNotification();
         } catch (Throwable $exception) {
             return Response::fail($exception->getMessage());
         }
@@ -50,6 +50,25 @@ class UserService implements IUserService
         } catch (Throwable $exception) {
             return Response::fail($exception->getMessage());
         }
+    }
+
+    public function verifyEmail(int $userId): ApiResponseDto
+    {
+        logger("user:$userId");
+        try {
+            $this->userRepository->verifyByUserId($userId);
+        } catch (\Throwable $exception) {
+            return Response::fail($exception->getMessage());
+        }
+
+        $s = Auth::loginUsingId($userId, true);
+        logger("user:$s");
+
+        if (!Auth::check()) {
+            return Response::fail('Not Auth');
+        }
+
+        return Response::success(ResponseMessages::LOGIN_SUCCESS);
     }
 
     public function sendPasswordResetEmail(string $email): ApiResponseDto

@@ -13149,19 +13149,23 @@ __webpack_require__.r(__webpack_exports__);
       return this.user.password !== '' && this.user.password === this.user.c_password;
     },
     title: function title() {
+      if (this.message === '0') {
+        this.registerButton = 'Login';
+        return this.message;
+      }
+
+      if (this.message === '1') {
+        this.user = {
+          name: '',
+          email: '',
+          password: '',
+          c_password: ''
+        };
+        this.registerButton = 'Please verify';
+      }
+
       if (this.message !== '') {
-        if (this.message === '1') {
-          this.user = {
-            name: '',
-            email: '',
-            password: '',
-            c_password: ''
-          };
-          this.registerButton = 'Please verify';
-          return 'Please verify your email';
-        } // this.registerButton = 'Try again';
-
-
+        this.registerButton = 'Login?';
         return this.message;
       }
 
