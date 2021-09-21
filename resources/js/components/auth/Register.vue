@@ -10,7 +10,8 @@
                        @keyup.enter="registerSubmit">
                 <input type="password" name="password" placeholder="Password" v-model="user.password"
                        @keyup.enter="registerSubmit">
-                <input type="password" name="c_password" placeholder="Confirm password" v-model="user.c_password"
+                <input type="password" name="password_confirmation" placeholder="Confirm password"
+                       v-model="user.password_confirmation"
                        @keyup.enter="registerSubmit">
                 <input type="submit" :class="{ 'disabled': !valid }"
                        @click="registerSubmit" v-model="registerButton" id="registerSubmit">
@@ -36,7 +37,7 @@ export default {
                 name: '',
                 email: '',
                 password: '',
-                c_password: ''
+                password_confirmation: ''
             },
             passwordConfirm: '',
             registerButton: 'Register',
@@ -51,19 +52,15 @@ export default {
             return /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.email);
         },
         validatePasswords() {
-            return this.user.password !== '' && this.user.password === this.user.c_password;
+            return this.user.password !== '' && this.user.password === this.user.password_confirmation;
         },
         title() {
-            if (this.message === '0') {
-                this.registerButton = 'Login';
-                return this.message;
-            }
             if (this.message === '1') {
                 this.user = {
                     name: '',
                     email: '',
                     password: '',
-                    c_password: '',
+                    password_confirmation: '',
                 }
                 this.registerButton = 'Please verify';
             }
@@ -107,7 +104,7 @@ export default {
                 name: this.user.name,
                 email: this.user.email,
                 password: this.user.password,
-                c_password: this.user.c_password,
+                password_confirmation: this.user.password_confirmation,
             };
             this.$emit('registerUser', data);
         }

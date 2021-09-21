@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Services\Auth\IUserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -33,11 +34,30 @@ class UserController extends Controller
         return response()->json($response->jsonSerialize());
     }
 
-    public function logout(): JsonResponse
+    public function logout(Request $request): JsonResponse
     {
-        $response = $this->userService->logout();
+        //$response = $this->userService->logout();
+        $this->guard()->logout();
 
-        return response()->json($response->jsonSerialize());
+        $request->session()->invalidate();
+
+        if ($request->wantsJson()) {
+            return response()->json([], 204);
+        }
+
+        return redirect('/');
+
+        //Auth::logout();
+
+        //$request->session()->invalidate();
+        //
+        //$request->session()->regenerateToken();
+        //
+        ////return redirect('/');
+        ////logger('logout');
+        ////logger($response->jsonSerialize());
+        ////
+        //return response()->json([]);
     }
 
     public function resetPassword(Request $request): JsonResponse

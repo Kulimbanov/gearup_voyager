@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\VerificationApiController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -26,6 +27,8 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-//Route::get('/profile', function () {
-//    // This route can only be accessed by confirmed users...
-//})->middleware('verified');
+Route::post('/tokens/create', function (Request $request) {
+    $token = $request->user()->createToken($request->token_name);
+
+    return ['token' => $token->plainTextToken];
+});

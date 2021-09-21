@@ -26,6 +26,7 @@ Vue.component('single-product', require('./components/SingleProduct').default);
 
 Vue.component('device-menu', require('./components/nav/DeviceMenu').default);
 Vue.component('auth-user', require('./components/nav/AuthUserLink').default);
+Vue.component('verified', require('./components/auth/Verified').default);
 
 library.add(faCog)
 library.add(faCogs)

@@ -58,15 +58,15 @@ class User extends VoyagerUser implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    public function handle(Registered $event)
-    {
-        if ($event->user instanceof MustVerifyEmail && ! $event->user->hasVerifiedEmail()) {
-            $event->user->sendEmailVerificationNotification();
-        }
-    }
-    public function sendApiEmailVerificationNotification()
-    {
-        $this->notify(new VerifyApiEmail()); // my notification
-    }
+    //
+    //public function handle(Registered $event)
+    //{
+    //    if ($event->user instanceof MustVerifyEmail && ! $event->user->hasVerifiedEmail()) {
+    //        $event->user->sendEmailVerificationNotification();
+    //    }
+    //}
+    //public function sendApiEmailVerificationNotification()
+    //{
+    //    $this->notify(new VerifyApiEmail()); // my notification
+    //}
 }

@@ -45,6 +45,7 @@ export default {
     },
     methods: {
         toggleModal(modal) {
+            this.message = '';
             switch (modal) {
                 case 'login': {
                     this.openLogin = !this.openLogin;
@@ -67,7 +68,14 @@ export default {
         checkUser() {
             UserService.get().then((response) => {
                 this.user = response.data ?? null;
-            });
+            }).catch(error => {
+                let self = this;
+                if (error.response.data.hasOwnProperty('errors')) {
+                    error.response.data.errors.forEach(e => {
+                        self.message += e;
+                    });
+                }
+            })
         },
         loginUser(data) {
             this.message = '';
@@ -86,8 +94,10 @@ export default {
         },
         logout() {
             UserService.logout().then((response) => {
-                this.closeAll();
                 this.user = null;
+                this.message = "";
+                this.closeAll();
+                document.location.href = "/home";
             });
         },
         forgotPassword(data) {
@@ -101,19 +111,25 @@ export default {
             UserService.register(data).then((response) => {
                 this.message = response.data.message;
                 setTimeout(() => {
-                    if (response.data.success) {
+                    if (response.data.success || response.status === 201) {
                         this.message = '1';
                         this.closeAll();
                     } else {
-                        this.message = '0';
+                        this.message = 'Somthing is wrong';
                     }
                 }, 2000);
-            }).catch(error => {
-                let self = this;
-                if (error.response) {
-                    error.response.data.errors.email.forEach(e => {
-                        self.message += e;
-                    });
+            }).catch(exception => {
+                this.message = '0';
+
+                if (exception.response) {
+                    this.message = exception.response.data.message;
+                    let errors = Object.keys(exception.response.data.errors)
+                        .map(function (key) {
+                            return exception.response.data.errors[key]
+                        });
+                    for (let field in errors) {
+                        this.message += '/n' + errors[field][0];
+                    }
                 }
             })
         }

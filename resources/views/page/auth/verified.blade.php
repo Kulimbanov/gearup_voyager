@@ -1,8 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container-fluid mh-100">
-        <h2 class="text-center">Thank you for verifying your email.?</h2>
+    <div class="container-fluid mh-100 p-5 m-5">
+        <h2 class="text-center">{{ __('Thank you for verifying your email') }}</h2>
+
+        <verified></verified>
+
         <!-- Illustration inspiration by Dennis de Groot -->
         <div class="bike">
             <div class="part frame">

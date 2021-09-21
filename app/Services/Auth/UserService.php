@@ -41,7 +41,10 @@ class UserService implements IUserService
     public function login(UserDto $userDto): ApiResponseDto
     {
         if (Auth::attempt($userDto->getCredentials())) {
-            return Response::success(ResponseMessages::LOGIN_SUCCESS);
+            $response = Response::success(ResponseMessages::LOGIN_SUCCESS);
+            $user = Auth::user();
+            $response->setData( $user->createToken(config('app.name'))->plainTextToken);
+            return $response;
         } else {
             return Response::fail(ResponseMessages::LOGIN_FAIL);
         }
@@ -49,8 +52,14 @@ class UserService implements IUserService
 
     public function logout(): ApiResponseDto
     {
+        if(!Auth::check()){
+            return Response::success(ResponseMessages::LOGOUT);
+        }
         try {
-            Session::flush();
+
+            $user = request()->user();
+            $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
+            //auth()->user()->tokens()->delete();
 
             return Response::success(ResponseMessages::LOGOUT);
         } catch (Throwable $exception) {
