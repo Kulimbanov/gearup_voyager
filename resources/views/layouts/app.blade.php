@@ -20,7 +20,7 @@
 <body>
 <div id="app">
     <header class="header">
-        @include('layouts.nav')
+{{--        @include('layouts.nav')--}}
     </header>
     @yield('content')
     <footer class="footer text-center">
