@@ -44,18 +44,17 @@ class VerificationController extends Controller
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 
-    public function verify(Request $request)
-    {
-        logger('VerificationController');
-        $userID = $request['id'];
-        $user = User::findOrFail($userID);
-        $user->email_verified_at = strtotime(now()); // to enable the “email_verified_at field of that user be a current time stamp by mimicing the must verify email feature
-        $user->save();
-        $userA = new Registered($user);
-
-
-        Auth::login($userA->user);
-
-        return redirect(route('home'));
-    }
+    //public function verify(Request $request)
+    //{
+    //    $userID = $request['id'];
+    //    $user = User::findOrFail($userID);
+    //    $user->email_verified_at = strtotime(now()); // to enable the “email_verified_at field of that user be a current time stamp by mimicing the must verify email feature
+    //    $user->save();
+    //    $userA = new Registered($user);
+    //
+    //
+    //    Auth::login($userA->user);
+    //
+    //    return redirect(route('home'));
+    //}
 }

@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Listeners\LogVerifiedUser;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -21,7 +22,7 @@ class EventServiceProvider extends ServiceProvider
         ],
 
         Verified::class => [
-            'App\Listeners\LogVerifiedUser',
+            LogVerifiedUser::class
         ],
     ];
 
