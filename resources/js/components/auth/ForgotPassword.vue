@@ -37,9 +37,6 @@ export default {
             if (e.target.id === 'password-modal')
                 this.$emit('toggleModal', 'password');
         },
-        open() {
-            this.$emit('toggleModal', 'password');
-        },
         validateEmail() {
             if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.user.email)) {
                 this.passwordTittle = 'Please enter a valid email address';

@@ -1,65 +1,121 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Reset Password') }}</div>
+    <div class="container-fluid mh-100 p-5 m-5">
+        <h2 class=" p-5 m-5 text-center">{{ __('Try resetting your password') }}</h2>
 
-                <div class="card-body">
-                    <form method="POST" action="{{ route('password.update') }}">
-                        @csrf
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
 
-                        <input type="hidden" name="token" value="{{ $token }}">
-
-                        <div class="form-group row">
-                            <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $email ?? old('email') }}" required autocomplete="email" autofocus>
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                    <!-- Illustration inspiration by Dennis de Groot -->
+                    <div class="bike">
+                        <div class="part frame">
+                            <div class="bar left-top"></div>
+                            <div class="bar left-bottom"></div>
+                            <div class="bar left"></div>
+                            <div class="bar top"></div>
+                            <div class="bar bottom"></div>
+                            <div class="bar right"></div>
+                        </div>
+                        <div class="part sadle">
+                            <div class="sit-here"></div>
+                            <div class="sadlepen"></div>
+                        </div>
+                        <div class="part handlebar">
+                            <div class="stem"></div>
+                            <div class="connector"></div>
+                            <div class="prehandle"></div>
+                            <div class="handle"></div>
+                        </div>
+                        <div class="part pedals">
+                            <div class="inside"></div>
+                            <div class="outside"></div>
+                            <div class="pedalstem front">
+                                <div class="pedalbase front"></div>
+                            </div>
+                            <div class="pedalstem back">
+                                <div class="pedalbase back"></div>
                             </div>
                         </div>
+                        <div class="part wheel left">
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                        </div>
+                        <div class="part wheel right">
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                        </div>
+                        <div class="part axis left"></div>
+                        <div class="part axis right"></div>
+                    </div>
 
-                        <div class="form-group row">
-                            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
+                    <div class="bike bike-two">
+                        <div class="part frame">
+                            <div class="bar left-top"></div>
+                            <div class="bar left-bottom"></div>
+                            <div class="bar left"></div>
+                            <div class="bar top"></div>
+                            <div class="bar bottom"></div>
+                            <div class="bar right"></div>
+                        </div>
+                        <div class="part sadle">
+                            <div class="sit-here"></div>
+                            <div class="sadlepen"></div>
+                        </div>
+                        <div class="part handlebar">
+                            <div class="stem"></div>
+                            <div class="connector"></div>
+                            <div class="prehandle"></div>
+                            <div class="handle"></div>
+                        </div>
+                        <div class="part pedals">
+                            <div class="inside"></div>
+                            <div class="outside"></div>
+                            <div class="pedalstem front">
+                                <div class="pedalbase front"></div>
+                            </div>
+                            <div class="pedalstem back">
+                                <div class="pedalbase back"></div>
                             </div>
                         </div>
-
-                        <div class="form-group row">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
+                        <div class="part wheel left">
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
                         </div>
-
-                        <div class="form-group row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Reset Password') }}
-                                </button>
-                            </div>
+                        <div class="part wheel right">
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
+                            <div class="spoke"></div>
                         </div>
-                    </form>
+                        <div class="part axis left"></div>
+                        <div class="part axis right"></div>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection

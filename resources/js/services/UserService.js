@@ -32,6 +32,18 @@ class TodoDataService {
     forgotPassword(data) {
         return http.post(`/password`, data);
     }
+
+    resetPassword(data, token) {
+        if (token) {
+            http.defaults.headers.common['Authorization'] = token;
+        } else {
+            http.defaults.headers.common['Authorization'] = null;
+            /*if setting null does not remove `Authorization` header then try
+              delete axios.defaults.headers.common['Authorization'];
+            */
+        }
+        return http.post('/password/reset', data);
+    }
 }
 
 export default new TodoDataService();

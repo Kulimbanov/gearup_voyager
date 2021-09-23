@@ -16,7 +16,7 @@
                 <input type="submit" :class="{ 'disabled': !valid }"
                        @click="registerSubmit" v-model="registerButton" id="registerSubmit">
                 <div class="links">
-                    <a href="" @click.prevent="open">Already have an account?</a>
+                    <a href="" @click.prevent="openLogin">Already have an account?</a>
                 </div>
             </div>
 
@@ -65,7 +65,7 @@ export default {
                 this.registerButton = 'Please verify';
             }
             if (this.message !== '') {
-                this.registerButton = 'Login?';
+                this.registerButton = 'Hmm...';
                 return this.message;
             }
 
@@ -91,7 +91,7 @@ export default {
             if (e.target.id === 'register-modal')
                 this.$emit('toggleModal', 'register');
         },
-        open() {
+        openLogin() {
             this.$emit('toggleModal', 'register');
             this.$emit('toggleModal', 'login');
         },

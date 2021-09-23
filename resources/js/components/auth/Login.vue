@@ -10,7 +10,7 @@
                 <input type="submit" :class="{ 'disabled': !valid }" @click.prevent="loginSubmit"
                        v-model="this.loginButton" id="loginSubmit">
                 <div class="links">
-                    <a href="" @click.prevent="open()">Forgot your password?</a>
+                    <a href="" @click.prevent="openForgotPassword">Forgot your password?</a>
                 </div>
             </div>
         </div>
@@ -64,7 +64,7 @@ export default {
             if (e.target.id === 'login-modal')
                 this.$emit('toggleModal', 'login');
         },
-        open() {
+        openForgotPassword() {
             this.$emit('toggleModal', 'login');
             this.$emit('toggleModal', 'password');
         },
