@@ -2,9 +2,9 @@
     <div class="user-modal-container" :class="{ 'active': active }" @click="close($event)" id="login-modal">
         <div class="user-modal">
             <div class="form-login" :class="{ 'active': active }" id="form-login">
-                <div class="error-message" v-text="loginTittle"></div>
+                <pre class="error-message" v-text="loginTittle"></pre>
                 <input type="text" name="user" placeholder="Email" v-model="user.email"
-                       @keyup.enter="loginSubmit">
+                       @keyup.enter="loginSubmit" autocomplete="off">
                 <input type="password" name="password" placeholder="Password" v-model="user.password"
                        @keyup.enter="loginSubmit">
                 <input type="submit" :class="{ 'disabled': !valid }" @click.prevent="loginSubmit"
@@ -40,11 +40,9 @@ export default {
         loginTittle() {
             if (this.message !== '') {
                 if (this.message === '0') {
-                    this.loginButton = 'Try again';
-                } else {
-                    this.loginButton = this.message;
+                    this.loginButton = 'Hmm...';
                 }
-                return 'Email or password is wrong';
+                return this.message;
             }
             if (this.valid) {
                 this.loginButton = 'Send';

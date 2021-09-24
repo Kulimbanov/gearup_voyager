@@ -1,7 +1,7 @@
 <template>
-    <div class="flex">
-        <div v-if="user">
-            {{ user.name }}
+    <div id="auth-link" class="flex">
+        <div v-if="auth">
+            {{ auth.name }}
             <a href="" @click.prevent="logout">Logout</a>
         </div>
         <div v-else>
@@ -19,15 +19,19 @@
                             :email="email"
                             :message="message"
                             @resetPassword="resetPassword"
+                            @forgotPassword="forgotPassword"
                             @toggleModal="toggleModal"
             ></reset-password>
         </div>
 
-        <div v-if="message" class="position-absolute top">
+        <div v-if="showAuthMessage" class="position-absolute top auth-message">
             <b-alert class="m-1" variant="dark" show dismissible fade>
-                <font-awesome-icon class="text-white" v-if="message" icon="envelope" size="2x"
-                                   @click.prevent="toggleModal('message')"
-                />
+                <font-awesome-icon
+                    class="text-white"
+                    v-if="message"
+                    icon="envelope"
+                    size="2x"
+                    @click.prevent="toggleModal('message')"/>
                 {{ info }}
             </b-alert>
         </div>
@@ -64,119 +68,108 @@ export default {
             openForgotPassword: false,
             openResetPassword: false,
 
-            message: ''
+            message: '',
+            forceAuthMessage: false,
+            authUser: null,
         }
     },
     created() {
         if (this.token) {
-            this.message = 'Reset Password';
             this.openResetPassword = true;
+        } else {
+            this.checkUser();
         }
-
-        this.checkUser();
     },
     computed: {
         info() {
+            console.log(this.message);
             if (this.message === 'Unauthenticated.') {
-                this.message = null;
+                this.message = '';
+                return;
             }
             return this.message;
+        },
+        auth() {
+            return this.user ?? this.authUser;
+        },
+        showAuthMessage() {
+            return this.forceAuthMessage || !(
+                this.openMessage ||
+                this.openLogin ||
+                this.openRegister ||
+                this.openForgotPassword ||
+                this.openResetPassword
+            );
         }
     },
     methods: {
         toggleModal(modal) {
+            this.setAuthMessage();
             switch (modal) {
                 case 'message': {
                     this.openMessage = !this.openMessage;
                     break;
                 }
                 case 'login': {
-                    this.message = 'Login';
                     this.openLogin = !this.openLogin;
                     break;
                 }
                 case 'password': {
-                    this.message = 'Forgot password';
                     this.openForgotPassword = !this.openForgotPassword;
                     break;
                 }
                 case 'register': {
-                    this.message = 'Register';
                     this.openRegister = !this.openRegister;
                     break;
                 }
                 case 'resetPassword': {
-                    this.message = 'Reset password';
                     this.openResetPassword = !this.openResetPassword;
                     break;
                 }
             }
         },
-        closeAll() {
-            this.message = '';
+        closeAll(message = '') {
+            this.setAuthMessage(message);
             this.openForgotPassword = this.openLogin = this.openRegister = this.openResetPassword = false;
         },
+        setAuthMessage(message = '') {
+            // if (message !== '') {
+            //     this.showAuthMessage = true;
+            // }
+            this.message = message;
+        },
+        processExceptionToErrorMessage(exception) {
+            if (exception.response) {
+                if (exception.response.data.hasOwnProperty('errors')) {
+                    let errors = Object.keys(exception.response.data.errors)
+                        .map((key) => exception.response.data.errors[key]).join('\n')
+                    this.setAuthMessage(errors)
+                } else if (exception.response.data.hasOwnProperty('message')) {
+                    this.setAuthMessage(exception.response.data.message)
+                }
+            }
+        },
+
         checkUser() {
             UserService.get().then((response) => {
-                this.user = response.data ?? null;
+                this.authUser = response.data ?? null;
             }).catch(exception => {
-                console.log(exception.response);
-                if (exception.response.data.hasOwnProperty('errors')) {
-                    exception.response.data.errors.forEach(e => {
-                        this.message += e;
-                    });
-                }
-                if (exception.response.data.hasOwnProperty('message')) {
-                    this.message = exception.response.data.message;
-                }
+                this.processExceptionToErrorMessage(exception);
             })
         },
         loginUser(data) {
-            this.message = '';
             UserService.login(data).then((response) => {
-                this.message = response.data.message;
+                this.closeAll('Success');
                 setTimeout(() => {
-                    if (response.status === 200) {
-                        this.closeAll();
-                        this.checkUser();
-                    } else {
-                        this.message = '0';
-                    }
+                    this.checkUser();
                 }, 2000);
-
-            });
-        },
-        resetPassword(data) {
-            this.message = '';
-            data.token = this.token;
-            UserService.resetPassword(data, this.token).then((response) => {
-                this.message = response.data.message;
-                setTimeout(() => {
-                    if (response.data.success) {
-                        this.closeAll();
-                        this.checkUser();
-                    } else {
-                        this.message = '0';
-                    }
-                }, 3000);
             }).catch(exception => {
-                this.message = '0';
-
-                if (exception.response) {
-                    this.message = exception.response.data.message;
-                    let errors = Object.keys(exception.response.data.errors)
-                        .map(function (key) {
-                            return exception.response.data.errors[key]
-                        });
-                    for (let field in errors) {
-                        this.message += '/n' + errors[field][0];
-                    }
-                }
+                this.processExceptionToErrorMessage(exception);
             })
         },
         logout() {
             UserService.logout().then((response) => {
-                this.user = null;
+                this.authUser = null;
                 this.message = "";
                 this.closeAll();
                 document.location.href = "/";
@@ -184,42 +177,34 @@ export default {
         },
         forgotPassword(data) {
             UserService.forgotPassword(data).then((response) => {
-                console.log(response);
-                this.closeAll();
+                this.closeAll(response.data.message);
             });
         },
         registerUser(data) {
-            this.message = '';
             UserService.register(data).then((response) => {
-                this.message = response.data.message;
+                this.closeAll('Please verify your account.');
                 setTimeout(() => {
                     if (response.data.success || response.status === 201) {
-                        this.message = '1';
                         this.closeAll();
-                    } else {
-                        this.message = 'Something is wrong';
                     }
                 }, 2000);
             }).catch(exception => {
-                this.message = '0';
-
-                if (exception.response) {
-                    this.message = exception.response.data.message;
-                    let errors = Object.keys(exception.response.data.errors)
-                        .map(function (key) {
-                            return exception.response.data.errors[key]
-                        });
-                    for (let field in errors) {
-                        this.message += '/n' + errors[field][0];
-                    }
-                }
+                this.processExceptionToErrorMessage(exception);
             })
-        }
-
+        },
+        resetPassword(data) {
+            data.token = this.token;
+            UserService.resetPassword(data, this.token).then((response) => {
+                setTimeout(() => {
+                    if (response.data.success) {
+                        this.closeAll('Success');
+                        this.checkUser();
+                    }
+                }, 3000);
+            }).catch(exception => {
+                this.processExceptionToErrorMessage(exception);
+            })
+        },
     }
 }
 </script>
-
-<style scoped>
-
-</style>

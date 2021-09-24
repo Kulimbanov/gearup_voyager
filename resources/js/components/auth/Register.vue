@@ -64,10 +64,6 @@ export default {
                 }
                 this.registerButton = 'Please verify';
             }
-            if (this.message !== '') {
-                this.registerButton = 'Hmm...';
-                return this.message;
-            }
 
             if (!this.validateEmail) {
                 if (this.user.email === '') {

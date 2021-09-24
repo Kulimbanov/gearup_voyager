@@ -51,7 +51,7 @@ export default {
                 return;
             }
             this.passwordButton = "Sending...";
-            this.loginButton = this.$emit('forgotPassword', {email: this.user.email});
+            this.$emit('forgotPassword', {email: this.user.email});
         }
     }
 }

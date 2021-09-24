@@ -12972,7 +12972,7 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       this.passwordButton = "Sending...";
-      this.loginButton = this.$emit('forgotPassword', {
+      this.$emit('forgotPassword', {
         email: this.user.email
       });
     }
@@ -13033,12 +13033,10 @@ __webpack_require__.r(__webpack_exports__);
     loginTittle: function loginTittle() {
       if (this.message !== '') {
         if (this.message === '0') {
-          this.loginButton = 'Try again';
-        } else {
-          this.loginButton = this.message;
+          this.loginButton = 'Hmm...';
         }
 
-        return 'Email or password is wrong';
+        return this.message;
       }
 
       if (this.valid) {
@@ -13157,11 +13155,6 @@ __webpack_require__.r(__webpack_exports__);
         this.registerButton = 'Please verify';
       }
 
-      if (this.message !== '') {
-        this.registerButton = 'Hmm...';
-        return this.message;
-      }
-
       if (!this.validateEmail) {
         if (this.user.email === '') {
           this.registerButton = 'Register';
@@ -13240,12 +13233,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ResetPassword",
   props: {
     active: false,
-    email: '',
-    message: ''
+    message: '',
+    email: ''
   },
   data: function data() {
     return {
@@ -13254,7 +13264,9 @@ __webpack_require__.r(__webpack_exports__);
         password: '',
         password_confirmation: ''
       },
-      resetButton: 'Reset'
+      resetButton: 'Reset',
+      resendEmail: false,
+      submitted: false
     };
   },
   created: function created() {
@@ -13262,43 +13274,54 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     valid: function valid() {
-      return this.user.password !== '' && this.user.password === this.user.password_confirmation;
+      return this.user.password.length >= 8 && this.user.password === this.user.password_confirmation;
     },
     resetTittle: function resetTittle() {
-      if (this.user.password.length < 8) {
-        return 'Password needs 8 or more characters';
-      } else if (!this.valid) {
-        return 'Confirm password does not match';
-      }
-
-      if (this.message) {
-        this.resetButton = 'Reset';
+      if (this.message !== '') {
+        this.resendEmail = true;
+        this.submitted = false;
+        this.resetButton = 'Resend email';
         return this.message;
       }
 
-      if (this.resetButton === 'Sending...') {
+      if (this.submitted) {
+        this.resetButton = 'Sending...';
         return 'Just a moment';
       }
+
+      if (this.user.password.length !== 0) {
+        if (this.user.password.length < 8) {
+          return 'Password needs 8 or more characters';
+        } else if (!this.valid) {
+          return 'Confirm password does not match';
+        } else {
+          return 'Looks good';
+        }
+      }
+
+      return 'Reset password';
     }
   },
   methods: {
-    close: function close(e) {
-      if (e.target.id === 'reset-modal') this.$emit('toggleModal', 'resetPassword');
-    },
     resetSubmit: function resetSubmit() {
-      if (!this.valid) {
+      if (!this.valid || this.submitted) {
         return;
       }
 
-      this.resetButton = 'Sending...';
-      var data = {
-        name: this.user.name,
-        email: this.user.email,
-        password: this.user.password,
-        password_confirmation: this.user.password_confirmation
-      };
-      console.log(data);
-      this.$emit('resetPassword', data);
+      this.submitted = true;
+
+      if (this.resendEmail) {
+        this.$emit('forgotPassword', {
+          email: this.user.email
+        });
+      } else {
+        this.$emit('resetPassword', {
+          name: this.user.name,
+          email: this.user.email,
+          password: this.user.password,
+          password_confirmation: this.user.password_confirmation
+        });
+      }
     }
   }
 });
@@ -13389,6 +13412,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -13416,28 +13443,42 @@ __webpack_require__.r(__webpack_exports__);
       openRegister: false,
       openForgotPassword: false,
       openResetPassword: false,
-      message: ''
+      message: '',
+      forceAuthMessage: false,
+      authUser: null
     };
   },
   created: function created() {
     if (this.token) {
-      this.message = 'Reset Password';
       this.openResetPassword = true;
+    } else {
+      this.checkUser();
     }
-
-    this.checkUser();
   },
   computed: {
     info: function info() {
+      console.log(this.message);
+
       if (this.message === 'Unauthenticated.') {
-        this.message = null;
+        this.message = '';
+        return;
       }
 
       return this.message;
+    },
+    auth: function auth() {
+      var _this$user;
+
+      return (_this$user = this.user) !== null && _this$user !== void 0 ? _this$user : this.authUser;
+    },
+    showAuthMessage: function showAuthMessage() {
+      return this.forceAuthMessage || !(this.openMessage || this.openLogin || this.openRegister || this.openForgotPassword || this.openResetPassword);
     }
   },
   methods: {
     toggleModal: function toggleModal(modal) {
+      this.setAuthMessage();
+
       switch (modal) {
         case 'message':
           {
@@ -13447,36 +13488,52 @@ __webpack_require__.r(__webpack_exports__);
 
         case 'login':
           {
-            this.message = 'Login';
             this.openLogin = !this.openLogin;
             break;
           }
 
         case 'password':
           {
-            this.message = 'Forgot password';
             this.openForgotPassword = !this.openForgotPassword;
             break;
           }
 
         case 'register':
           {
-            this.message = 'Register';
             this.openRegister = !this.openRegister;
             break;
           }
 
         case 'resetPassword':
           {
-            this.message = 'Reset password';
             this.openResetPassword = !this.openResetPassword;
             break;
           }
       }
     },
     closeAll: function closeAll() {
-      this.message = '';
+      var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      this.setAuthMessage(message);
       this.openForgotPassword = this.openLogin = this.openRegister = this.openResetPassword = false;
+    },
+    setAuthMessage: function setAuthMessage() {
+      var message = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      // if (message !== '') {
+      //     this.showAuthMessage = true;
+      // }
+      this.message = message;
+    },
+    processExceptionToErrorMessage: function processExceptionToErrorMessage(exception) {
+      if (exception.response) {
+        if (exception.response.data.hasOwnProperty('errors')) {
+          var errors = Object.keys(exception.response.data.errors).map(function (key) {
+            return exception.response.data.errors[key];
+          }).join('\n');
+          this.setAuthMessage(errors);
+        } else if (exception.response.data.hasOwnProperty('message')) {
+          this.setAuthMessage(exception.response.data.message);
+        }
+      }
     },
     checkUser: function checkUser() {
       var _this = this;
@@ -13484,118 +13541,72 @@ __webpack_require__.r(__webpack_exports__);
       _services_UserService__WEBPACK_IMPORTED_MODULE_0__["default"].get().then(function (response) {
         var _response$data;
 
-        _this.user = (_response$data = response.data) !== null && _response$data !== void 0 ? _response$data : null;
+        _this.authUser = (_response$data = response.data) !== null && _response$data !== void 0 ? _response$data : null;
       })["catch"](function (exception) {
-        console.log(exception.response);
-
-        if (exception.response.data.hasOwnProperty('errors')) {
-          exception.response.data.errors.forEach(function (e) {
-            _this.message += e;
-          });
-        }
-
-        if (exception.response.data.hasOwnProperty('message')) {
-          _this.message = exception.response.data.message;
-        }
+        _this.processExceptionToErrorMessage(exception);
       });
     },
     loginUser: function loginUser(data) {
       var _this2 = this;
 
-      this.message = '';
       _services_UserService__WEBPACK_IMPORTED_MODULE_0__["default"].login(data).then(function (response) {
-        _this2.message = response.data.message;
-        setTimeout(function () {
-          if (response.status === 200) {
-            _this2.closeAll();
+        _this2.closeAll('Success');
 
-            _this2.checkUser();
-          } else {
-            _this2.message = '0';
-          }
+        setTimeout(function () {
+          _this2.checkUser();
         }, 2000);
-      });
-    },
-    resetPassword: function resetPassword(data) {
-      var _this3 = this;
-
-      this.message = '';
-      data.token = this.token;
-      _services_UserService__WEBPACK_IMPORTED_MODULE_0__["default"].resetPassword(data, this.token).then(function (response) {
-        _this3.message = response.data.message;
-        setTimeout(function () {
-          if (response.data.success) {
-            _this3.closeAll();
-
-            _this3.checkUser();
-          } else {
-            _this3.message = '0';
-          }
-        }, 3000);
       })["catch"](function (exception) {
-        _this3.message = '0';
-
-        if (exception.response) {
-          _this3.message = exception.response.data.message;
-          var errors = Object.keys(exception.response.data.errors).map(function (key) {
-            return exception.response.data.errors[key];
-          });
-
-          for (var field in errors) {
-            _this3.message += '/n' + errors[field][0];
-          }
-        }
+        _this2.processExceptionToErrorMessage(exception);
       });
     },
     logout: function logout() {
-      var _this4 = this;
+      var _this3 = this;
 
       _services_UserService__WEBPACK_IMPORTED_MODULE_0__["default"].logout().then(function (response) {
-        _this4.user = null;
-        _this4.message = "";
+        _this3.authUser = null;
+        _this3.message = "";
 
-        _this4.closeAll();
+        _this3.closeAll();
 
         document.location.href = "/";
       });
     },
     forgotPassword: function forgotPassword(data) {
-      var _this5 = this;
+      var _this4 = this;
 
       _services_UserService__WEBPACK_IMPORTED_MODULE_0__["default"].forgotPassword(data).then(function (response) {
-        console.log(response);
-
-        _this5.closeAll();
+        _this4.closeAll(response.data.message);
       });
     },
     registerUser: function registerUser(data) {
-      var _this6 = this;
+      var _this5 = this;
 
-      this.message = '';
       _services_UserService__WEBPACK_IMPORTED_MODULE_0__["default"].register(data).then(function (response) {
-        _this6.message = response.data.message;
+        _this5.closeAll('Please verify your account.');
+
         setTimeout(function () {
           if (response.data.success || response.status === 201) {
-            _this6.message = '1';
-
-            _this6.closeAll();
-          } else {
-            _this6.message = 'Something is wrong';
+            _this5.closeAll();
           }
         }, 2000);
       })["catch"](function (exception) {
-        _this6.message = '0';
+        _this5.processExceptionToErrorMessage(exception);
+      });
+    },
+    resetPassword: function resetPassword(data) {
+      var _this6 = this;
 
-        if (exception.response) {
-          _this6.message = exception.response.data.message;
-          var errors = Object.keys(exception.response.data.errors).map(function (key) {
-            return exception.response.data.errors[key];
-          });
+      data.token = this.token;
+      _services_UserService__WEBPACK_IMPORTED_MODULE_0__["default"].resetPassword(data, this.token).then(function (response) {
+        setTimeout(function () {
+          if (response.data.success) {
+            _this6.closeAll('Success');
 
-          for (var field in errors) {
-            _this6.message += '/n' + errors[field][0];
+            _this6.checkUser();
           }
-        }
+        }, 3000);
+      })["catch"](function (exception) {
+        _this6.processExceptionToErrorMessage(exception);
       });
     }
   }
@@ -14092,18 +14103,18 @@ var TodoDataService = /*#__PURE__*/function () {
   _createClass(TodoDataService, [{
     key: "get",
     value: function get() {
-      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].get("/user");
+      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].get('/user');
     }
   }, {
     key: "register",
     value: function register(data) {
-      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].post("/register", data);
+      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].post('/register', data);
     }
   }, {
     key: "logout",
     value: function logout() {
       return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].get('/sanctum/csrf-cookie').then(function (response) {
-        return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].post("/logout").then(function (response) {
+        return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].post('/logout').then(function (response) {
           if (response.data.success) {
             window.location.href = "/";
           } else {
@@ -14117,25 +14128,17 @@ var TodoDataService = /*#__PURE__*/function () {
   }, {
     key: "login",
     value: function login(data) {
-      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].post("/login", data);
+      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].post('/login', data);
     }
   }, {
     key: "forgotPassword",
     value: function forgotPassword(data) {
-      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].post("/password", data);
+      return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].post('/password', data);
     }
   }, {
     key: "resetPassword",
     value: function resetPassword(data, token) {
-      if (token) {
-        _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].defaults.headers.common.Authorization = token;
-      } else {
-        _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].defaults.headers.common.Authorization = null;
-        /*if setting null does not remove `Authorization` header then try
-          delete axios.defaults.headers.common['Authorization'];
-        */
-      }
-
+      // http.defaults.headers.common['Authorization'] = token ?? null;
       return _http_common__WEBPACK_IMPORTED_MODULE_0__["default"].post('/password/reset', data);
     }
   }]);
@@ -14164,7 +14167,8 @@ __webpack_require__.r(__webpack_exports__);
 var Api = axios__WEBPACK_IMPORTED_MODULE_0___default().create({
   baseURL: "" + '/api',
   headers: {
-    "Content-type": "application/json"
+    "Content-type": "application/json",
+    "Accept": "application/json"
   }
 });
 Api.defaults.withCredentials = true;
@@ -104350,7 +104354,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _AuthUserLink_vue_vue_type_template_id_65d598f8_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AuthUserLink.vue?vue&type=template&id=65d598f8&scoped=true& */ "./resources/js/components/nav/AuthUserLink.vue?vue&type=template&id=65d598f8&scoped=true&");
+/* harmony import */ var _AuthUserLink_vue_vue_type_template_id_65d598f8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AuthUserLink.vue?vue&type=template&id=65d598f8& */ "./resources/js/components/nav/AuthUserLink.vue?vue&type=template&id=65d598f8&");
 /* harmony import */ var _AuthUserLink_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AuthUserLink.vue?vue&type=script&lang=js& */ "./resources/js/components/nav/AuthUserLink.vue?vue&type=script&lang=js&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -104362,11 +104366,11 @@ __webpack_require__.r(__webpack_exports__);
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _AuthUserLink_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _AuthUserLink_vue_vue_type_template_id_65d598f8_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _AuthUserLink_vue_vue_type_template_id_65d598f8_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _AuthUserLink_vue_vue_type_template_id_65d598f8___WEBPACK_IMPORTED_MODULE_0__.render,
+  _AuthUserLink_vue_vue_type_template_id_65d598f8___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  "65d598f8",
+  null,
   null
   
 )
@@ -105053,19 +105057,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/nav/AuthUserLink.vue?vue&type=template&id=65d598f8&scoped=true&":
-/*!*************************************************************************************************!*\
-  !*** ./resources/js/components/nav/AuthUserLink.vue?vue&type=template&id=65d598f8&scoped=true& ***!
-  \*************************************************************************************************/
+/***/ "./resources/js/components/nav/AuthUserLink.vue?vue&type=template&id=65d598f8&":
+/*!*************************************************************************************!*\
+  !*** ./resources/js/components/nav/AuthUserLink.vue?vue&type=template&id=65d598f8& ***!
+  \*************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthUserLink_vue_vue_type_template_id_65d598f8_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthUserLink_vue_vue_type_template_id_65d598f8_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthUserLink_vue_vue_type_template_id_65d598f8___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthUserLink_vue_vue_type_template_id_65d598f8___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthUserLink_vue_vue_type_template_id_65d598f8_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthUserLink.vue?vue&type=template&id=65d598f8&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/nav/AuthUserLink.vue?vue&type=template&id=65d598f8&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_AuthUserLink_vue_vue_type_template_id_65d598f8___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AuthUserLink.vue?vue&type=template&id=65d598f8& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/nav/AuthUserLink.vue?vue&type=template&id=65d598f8&");
 
 
 /***/ }),
@@ -106064,7 +106068,7 @@ var render = function() {
             attrs: { id: "form-login" }
           },
           [
-            _c("div", {
+            _c("pre", {
               staticClass: "error-message",
               domProps: { textContent: _vm._s(_vm.loginTittle) }
             }),
@@ -106078,7 +106082,12 @@ var render = function() {
                   expression: "user.email"
                 }
               ],
-              attrs: { type: "text", name: "user", placeholder: "Email" },
+              attrs: {
+                type: "text",
+                name: "user",
+                placeholder: "Email",
+                autocomplete: "off"
+              },
               domProps: { value: _vm.user.email },
               on: {
                 keyup: function($event) {
@@ -106430,12 +106439,7 @@ var render = function() {
     {
       staticClass: "user-modal-container",
       class: { active: _vm.active },
-      attrs: { id: "reset-modal" },
-      on: {
-        click: function($event) {
-          return _vm.close($event)
-        }
-      }
+      attrs: { id: "reset-modal" }
     },
     [
       _c("div", { staticClass: "user-modal" }, [
@@ -106462,9 +106466,9 @@ var render = function() {
                 }
               ],
               attrs: {
-                type: "text",
-                name: "user",
+                type: "email",
                 disabled: "",
+                name: "user",
                 placeholder: "Email"
               },
               domProps: { value: _vm.user.email },
@@ -106499,7 +106503,8 @@ var render = function() {
               attrs: {
                 type: "password",
                 name: "password",
-                placeholder: "Password"
+                placeholder: "Password",
+                autocomplete: "off"
               },
               domProps: { value: _vm.user.password },
               on: {
@@ -106533,7 +106538,8 @@ var render = function() {
               attrs: {
                 type: "password",
                 name: "password_confirmation",
-                placeholder: "Confirm password"
+                placeholder: "Confirm password",
+                autocomplete: "off"
               },
               domProps: { value: _vm.user.password_confirmation },
               on: {
@@ -106622,10 +106628,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/nav/AuthUserLink.vue?vue&type=template&id=65d598f8&scoped=true&":
-/*!****************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/nav/AuthUserLink.vue?vue&type=template&id=65d598f8&scoped=true& ***!
-  \****************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/nav/AuthUserLink.vue?vue&type=template&id=65d598f8&":
+/*!****************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/nav/AuthUserLink.vue?vue&type=template&id=65d598f8& ***!
+  \****************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -106638,10 +106644,10 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "flex" }, [
-    _vm.user
+  return _c("div", { staticClass: "flex", attrs: { id: "auth-link" } }, [
+    _vm.auth
       ? _c("div", [
-          _vm._v("\n        " + _vm._s(_vm.user.name) + "\n        "),
+          _vm._v("\n        " + _vm._s(_vm.auth.name) + "\n        "),
           _c(
             "a",
             {
@@ -106723,6 +106729,7 @@ var render = function() {
               },
               on: {
                 resetPassword: _vm.resetPassword,
+                forgotPassword: _vm.forgotPassword,
                 toggleModal: _vm.toggleModal
               }
             })
@@ -106731,10 +106738,10 @@ var render = function() {
         )
       : _vm._e(),
     _vm._v(" "),
-    _vm.message
+    _vm.showAuthMessage
       ? _c(
           "div",
-          { staticClass: "position-absolute top" },
+          { staticClass: "position-absolute top auth-message" },
           [
             _c(
               "b-alert",
