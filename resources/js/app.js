@@ -23,6 +23,7 @@ Vue.component('search', require('./components/Search').default);
 Vue.component('switch-mode', require('./components/SwitchMode').default);
 Vue.component('featured-product', require('./components/Featured').default);
 Vue.component('single-product', require('./components/SingleProduct').default);
+Vue.component('our-partners', require('./components/Partners').default);
 
 Vue.component('device-menu', require('./components/nav/DeviceMenu').default);
 Vue.component('auth-user', require('./components/nav/AuthUserLink').default);

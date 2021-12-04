@@ -48,8 +48,9 @@
             </div>
         </section>
 
-{{--        {!! $page->getBody() !!}--}}
+        {{--        {!! $page->getBody() !!}--}}
     </div>
 
-        <featured-product></featured-product>
+    <featured-product></featured-product>
+    <our-partners></our-partners>
 @endsection

@@ -93,7 +93,7 @@ export default {
             return this.user ?? this.authUser;
         },
         showAuthMessage() {
-            return this.forceAuthMessage || !(
+            return this.forceAuthMessage && !(
                 this.openMessage ||
                 this.openLogin ||
                 this.openRegister ||
@@ -153,12 +153,14 @@ export default {
         checkUser() {
             UserService.get().then((response) => {
                 this.authUser = response.data ?? null;
+                console.log(response);
             }).catch(exception => {
                 this.processExceptionToErrorMessage(exception);
             })
         },
         loginUser(data) {
             UserService.login(data).then((response) => {
+                console.log(response);
                 this.closeAll('Success');
                 setTimeout(() => {
                     this.checkUser();
@@ -169,6 +171,7 @@ export default {
         },
         logout() {
             UserService.logout().then((response) => {
+                console.log(response);
                 this.authUser = null;
                 this.message = "";
                 this.closeAll();
