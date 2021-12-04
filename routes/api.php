@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\PartnerController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\ServicesController;
 use App\Http\Controllers\Api\UserController;
@@ -26,6 +27,9 @@ Route::post('password', [UserController::class, 'resetPassword']);
 Route::middleware('api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::middleware('api')
+    ->get('/partners', [PartnerController::class, 'index']);
 
 Route::middleware('auth:sanctum')->post('/category/properties/', [ProductController::class, 'getProperties'])
      ->name('category.properties');
