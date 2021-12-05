@@ -14,6 +14,8 @@ use App\Services\Page\Generator\IProductPageService;
 use App\Services\Page\Generator\IPublicPageService;
 use App\Services\Page\Generator\ProductPageService;
 use App\Services\Page\Generator\PublicPageService;
+use App\Services\Partners\IPartnerService;
+use App\Services\Partners\PartnerService;
 use App\Services\Repairments\IRepairmentService;
 use App\Services\Repairments\RepairmentService;
 use App\Services\Shop\IProductService;
@@ -50,6 +52,9 @@ class AppServiceProvider extends ServiceProvider
 
         //User auth
         $this->app->bind(IUserService::class, UserService::class);
+
+        //Partners
+        $this->app->bind(IPartnerService::class, PartnerService::class);
     }
 
     /**
